@@ -289,12 +289,46 @@ def call_volcengine(destination: str, days: int, prefs: str, mode: str = "") -> 
     api_key = os.getenv("VOLC_API_KEY")
     if not api_key:
         sys.exit("❌ 未设 VOLC_API_KEY")
-    # 模型 ID 优先用 VOLC_ENDPOINT_ID（推理接入点），否则用 VOLC_MODEL（直接模型名）
-    model = os.getenv("VOLC_ENDPOINT_ID") or os.getenv("VOLC_MODEL", "doubao-1-5-pro-32k-250115")
+    # 模型 ID 优先用 VOLC_ENDPOINT_ID（推理接入点），否则用 VOLC_MODEL（直接模型名）。
+    # 豆包模型名带日期后缀（doubao-seed-2-1-pro-2xxxxx），旧版本会下架——
+    # 2026 年初 doubao-1-5-pro-32k-250115 就悄悄没了，配置不改就一直报「模型不存在」。
+    # 所以这里像 gen_postcard.py 一样准备一串候选，挨个试，别让一个过期的 ID 卡死整条链路。
+    VOLC_MODEL_FALLBACKS = [
+        "doubao-seed-2-1-pro",       # 主力：知识强，POI 坐标/票价靠它
+        "doubao-seed-2-1-turbo",     # 半价备选
+        "doubao-seed-2-0-lite",
+        "doubao-seed-1-8",
+    ]
+    configured = os.getenv("VOLC_ENDPOINT_ID") or os.getenv("VOLC_MODEL", "")
+    candidates = ([configured] if configured else []) + [
+        m for m in VOLC_MODEL_FALLBACKS if m != configured
+    ]
     base_url = os.getenv("VOLC_BASE_URL", "https://ark.cn-beijing.volces.com/api/v3")
 
     client = OpenAI(api_key=api_key, base_url=base_url)
     prompt = CLAUDE_PROMPT.format(destination=destination, days=days, prefs=prefs or "经典", mode_rule=_mode_rule(mode))
+
+    model_errs = []
+    for model in candidates:
+        try:
+            return _volc_one_model(client, model, prompt, destination, days, mode)
+        except Exception as e:
+            msg = str(e)
+            # 只有「这个模型用不了」才换下一个；JSON 解析失败之类是模型本身的问题，换个 ID 也一样
+            if not any(k in msg for k in ("does not exist", "NotFound", "404", "ModelNotOpen",
+                                          "InvalidParameter", "not open", "未开通", "不存在")):
+                raise
+            model_errs.append(f"{model}: {msg[:110]}")
+            print(f"  ⚠️ 模型 {model} 用不了，换下一个...")
+    raise RuntimeError(
+        "火山这边没有一个候选模型可用。请到方舟「开通管理」确认已开通的模型，"
+        "把它的调用 ID 填进 VOLC_MODEL（或用推理接入点填 VOLC_ENDPOINT_ID）。\n  "
+        + "\n  ".join(model_errs)
+    )
+
+
+def _volc_one_model(client, model, prompt, destination, days, mode):
+    """用指定模型跑一次；JSON 解析失败会在同一个模型上重试 3 次。"""
     print(f"🤖 [火山 · {model}] 生成 {destination} {days} 天 · 模式={mode or '标准'}...")
 
     messages = [
