@@ -306,9 +306,10 @@ def call_volcengine(destination: str, days: int, prefs: str, mode: str = "") -> 
     ]
     base_url = os.getenv("VOLC_BASE_URL", "https://ark.cn-beijing.volces.com/api/v3")
 
-    # 加超时：豆包偶尔会长时间不返回，没有超时就会把整个请求悬死（实测卡过 5 分钟没响应）。
+    # 超时放宽到 600s：走流式，所以这是「整段生成」的上限，不是「一次等待」。
+    # 实测每个景点约 15 秒，8 天行程 20+ 个景点要五六分钟，180s 完全不够。
     client = OpenAI(api_key=api_key, base_url=base_url,
-                    timeout=float(os.getenv("VOLC_TIMEOUT", "180")), max_retries=0)
+                    timeout=float(os.getenv("VOLC_TIMEOUT", "600")), max_retries=0)
     prompt = CLAUDE_PROMPT.format(destination=destination, days=days, prefs=prefs or "经典", mode_rule=_mode_rule(mode))
 
     model_errs = []
@@ -350,7 +351,7 @@ def _volc_one_model(client, model, prompt, destination, days, mode):
             kwargs["response_format"] = {"type": "json_object"}
         t0 = time.time()
         try:
-            resp = client.chat.completions.create(**kwargs)
+            content, usage = _stream_completion(client, kwargs)
         except Exception as e:
             msg = str(e).lower()
             # 老模型不认 response_format / thinking，逐个摘掉重试，别整个失败
@@ -362,16 +363,40 @@ def _volc_one_model(client, model, prompt, destination, days, mode):
             if not dropped:
                 raise
             print(f"  ⚠️ 模型不认 {'/'.join(dropped)}，去掉重试...")
-            resp = client.chat.completions.create(**kwargs)
-        u = getattr(resp, "usage", None)
+            content, usage = _stream_completion(client, kwargs)
         print(f"  ⏱ {time.time() - t0:.1f}s"
-              + (f" · token 输入 {u.prompt_tokens} / 输出 {u.completion_tokens}" if u else ""))
+              + (f" · token 输入 {usage[0]} / 输出 {usage[1]}" if usage else "")
+              + f" · 正文 {len(content)} 字")
         try:
-            return _extract_json(resp.choices[0].message.content)
+            return _extract_json(content)
         except json.JSONDecodeError as e:
             last_err = e
             print(f"  ⚠️ 第 {attempt+1} 次 JSON 解析失败（{e}），重试...")
     raise last_err
+
+
+def _stream_completion(client, kwargs):
+    """流式收完整段文本，返回 (content, (prompt_tokens, completion_tokens) | None)。
+
+    为什么必须流式：一次要 1 万多 token 的 JSON，模型大约每个景点 15 秒，
+    5 天行程要四五分钟。非流式就是一条几分钟不吐字节的连接——浏览器、
+    反向代理、平台负载均衡都可能当它僵死直接掐掉，而且中途完全看不到进度。
+    流式下每个分片都在刷新连接，超时也只针对「多久没有新分片」。
+    """
+    kwargs = dict(kwargs, stream=True, stream_options={"include_usage": True})
+    content, usage, chunks = [], None, 0
+    for ch in client.chat.completions.create(**kwargs):
+        if getattr(ch, "usage", None):
+            usage = (ch.usage.prompt_tokens, ch.usage.completion_tokens)
+        if not ch.choices:
+            continue
+        piece = ch.choices[0].delta.content
+        if piece:
+            content.append(piece)
+            chunks += 1
+            if chunks % 200 == 0:
+                print(f"    … 已收 {sum(len(c) for c in content)} 字", flush=True)
+    return "".join(content), usage
 
 
 def call_llm(destination: str, days: int, prefs: str, mode: str = "") -> dict:
