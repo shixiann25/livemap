@@ -23,6 +23,7 @@ import json
 import os
 import re
 import sys
+import time
 import webbrowser
 from pathlib import Path
 
@@ -305,7 +306,9 @@ def call_volcengine(destination: str, days: int, prefs: str, mode: str = "") -> 
     ]
     base_url = os.getenv("VOLC_BASE_URL", "https://ark.cn-beijing.volces.com/api/v3")
 
-    client = OpenAI(api_key=api_key, base_url=base_url)
+    # 加超时：豆包偶尔会长时间不返回，没有超时就会把整个请求悬死（实测卡过 5 分钟没响应）。
+    client = OpenAI(api_key=api_key, base_url=base_url,
+                    timeout=float(os.getenv("VOLC_TIMEOUT", "180")), max_retries=0)
     prompt = CLAUDE_PROMPT.format(destination=destination, days=days, prefs=prefs or "经典", mode_rule=_mode_rule(mode))
 
     model_errs = []
@@ -338,18 +341,31 @@ def _volc_one_model(client, model, prompt, destination, days, mode):
     last_err = None
     for attempt in range(3):
         kwargs = dict(model=model, max_tokens=16000, temperature=0.4 if attempt else 0.7, messages=messages)
+        # 关掉「深度思考」：doubao-seed-2.x 默认会先吐一大段思维链，
+        # 而这个任务是照着知识列景点、不需要推理。开着的后果是又慢又贵
+        # （思考 token 也按输出计费），实测能把一次请求拖到 5 分钟以上还不返回。
+        kwargs["extra_body"] = {"thinking": {"type": "disabled"}}
         # 第 1 次尝试用 json_object 强制合法 JSON（部分豆包模型支持）
         if attempt == 0:
             kwargs["response_format"] = {"type": "json_object"}
+        t0 = time.time()
         try:
             resp = client.chat.completions.create(**kwargs)
         except Exception as e:
-            # response_format 不被模型支持 → 去掉重试
-            if attempt == 0 and "response_format" in str(e).lower():
-                kwargs.pop("response_format", None)
-                resp = client.chat.completions.create(**kwargs)
-            else:
+            msg = str(e).lower()
+            # 老模型不认 response_format / thinking，逐个摘掉重试，别整个失败
+            dropped = []
+            if "response_format" in msg:
+                kwargs.pop("response_format", None); dropped.append("response_format")
+            if "thinking" in msg:
+                kwargs.pop("extra_body", None); dropped.append("thinking")
+            if not dropped:
                 raise
+            print(f"  ⚠️ 模型不认 {'/'.join(dropped)}，去掉重试...")
+            resp = client.chat.completions.create(**kwargs)
+        u = getattr(resp, "usage", None)
+        print(f"  ⏱ {time.time() - t0:.1f}s"
+              + (f" · token 输入 {u.prompt_tokens} / 输出 {u.completion_tokens}" if u else ""))
         try:
             return _extract_json(resp.choices[0].message.content)
         except json.JSONDecodeError as e:
