@@ -44,6 +44,9 @@ jobs:
       - name: 成品是否跟上了模板改动
         run: python3 generator/patch_maps.py --check
 
+      - name: skill 包是否跟上主仓库
+        run: python3 skill/build_skill.py --check
+
       - name: 构建静态站
         run: python3 generator/build_static.py --out dist
 

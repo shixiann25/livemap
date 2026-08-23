@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE_PLAIN}} · LiveMap</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+    background: radial-gradient(ellipse at top, {{BG_LIGHT}} 0%, {{BG_MID}} 50%, {{BG_DARK}} 100%);
+    color: {{TEXT_DARK}};
+    overflow-x: hidden; min-height: 100vh; padding: 20px;
+  }
+  .app { max-width: 1400px; margin: 0 auto; }
+  header {
+    text-align: center; padding: 22px 30px 18px;
+    background: linear-gradient(135deg, {{HEADER_BG_1}} 0%, {{HEADER_BG_2}} 100%);
+    border-radius: 16px; margin-bottom: 18px;
+    border: 1px solid {{ACCENT_BORDER}};
+    position: relative; overflow: hidden;
+    box-shadow: 0 4px 16px rgba(60, 40, 20, 0.1);
+  }
+  header::before { content: "{{HEADER_EMOJI}}"; position: absolute; font-size: 180px; opacity: 0.08; right: -20px; top: -30px; }
+  /* 风景图底层背景（目的地实景） */
+  .hero-bg { position: absolute; inset: 0; z-index: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 0.8s ease; }
+  header.has-hero .hero-bg { opacity: 1; }
+  header.has-hero .hero-bg::after { content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.58) 0%, rgba(255,255,255,0.40) 45%, rgba(255,255,255,0.62) 100%); }
+  header.has-hero::before { display: none; }
+  header.has-hero .eyebrow, header.has-hero h1, header.has-hero .sub { position: relative; z-index: 2; }
+  header.has-hero .sub { text-shadow: 0 1px 3px rgba(255,255,255,0.7); }
+  .eyebrow { font-size: 11px; letter-spacing: 5px; color: {{ACCENT}}; opacity: 0.85; margin-bottom: 6px; }
+  header h1 {
+    font-size: 30px; font-weight: 700; letter-spacing: 1.5px;
+    background: linear-gradient(90deg, {{H1_GRAD_1}} 0%, {{H1_GRAD_2}} 50%, {{H1_GRAD_3}} 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-bottom: 6px;
+  }
+  header .sub { font-size: 13px; opacity: 0.7; letter-spacing: 1px; color: {{TEXT_MID}}; }
+
+  .day-tabs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 18px; }
+  .tab {
+    padding: 9px 16px; background: rgba(255, 255, 255, 0.7);
+    border: 1px solid {{ACCENT_BORDER}}; border-radius: 22px;
+    color: {{TEXT_MID}}; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s ease;
+    letter-spacing: 0.5px; user-select: none;
+    display: flex; align-items: center; gap: 6px; backdrop-filter: blur(8px);
+  }
+  .tab .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .tab:hover { background: rgba(255, 255, 255, 0.95); transform: translateY(-1px); }
+  .tab.active {
+    background: linear-gradient(135deg, {{ACCENT_LIGHT}} 0%, {{ACCENT}} 100%);
+    color: #fff; border-color: transparent;
+    box-shadow: 0 4px 14px {{ACCENT_BORDER}};
+  }
+  .tab.active .dot { background: #fff; }
+  .tab.all { background: rgba(248, 230, 200, 0.8); border-color: {{ACCENT_BORDER}}; }
+  .tab.all.active { background: linear-gradient(135deg, #7a9a4d 0%, #4a6a32 100%); color: #fff; }
+
+  .main { display: grid; grid-template-columns: 1fr 420px; gap: 18px; }
+  @media (max-width: 1050px) { .main { grid-template-columns: 1fr; } }
+
+  /* ===== 移动端适配（≤768px）===== */
+  @media (max-width: 768px) {
+    body { padding: 10px; }
+    header { padding: 16px 14px 12px; margin-bottom: 12px; }
+    header h1 { font-size: 22px; letter-spacing: 0.5px; }
+    header .sub { font-size: 11px; letter-spacing: 0.3px; }
+    .eyebrow { font-size: 9px; letter-spacing: 3px; }
+    /* Day tabs 横向滚动 */
+    .day-tabs { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding-bottom: 4px; -webkit-overflow-scrolling: touch; margin-bottom: 12px; }
+    .day-tabs::-webkit-scrollbar { display: none; }
+    .tab { padding: 7px 12px; font-size: 12px; flex-shrink: 0; }
+    /* Main 单列 */
+    .main { gap: 12px; }
+    .map-wrap { padding: 8px; border-radius: 12px; }
+    #map { height: clamp(300px, calc(100vh - 240px), 480px); border-radius: 8px; }
+    .style-switcher { top: 14px; right: 14px; }
+    .style-btn { padding: 5px 8px; font-size: 10px; }
+    .legend { padding: 8px 10px; gap: 6px 10px; font-size: 10px; }
+    .legend-dot { width: 12px; height: 12px; font-size: 8px; }
+    /* Info panel */
+    .info-panel { padding: 16px; min-height: auto; max-height: none; border-radius: 12px; }
+    .day-title { font-size: 16px; }
+    .day-tips.all-tip { font-size: 11.5px; padding: 12px; line-height: 1.6; }
+    .stats-bar { padding: 10px 6px; gap: 4px; }
+    .stat-num { font-size: 15px; }
+    .stat-label { font-size: 9px; letter-spacing: 0.5px; }
+    .stat-hint { font-size: 8.5px; }
+    /* POI 详情 hero 4 宫格变 2x2 但更小 */
+    .poi-hero { height: 200px; }
+    .poi-detail h3 { font-size: 17px; }
+    .info-row { grid-template-columns: 1fr; gap: 6px; }
+    /* 拍照打卡卡 */
+    .spot-card { padding: 6px; gap: 8px; }
+    .spot-thumb { width: 56px; height: 56px; }
+    .spot-text { font-size: 12px; }
+    /* 酒店卡 */
+    .hotel-card { padding: 10px 12px; }
+    .hotel-name-cn { font-size: 13px; }
+    .hotel-row { font-size: 11px; }
+    .hotel-btn { font-size: 10px; padding: 3px 8px; }
+    /* footer */
+    footer { font-size: 9px; letter-spacing: 1.5px; padding: 12px; margin-top: 16px; }
+  }
+  /* 超小屏（手机竖屏）的额外优化 */
+  @media (max-width: 480px) {
+    header h1 { font-size: 19px; }
+    #map { height: 320px; }
+    .poi-hero { height: 180px; }
+    .day-route-list li { padding: 8px 10px; }
+    .route-name { font-size: 12.5px; }
+  }
+
+  .map-wrap {
+    background: #fdf6ec; border-radius: 16px;
+    border: 1px solid {{ACCENT_BORDER}};
+    padding: 14px; position: relative; overflow: hidden;
+    box-shadow: 0 6px 20px rgba(60, 40, 20, 0.1);
+  }
+  #map { width: 100%; height: clamp(380px, calc(100vh - 300px), 760px); border-radius: 12px; background: #f4ebe0; box-shadow: inset 0 0 30px rgba(180, 130, 100, 0.15); }
+  /* 移动端防误触提示条 */
+  .map-gesture-hint { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 1200; background: rgba(0,0,0,0.62); color: #fff; font-size: 11px; font-weight: 600; padding: 6px 13px; border-radius: 16px; pointer-events: none; white-space: nowrap; transition: opacity 0.6s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+  .leaflet-tile-pane { transition: filter 0.3s ease; }
+  .map-wrap.topo .leaflet-tile-pane { filter: sepia(0.15) saturate(1.1) contrast(0.95); }
+
+  .style-switcher {
+    position: absolute; top: 22px; right: 22px;
+    background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px);
+    border-radius: 8px; padding: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 1000; display: flex; gap: 2px;
+    border: 1px solid {{ACCENT_BORDER}};
+  }
+  .style-btn { padding: 6px 10px; background: transparent; border: none; border-radius: 5px; font-size: 11px; font-weight: 600; color: {{TEXT_MID}}; cursor: pointer; transition: all 0.15s; }
+  .style-btn:hover { background: {{ACCENT_BG}}; }
+  .style-btn.active { background: linear-gradient(135deg, {{ACCENT_LIGHT}} 0%, {{ACCENT}} 100%); color: #fff; }
+
+  .poi-marker { background: transparent !important; border: none !important; }
+  .poi-pin {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 2.5px solid #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4), 0 0 0 1px rgba(60,40,40,0.2);
+    position: relative; cursor: pointer;
+    transition: transform 0.15s ease, filter 0.15s ease;
+  }
+  .poi-pin:hover { transform: scale(1.25); filter: drop-shadow(0 0 8px {{ACCENT_GLOW}}); z-index: 1000; }
+  .poi-pin.active { transform: scale(1.4); filter: drop-shadow(0 0 14px {{ACCENT}}); z-index: 1001; }
+  .poi-num { position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; background: #fff; color: {{ACCENT}}; font-size: 10px; font-weight: 800; border-radius: 50%; border: 1.5px solid {{ACCENT}}; display: flex; align-items: center; justify-content: center; }
+  .poi-label-overlay { position: absolute; top: 36px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.95); color: {{TEXT_DARK}}; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 6px; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.15s; box-shadow: 0 2px 6px rgba(0,0,0,0.15); border: 1px solid {{ACCENT_BORDER}}; }
+  .poi-pin:hover + .poi-label-overlay, .poi-pin.active + .poi-label-overlay { opacity: 1; }
+  /* 总览模式：每天一个「Day N · 主题」旗标 */
+  .day-flag-marker { background: transparent !important; border: none !important; }
+  .day-flag { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.96);
+    border: 2px solid var(--c, #888); border-radius: 20px; padding: 3px 11px 3px 3px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.28); white-space: nowrap; cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease; backdrop-filter: blur(4px); }
+  .day-flag:hover { transform: scale(1.06); box-shadow: 0 5px 16px rgba(0,0,0,0.38); }
+  .day-flag-num { width: 24px; height: 24px; border-radius: 50%; background: var(--c, #888);
+    color: #fff; font-weight: 800; font-size: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .day-flag-text { font-size: 12px; font-weight: 700; color: #2b2b2b; letter-spacing: 0.2px; }
+  /* 单日视图：景点名 + 特色 标签 */
+  .leaflet-tooltip.poi-tip { background: rgba(255,255,255,0.97); border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 9px; box-shadow: 0 2px 9px rgba(0,0,0,0.22); padding: 4px 9px; font-family: inherit;
+    white-space: nowrap; max-width: 200px; }
+  .leaflet-tooltip.poi-tip::before { display: none; }   /* 去掉默认小箭头 */
+  .poi-tip-name { font-size: 12px; font-weight: 700; color: #222; }
+  .poi-tip-feat { font-size: 10px; color: #6a6a6a; margin-top: 1px; white-space: normal; line-height: 1.3; max-width: 180px; }
+  /* 单日视图：路段车程小胶囊 */
+  .seg-label-marker { background: transparent !important; border: none !important; }
+  .seg-label { background: rgba(40,62,48,0.88); color: #fff; font-size: 10px; font-weight: 600;
+    padding: 2px 8px; border-radius: 11px; white-space: nowrap; box-shadow: 0 1px 5px rgba(0,0,0,0.28); }
+  @media (max-width: 768px) {
+    .leaflet-tooltip.poi-tip { padding: 3px 7px; }
+    .poi-tip-name { font-size: 11px; } .poi-tip-feat { display: none; }
+    .seg-label { font-size: 9px; padding: 1px 6px; }
+  }
+
+  .leaflet-control-attribution { background: rgba(253, 246, 236, 0.85) !important; color: {{TEXT_MID}} !important; font-size: 10px !important; }
+  .leaflet-control-attribution a { color: {{ACCENT}} !important; }
+  .leaflet-control-zoom a { background: rgba(255, 255, 255, 0.9) !important; color: {{ACCENT}} !important; border-color: {{ACCENT_BORDER}} !important; }
+
+  .legend { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 12px 18px; padding: 12px 16px; background: rgba(255, 255, 255, 0.6); border-radius: 10px; font-size: 11px; color: {{TEXT_MID}}; backdrop-filter: blur(8px); }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+
+  .info-panel {
+    background: linear-gradient(160deg, #fffaf3 0%, #fdf3ea 100%);
+    border-radius: 16px; border: 1px solid {{ACCENT_BORDER}};
+    padding: 22px; min-height: 620px; max-height: 720px;
+    overflow-y: auto; display: flex; flex-direction: column;
+    position: relative; box-shadow: 0 6px 20px rgba(60, 40, 20, 0.1);
+  }
+  .info-panel::-webkit-scrollbar { width: 6px; }
+  .info-panel::-webkit-scrollbar-thumb { background: {{ACCENT_BG}}; border-radius: 3px; }
+
+  .day-header { padding-bottom: 14px; border-bottom: 1px solid {{ACCENT_BORDER}}; margin-bottom: 14px; }
+  .day-badge { display: inline-block; padding: 4px 11px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; color: #fff; }
+  .day-title { font-size: 19px; font-weight: 700; color: {{ACCENT}}; margin-bottom: 4px; }
+  .day-where { font-size: 12px; color: {{TEXT_MID}}; }
+  .day-route-list { list-style: none; margin-bottom: 16px; }
+  .day-route-distance { font-size: 10px; color: {{TEXT_MID}}; padding: 4px 0 4px 30px; opacity: 0.75; display: flex; align-items: center; gap: 6px; line-height: 1.4; }
+  .day-route-distance::before { content: '↓'; color: {{ACCENT}}; font-weight: 700; opacity: 0.5; }
+  .day-route-distance .dot-sep { opacity: 0.4; }
+  .day-route-list li { padding: 10px 12px; margin-bottom: 6px; background: rgba(255, 240, 220, 0.5); border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.15s ease; border-left: 3px solid transparent; }
+  .day-route-list li:hover { background: {{ACCENT_BG}}; border-left-color: {{ACCENT}}; transform: translateX(2px); }
+  .route-num { width: 22px; height: 22px; border-radius: 50%; background: {{ACCENT_BG}}; color: {{ACCENT}}; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+  .route-info { flex: 1; min-width: 0; }
+  .route-name { font-size: 13px; color: {{TEXT_DARK}}; font-weight: 600; margin-bottom: 2px; }
+  .route-time { font-size: 10px; color: {{TEXT_MID}}; }
+  .route-icon { font-size: 16px; }
+  .day-tips { background: {{ACCENT_BG}}; border-left: 3px solid {{ACCENT}}; padding: 10px 12px; border-radius: 6px; font-size: 11.5px; color: {{TEXT_DARK}}; line-height: 1.55; }
+  .day-tips.all-tip { padding: 14px 16px; font-size: 12px; line-height: 1.7; }
+  /* 结构化 all_tip：分段卡片 + 关键词高亮 */
+  .tip-section { margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px dashed rgba(0,0,0,0.12); }
+  .tip-section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .tip-section-head { font-size: 16px; font-weight: 800; color: {{ACCENT}}; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; }
+  .tip-section-head .tip-emoji { font-size: 20px; }
+  .tip-body { font-size: 12.5px; line-height: 1.8; padding-left: 28px; color: {{TEXT_DARK}}; }
+  /* 关键词高亮：黄色记号笔风格 */
+  .hl-quote {
+    background: linear-gradient(180deg, transparent 55%, rgba(255,224,102,0.6) 55%);
+    color: inherit;
+    font-weight: 700;
+    padding: 0 3px;
+  }
+  .hl-day { display: inline-block; padding: 1px 7px; background: #5a6c7d; color: #fff; border-radius: 4px; font-size: 11px; font-weight: 700; margin: 0 2px; letter-spacing: 0.3px; }
+  .hl-price {
+    background: linear-gradient(180deg, transparent 55%, rgba(255,170,80,0.5) 55%);
+    color: #c2542e;
+    font-weight: 700;
+    padding: 0 3px;
+  }
+  .hl-num { font-weight: 700; color: {{ACCENT}}; }
+  .hl-time {
+    background: linear-gradient(180deg, transparent 55%, rgba(122,180,230,0.55) 55%);
+    color: #2d5f8a;
+    font-weight: 700;
+    padding: 0 3px;
+  }
+
+  /* 酒店推荐卡 */
+  .hotel-card { background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.5) 100%); border: 1px solid {{ACCENT_BORDER}}; border-left: 3px solid {{ACCENT}}; border-radius: 10px; padding: 12px 14px; margin: 14px 0 8px; }
+  .hotel-card-title { font-size: 11px; font-weight: 700; color: {{ACCENT}}; letter-spacing: 1px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .hotel-name-cn { font-size: 14px; font-weight: 700; color: {{TEXT_DARK}}; margin-bottom: 2px; }
+  .hotel-name-en { font-size: 10.5px; color: {{TEXT_MID}}; letter-spacing: 0.3px; margin-bottom: 8px; }
+  .hotel-row { font-size: 11.5px; color: {{TEXT_DARK}}; line-height: 1.5; padding: 3px 0; display: flex; gap: 6px; align-items: flex-start; }
+  .hotel-row .label { color: {{TEXT_MID}}; flex-shrink: 0; min-width: 38px; }
+  .hotel-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  .hotel-btn { font-size: 10.5px; padding: 4px 10px; border-radius: 6px; text-decoration: none; font-weight: 600; transition: all 0.15s; display: inline-flex; align-items: center; gap: 4px; }
+  .hotel-btn.gmaps { background: rgba(74, 141, 181, 0.18); color: #2d5f8a; }
+  .hotel-btn.gmaps:hover { background: rgba(74, 141, 181, 0.35); }
+  .hotel-btn.booking { background: rgba(0, 113, 194, 0.18); color: #0071c2; }
+  .hotel-btn.booking:hover { background: rgba(0, 113, 194, 0.35); }
+  .hotel-btn.official { background: {{ACCENT_BG}}; color: {{ACCENT}}; }
+  .hotel-btn.official:hover { background: {{ACCENT_BG_HOVER}}; }
+  .hotel-empty { padding: 12px; background: rgba(0,0,0,0.04); border-radius: 8px; font-size: 11.5px; color: {{TEXT_MID}}; text-align: center; font-style: italic; }
+  /* 出行前清单 */
+  .pretrip-card { background: linear-gradient(135deg, rgba(74,141,181,0.12) 0%, rgba(45,95,138,0.06) 100%); border: 1px solid rgba(74,141,181,0.3); border-left: 3px solid #2d5f8a; border-radius: 10px; padding: 12px 14px; margin: 14px 0 8px; }
+  .pretrip-title { font-size: 11px; font-weight: 700; color: #2d5f8a; letter-spacing: 1px; margin-bottom: 8px; }
+  .pretrip-row { font-size: 11.5px; color: {{TEXT_DARK}}; line-height: 1.5; padding: 3px 0; display: flex; gap: 6px; }
+  .pretrip-row .pretrip-label { color: {{TEXT_MID}}; flex-shrink: 0; min-width: 50px; font-weight: 600; }
+  /* Plan B */
+  .planb-card { background: linear-gradient(135deg, rgba(74,141,181,0.1) 0%, rgba(45,95,138,0.05) 100%); border-left: 3px solid #4a8db5; border-radius: 8px; padding: 10px 12px; margin: 10px 0 8px; font-size: 11.5px; color: {{TEXT_DARK}}; line-height: 1.55; }
+  /* GPX 按钮 */
+  .gpx-export { width: 100%; padding: 11px; background: linear-gradient(135deg, #58a87c 0%, #1f7a5a 100%); border: none; border-radius: 8px; color: #fff; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.15s; }
+  .gpx-export:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(31,122,90,0.4); }
+
+  .poi-detail { display: none; }
+  .poi-detail.show { display: block; }
+  .poi-detail .back-btn { background: {{ACCENT_BG}}; border: none; color: {{ACCENT}}; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: 600; }
+  .poi-detail .back-btn:hover { background: {{ACCENT_BG_HOVER}}; }
+  .poi-nav-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .poi-nav-arrows { display: flex; align-items: center; gap: 4px; }
+  .nav-arrow { background: {{ACCENT_BG}}; border: none; color: {{ACCENT}}; width: 28px; height: 28px; border-radius: 6px; font-size: 18px; font-weight: 700; cursor: pointer; line-height: 1; display: flex; align-items: center; justify-content: center; }
+  .nav-arrow:hover { background: {{ACCENT_BG_HOVER}}; }
+  .nav-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
+  .nav-counter { font-size: 10.5px; color: {{TEXT_MID}}; min-width: 50px; text-align: center; font-weight: 600; }
+
+  .poi-hero { width: 100%; height: 240px; border-radius: 12px; overflow: hidden; margin-bottom: 14px; position: relative; background: linear-gradient(135deg, {{ACCENT_LIGHT}} 0%, {{ACCENT}} 100%); box-shadow: 0 4px 12px rgba(60, 40, 20, 0.15); }
+  .poi-hero img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease, opacity 0.3s ease; }
+  .poi-hero.grid-mode { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 4px; padding: 0; }
+  .poi-hero-cell { position: relative; overflow: hidden; border-radius: 4px; background: {{ACCENT_BG}}; }
+  .poi-hero-cell img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; cursor: pointer; }
+  .poi-hero-cell:hover img { transform: scale(1.1); }
+  .poi-hero-cell.empty { display: flex; align-items: center; justify-content: center; font-size: 42px; opacity: 0.5; color: #fff; }
+  .src-badge { position: absolute; top: 4px; left: 4px; padding: 1px 5px; font-size: 9px; font-weight: 700; color: #fff; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); pointer-events: none; opacity: 0.8; }
+  .poi-hero-loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: rgba(255,255,255,0.9); font-size: 14px; z-index: 10; pointer-events: none; }
+  .loader { width: 28px; height: 28px; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .poi-hero-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 80px; }
+  .poi-hero .image-source { position: absolute; bottom: 4px; right: 8px; font-size: 10px; color: rgba(255,255,255,0.85); background: rgba(0,0,0,0.55); padding: 3px 8px; border-radius: 4px; text-decoration: none; z-index: 5; }
+  .poi-hero .image-source:hover { color: #fff; background: rgba(0,0,0,0.75); }
+
+  .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: none; align-items: center; justify-content: center; z-index: 9999; cursor: zoom-out; }
+  .lightbox.show { display: flex; }
+  .lightbox img { max-width: 86%; max-height: 86%; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); cursor: default; }
+  .lightbox-close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 32px; cursor: pointer; opacity: 0.7; z-index: 10; }
+  .lightbox-close:hover { opacity: 1; }
+  .lightbox-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 48px; height: 48px; border-radius: 50%; font-size: 28px; cursor: pointer; backdrop-filter: blur(8px); transition: all 0.15s; display: flex; align-items: center; justify-content: center; line-height: 1; }
+  .lightbox-arrow:hover { background: rgba(255,255,255,0.2); transform: translateY(-50%) scale(1.1); }
+  .lightbox-arrow:disabled { opacity: 0.2; cursor: not-allowed; }
+  .lightbox-prev { left: 30px; }
+  .lightbox-next { right: 30px; }
+  .lightbox-dots { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+  .lightbox-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.2s; }
+  .lightbox-dot.active { background: #fff; transform: scale(1.4); }
+  @media (max-width: 768px) {
+    .lightbox-arrow { width: 36px; height: 36px; font-size: 22px; }
+    .lightbox-prev { left: 10px; }
+    .lightbox-next { right: 10px; }
+  }
+
+  .poi-detail h3 { font-size: 20px; color: {{ACCENT}}; margin-bottom: 4px; }
+  .poi-detail .en { font-size: 12px; color: {{TEXT_MID}}; margin-bottom: 12px; letter-spacing: 0.5px; }
+  .poi-detail .meta-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .meta-chip { background: rgba(255, 240, 220, 0.6); padding: 4px 10px; border-radius: 6px; font-size: 11px; color: {{TEXT_MID}}; display: inline-flex; align-items: center; gap: 4px; border: 1px solid {{ACCENT_BORDER}}; }
+  .meta-chip.day { background: {{ACCENT_BG_HOVER}}; color: {{ACCENT}}; font-weight: 700; border-color: {{ACCENT_BORDER}}; }
+  .meta-chip.time { background: rgba(122, 154, 77, 0.2); color: #4a6a32; border-color: rgba(74, 106, 50, 0.3); }
+  .tag-chip { font-size: 10px; padding: 3px 9px; border-radius: 10px; font-weight: 700; letter-spacing: 0.5px; background: #8a7565; color: #fff; }
+  .tag-必去, .tag-必看, .tag-地标 { background: #c73620; color: #fff; }
+  .tag-震撼, .tag-火山 { background: #c2542e; color: #fff; }
+  .tag-野生动物, .tag-自然 { background: #7a9a4d; color: #fff; }
+  .tag-喷泉, .tag-地热, .tag-温泉 { background: #d4854e; color: #fff; }
+  .tag-瀑布, .tag-峡谷, .tag-观景 { background: #2d5f8a; color: #fff; }
+  .tag-湖泊 { background: #4a8db5; color: #fff; }
+  .tag-亲子, .tag-免费 { background: #58a87c; color: #fff; }
+  .tag-小镇, .tag-美食, .tag-小吃 { background: #c97b5a; color: #fff; }
+  .tag-独家, .tag-夜景, .tag-传统, .tag-体验 { background: #b8722e; color: #fff; }
+  .tag-寺庙, .tag-神社 { background: #b04060; color: #fff; }
+
+  .info-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 4px; }
+  @media (max-width: 768px) { .info-row { grid-template-columns: 1fr 1fr; } .info-row > .info-cell:last-child { grid-column: 1 / -1; } }
+  .info-cell { background: rgba(255, 255, 255, 0.7); padding: 10px 12px; border-radius: 8px; border: 1px solid {{ACCENT_BORDER}}; }
+  .info-label { font-size: 10px; color: {{TEXT_MID}}; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
+  .info-value { font-size: 12px; color: {{TEXT_DARK}}; line-height: 1.4; font-weight: 600; }
+  .fx-note { font-size: 10px; color: {{TEXT_MID}}; margin: 4px 0 12px; text-align: right; }
+
+  .guide-links { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 12px; }
+  .guide-links a { flex: 1 1 0; min-width: 88px; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 9px 8px; border-radius: 9px; font-size: 12px; font-weight: 700; text-decoration: none; border: 1px solid rgba(0,0,0,0.08); transition: transform .12s ease, box-shadow .12s ease; }
+  .guide-links a:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.14); }
+  .guide-links a.g-xhs { background: #fff0ee; color: #c73620; }
+  .guide-links a.g-ggl { background: #eef3fb; color: #3a6ea5; }
+  .guide-links a.g-baidu { background: #eef6ff; color: #2575c4; }
+  .poi-detail .desc { font-size: 13px; color: {{TEXT_DARK}}; line-height: 1.65; padding: 14px; background: rgba(255, 255, 255, 0.5); border-radius: 8px; margin-bottom: 14px; border: 1px solid {{ACCENT_BORDER}}; }
+
+  .detail-section { margin-bottom: 14px; padding: 12px 14px; background: rgba(255, 255, 255, 0.5); border-radius: 8px; border: 1px solid {{ACCENT_BORDER}}; }
+  .detail-section-title { font-size: 11px; font-weight: 700; color: {{ACCENT}}; margin-bottom: 8px; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
+  .detail-section-title.photo { color: #b8722e; }
+  .detail-section-title.food { color: #c97b5a; }
+  .detail-section-title.michelin { color: #c73660; }
+  .detail-section-title.avoid { color: #c73620; }
+  .detail-section.avoid-section { background: linear-gradient(135deg, rgba(199, 54, 32, 0.08) 0%, rgba(199, 54, 32, 0.04) 100%); border-left: 3px solid #c73620; }
+  .detail-section ul { list-style: none; }
+  .detail-section li { font-size: 12px; color: {{TEXT_DARK}}; line-height: 1.6; padding: 5px 0 5px 8px; border-left: 2px solid {{ACCENT_BG}}; margin-bottom: 2px; }
+  /* 拍照点卡片（纯文字 + 搜更多） */
+  .spot-card { padding: 8px 10px; border-radius: 8px; background: rgba(255,255,255,0.4); border-left: 3px solid {{ACCENT}}; margin-bottom: 6px; transition: all 0.15s; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .spot-card:hover { background: rgba(255,255,255,0.7); transform: translateX(2px); }
+  .spot-text { font-size: 12.5px; color: {{TEXT_DARK}}; line-height: 1.5; font-weight: 500; flex: 1; }
+  .spot-more { font-size: 10px; color: {{ACCENT}}; text-decoration: none; padding: 3px 8px; border-radius: 4px; background: {{ACCENT_BG}}; flex-shrink: 0; font-weight: 600; }
+  .spot-more:hover { background: {{ACCENT_BG_HOVER}}; }
+  /* 美食列表（每项可跳 Google Maps）*/
+  .food-link { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 6px 8px; margin-bottom: 4px; border-radius: 6px; cursor: pointer; transition: all 0.15s; text-decoration: none; color: {{TEXT_DARK}}; border-left: 2px solid {{ACCENT_BG}}; }
+  .food-link:hover { background: rgba(74,141,181,0.1); border-left-color: #4a8db5; transform: translateX(2px); }
+  .food-text { font-size: 12px; line-height: 1.5; flex: 1; }
+  .food-pin { font-size: 11px; color: #4a8db5; opacity: 0.7; flex-shrink: 0; }
+  .food-link:hover .food-pin { opacity: 1; }
+
+  .open-gmaps-btn { width: 100%; padding: 11px; background: linear-gradient(135deg, #4a8db5 0%, #2d6688 100%); border: none; border-radius: 8px; color: #fff; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 10px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.15s; }
+  .open-gmaps-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(74, 141, 181, 0.4); }
+
+  .stats-bar { display: flex; justify-content: space-around; padding: 14px; background: rgba(255, 255, 255, 0.5); border-radius: 10px; margin-top: 14px; border: 1px solid {{ACCENT_BORDER}}; }
+  .stat { text-align: center; }
+  .stat-num { font-size: 18px; font-weight: 800; color: {{ACCENT}}; display: block; }
+  .stat-label { font-size: 10px; color: {{TEXT_MID}}; letter-spacing: 1px; font-weight: 600; }
+  .stat-hint { font-size: 9.5px; color: {{TEXT_FAINT}}; margin-top: 2px; display: block; }
+  footer { text-align: center; margin-top: 24px; padding: 16px; color: {{TEXT_MID}}; font-size: 11px; letter-spacing: 3px; }
+</style>
+</head>
+<body>
+<!-- LIVEMAP-BACK-BTN -->
+<a href="../index.html" id="livemapBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ LiveMap 首页</a>
+<!-- /LIVEMAP-BACK-BTN -->
+
+<div class="app">
+  <header>
+    <div class="hero-bg"></div>
+    <div class="eyebrow">{{EYEBROW}}</div>
+    <h1>{{TITLE}}</h1>
+    <div class="sub">{{SUBTITLE}}</div>
+  </header>
+
+  <div class="day-tabs" id="dayTabs">
+    <div class="tab all active" data-day="all"><span class="dot"></span>全部 {{TOTAL_DAYS}} 天</div>
+    {{DAY_TABS}}
+  </div>
+
+  <div class="main">
+    <div class="map-wrap" id="mapWrap">
+      <div id="map"></div>
+      <div class="style-switcher">
+        <button class="style-btn active" data-style="clean" onclick="switchStyle('clean')">🗺️ 简洁</button>
+        <button class="style-btn" data-style="topo" onclick="switchStyle('topo')">🌄 地形</button>
+        <button class="style-btn" data-style="satellite" onclick="switchStyle('satellite')">🛰️ 实景</button>
+      </div>
+      <div class="legend">{{LEGEND_ITEMS}}</div>
+    </div>
+
+    <div class="info-panel">
+      <div id="dayOverview"></div>
+      <div id="poiDetail" class="poi-detail">
+        <div class="poi-nav-bar">
+          <button class="back-btn" onclick="closeDetail()">← 返回行程</button>
+          <div class="poi-nav-arrows">
+            <button class="nav-arrow" id="prevPoiBtn" onclick="navPoi(-1)" title="上一个 POI (←)">‹</button>
+            <span class="nav-counter" id="poiCounter">1 / 1</span>
+            <button class="nav-arrow" id="nextPoiBtn" onclick="navPoi(1)" title="下一个 POI (→)">›</button>
+          </div>
+        </div>
+        <div class="poi-hero" id="pdHero"></div>
+        <h3 id="pdName"></h3>
+        <div class="en" id="pdEn"></div>
+        <div class="meta-row" id="pdMeta"></div>
+        <div class="info-row">
+          <div class="info-cell" title="价格为人民币（RMB）·括号内为{{CURRENCY_LABEL}}原价">
+            <div class="info-label">💴 门票/价格 <span style="color:#c97b5a;font-weight:800;">[RMB · 含{{CURRENCY_LABEL}}原价]</span></div>
+            <div class="info-value" id="pdPrice">—</div>
+          </div>
+          <div class="info-cell">
+            <div class="info-label">⏰ 营业时间</div>
+            <div class="info-value" id="pdHours">—</div>
+          </div>
+          <div class="info-cell" title="建议在此 POI 停留的时间">
+            <div class="info-label">⏱️ 建议游玩</div>
+            <div class="info-value" id="pdDuration">—</div>
+          </div>
+        </div>
+        <div class="fx-note">💱 价格已换算为人民币 · 汇率 {{FX_NOTE}}</div>
+        <div class="guide-links" id="pdGuides"></div>
+        <div class="desc" id="pdDesc"></div>
+        <div class="detail-section" id="pdPhotoSection" style="display:none;">
+          <div class="detail-section-title photo">📸 拍照打卡点</div>
+          <div id="pdPhotoSpots"></div>
+        </div>
+        <div class="detail-section" id="pdFoodSection" style="display:none;">
+          <div class="detail-section-title food">🍜 推荐美食（点击 📍 跳 Google Maps）</div>
+          <div id="pdFoods"></div>
+        </div>
+        <div class="detail-section" id="pdMichelinSection" style="display:none;">
+          <div class="detail-section-title michelin">⭐ 米其林 / 高级餐厅</div>
+          <ul id="pdMichelin"></ul>
+        </div>
+        <div class="detail-section avoid-section" id="pdAvoidSection" style="display:none;">
+          <div class="detail-section-title avoid">⚠️ 避雷提醒</div>
+          <ul id="pdAvoid"></ul>
+        </div>
+        <a class="open-gmaps-btn" id="pdGmaps" target="_blank">📍 在 Google Maps 打开导航</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>{{FOOTER}}</footer>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close" onclick="event.stopPropagation();closeLightbox();">×</span>
+  <button class="lightbox-arrow lightbox-prev" onclick="event.stopPropagation();navLightbox(-1);">‹</button>
+  <img id="lightboxImg" alt="" onclick="event.stopPropagation();">
+  <button class="lightbox-arrow lightbox-next" onclick="event.stopPropagation();navLightbox(1);">›</button>
+  <div class="lightbox-dots" id="lightboxDots" onclick="event.stopPropagation();"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script>
+const POIs = {{POIS_JSON}};
+const DAYS = {{DAYS_JSON}};
+const META = {{META_JSON}};
+const ALL_TIP = META.all_tip;
+const TOTAL_DAYS = META.total_days;
+const ORIG_CURRENCY = META.currency || 'USD';
+
+// ============ INIT LEAFLET ============
+const map = L.map('map', { center: META.map_center, zoom: META.map_zoom || 10, scrollWheelZoom: true });
+const TILES = {
+  voyager: L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '© <a href="https://openstreetmap.org/">OSM</a> · © <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd', maxZoom: 19,
+  }),
+  topo: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://opentopomap.org/">OpenTopoMap</a> (CC-BY-SA) · © OSM',
+    subdomains: 'abc', maxZoom: 17,
+  }),
+  satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Imagery © <a href="https://www.esri.com/">Esri</a>, Maxar, Earthstar Geographics',
+    maxZoom: 19,
+  }),
+};
+let currentTile = TILES.voyager.addTo(map);
+
+// ====== 移动端防误触：单指滑动浏览页面，双指拖动/缩放地图 ======
+(function mobileGestureGuard() {
+  const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches || 'ontouchstart' in window;
+  if (!isTouch) return;
+  map.dragging.disable();
+  map.scrollWheelZoom.disable();
+  if (map.tap) map.tap.disable();
+  const wrap = document.getElementById('mapWrap') || document.querySelector('.map-wrap');
+  const hint = document.createElement('div');
+  hint.className = 'map-gesture-hint';
+  hint.textContent = '👆 单指滑动浏览页面 · 双指拖动 / 缩放地图';
+  if (wrap) wrap.appendChild(hint);
+  const container = map.getContainer();
+  container.addEventListener('touchstart', (e) => {
+    if (e.touches.length >= 2) { map.dragging.enable(); if (hint) hint.style.opacity = '0'; }
+  }, { passive: true });
+  container.addEventListener('touchend', (e) => {
+    if (e.touches.length === 0) map.dragging.disable();
+  }, { passive: true });
+  setTimeout(() => { if (hint) hint.style.opacity = '0'; }, 4500);
+})();
+
+// 视口变化时重算地图尺寸，避免一屏自适应后出现灰块
+let _resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(_resizeTimer);
+  _resizeTimer = setTimeout(() => map.invalidateSize(), 200);
+});
+window.switchStyle = function(style) {
+  document.querySelectorAll('.style-btn').forEach(b => b.classList.toggle('active', b.dataset.style === style));
+  map.removeLayer(currentTile);
+  const wrap = document.getElementById('mapWrap');
+  wrap.classList.remove('topo');
+  if (style === 'topo') { currentTile = TILES.topo.addTo(map); wrap.classList.add('topo'); }
+  else if (style === 'satellite') { currentTile = TILES.satellite.addTo(map); }
+  else { currentTile = TILES.voyager.addTo(map); }
+};
+
+const markers = {}, routeLayers = {};
+POIs.forEach(p => {
+  const icon = L.divIcon({
+    className: 'poi-marker',
+    html: `<div class="poi-pin" data-id="${p.id}" data-day="${p.day}" style="background:${p.color};box-shadow:0 0 0 3px ${(DAYS[p.day]||{}).color||'#fff'}, 0 4px 10px rgba(0,0,0,0.45)">${p.icon}<span class="poi-num" style="background:${(DAYS[p.day]||{}).color||'#fff'};color:#fff;border-color:#fff">${p.num}</span></div>
+           <div class="poi-label-overlay">${p.name}</div>`,
+    iconSize: [32, 32], iconAnchor: [16, 16],
+  });
+  const marker = L.marker([p.lat, p.lng], { icon }).addTo(map);
+  marker.on('click', () => showDetail(p));
+  const _ts = poiTipSide(p); marker.bindTooltip(poiTipHtml(p), { permanent: true, direction: _ts, offset: (_ts === 'right' ? [14, 0] : [-14, 0]), className: 'poi-tip', interactive: false });
+  markers[p.id] = marker;
+});
+function poiBriefFeature(p) {
+  let t = (p.desc || '').trim();
+  t = t.split(/[。.!！?？;；\n]/)[0].trim();
+  if (t.length > 20) t = t.slice(0, 19) + '…';
+  return t;
+}
+function poiTipSide(p) {
+  // 同一天按纬度从北到南排名，奇偶分到右/左两侧，确保纵向相邻点不叠
+  const sameDay = POIs.filter(q => q.day === p.day).sort((a, b) => b.lat - a.lat);
+  const rank = sameDay.findIndex(q => q.id === p.id);
+  return rank % 2 === 0 ? 'right' : 'left';
+}
+function poiTipHtml(p) {
+  return `<div class="poi-tip-name">${p.num}. ${p.name}</div>`;
+}
+// ===== 标签碰撞消解：名称优先贪心放置，冲突即隐藏；车程胶囊次优先，避让名称与彼此 =====
+function declutterLabels() {
+  const isAll = currentDay === 'all';
+  const placed = [];
+  const M = 4; // 最小间距：贴得太近也算冲突，避免显挤
+  const mapEl = document.querySelector('.leaflet-container');
+  const mb = mapEl ? mapEl.getBoundingClientRect() : null;
+  const hit = (r, q) => (Math.min(r.right, q.right) - Math.max(r.left, q.left) > -M) && (Math.min(r.bottom, q.bottom) - Math.max(r.top, q.top) > -M);
+  const outOfMap = (r) => mb && (r.left < mb.left - 1 || r.right > mb.right + 1 || r.top < mb.top - 1 || r.bottom > mb.bottom + 1);
+  const tips = [];
+  Object.entries(markers).forEach(([id, marker]) => {
+    const poi = POIs.find(p => p.id === id);
+    const tt = marker.getTooltip && marker.getTooltip();
+    const el = tt && tt.getElement(); if (!el) return;
+    if (isAll || String(poi.day) !== currentDay) { el.style.display = 'none'; return; }
+    tips.push({ num: poi.num, el });
+  });
+  tips.sort((a, b) => a.num - b.num).forEach(t => {
+    t.el.style.display = '';
+    const r = t.el.getBoundingClientRect();
+    if (!r.width) return;
+    if (outOfMap(r) || placed.some(q => hit(r, q))) t.el.style.display = 'none'; else placed.push(r);
+  });
+  if (typeof segLabels !== 'undefined') {
+    segLabels.forEach(seg => {
+      const el = seg.marker.getElement(); if (!el) return;
+      if (isAll || String(seg.day) !== currentDay) { el.style.display = 'none'; return; }
+      el.style.display = '';
+      const r = el.getBoundingClientRect();
+      if (!r.width) return;
+      if (outOfMap(r) || placed.some(q => hit(r, q))) el.style.display = 'none'; else placed.push(r);
+    });
+  }
+  if (isAll && typeof dayFlags !== 'undefined') {
+    // 幂等：用「当前 translateY」反推原始位置，绝不靠清空 transform 再量（清空-重排在多次调用下会失稳）
+    const fl = [];
+    Object.keys(dayFlags).sort((a, b) => (+a) - (+b)).forEach(d => {
+      const wrap = dayFlags[d].getElement(); if (!wrap) return;
+      const el = wrap.querySelector('.day-flag') || wrap;
+      const cur = parseFloat((el.style.transform.match(/-?[\d.]+/) || [0])[0]) || 0;
+      const r = el.getBoundingClientRect();
+      if (r.width) fl.push({ el, left: r.left, right: r.right, top0: r.top - cur, h: r.bottom - r.top });
+    });
+    fl.sort((a, b) => a.top0 - b.top0 || a.left - b.left);
+    const placedF = [];
+    fl.forEach(f => {
+      let top = f.top0, moved = true, guard = 0;
+      while (moved && guard++ < 60) {
+        moved = false;
+        for (const q of placedF) {
+          const hx = Math.min(f.right, q.right) - Math.max(f.left, q.left);
+          const vy = Math.min(top + f.h, q.bottom) - Math.max(top, q.top);
+          if (hx > -4 && vy > -4) { top = q.bottom + 4; moved = true; }
+        }
+      }
+      f.top1 = top;
+      placedF.push({ left: f.left, right: f.right, top, bottom: top + f.h });
+    });
+    // 整列若超出地图下边界，则整体上移，尽量留在图内
+    if (mb && placedF.length) {
+      const over = Math.max(...placedF.map(q => q.bottom)) - (mb.bottom - 4);
+      if (over > 0) fl.forEach(f => { f.top1 -= over; });
+    }
+    fl.forEach(f => {
+      const dy = Math.round(f.top1 - f.top0);
+      f.el.style.transform = dy ? `translateY(${dy}px)` : '';
+    });
+  }
+}
+if (typeof map !== 'undefined' && map.on) map.on('zoomend moveend', declutterLabels);
+for (let d = 1; d <= TOTAL_DAYS; d++) {
+  const points = POIs.filter(p => p.day === d).sort((a, b) => a.num - b.num);
+  if (points.length < 2) continue;
+  const line = L.polyline(points.map(p => [p.lat, p.lng]), {
+    color: DAYS[d].color, weight: 4, opacity: 0,
+    dashArray: '8, 6', lineCap: 'round', lineJoin: 'round',
+  }).addTo(map);
+  routeLayers[d] = line;
+}
+
+// ============ 总览旗标：每天一个「Day N · 主题」标签 ============
+function dayThemeText(d) {
+  const t = (DAYS[d] && DAYS[d].title) || '';
+  let theme = t.includes('·') ? t.split('·').slice(1).join('·').trim() : t.replace(/^Day\s*\d+\s*/i, '').trim();
+  if (!theme) theme = (DAYS[d] && DAYS[d].where) || ('Day ' + d);
+  if (theme.length > 11) theme = theme.slice(0, 10) + '…';
+  return theme;
+}
+const dayFlags = {};
+Object.keys(DAYS).map(Number).sort((a, b) => a - b).forEach(d => {
+  const pts = POIs.filter(p => p.day === d).sort((a, b) => a.num - b.num);
+  if (!pts.length) return;
+  const mid = pts[Math.floor(pts.length / 2)];           // 取当天路线中段的点，沿线分散不挤一团
+  const color = (DAYS[d] || {}).color || '#888';
+  const icon = L.divIcon({
+    className: 'day-flag-marker',
+    html: `<div class="day-flag" style="--c:${color}"><span class="day-flag-num">${d}</span><span class="day-flag-text">${dayThemeText(d)}</span></div>`,
+    iconSize: null, iconAnchor: [16, 14],
+  });
+  const fm = L.marker([mid.lat, mid.lng], { icon, zIndexOffset: 2000 }).addTo(map);
+  fm.on('click', () => {
+    currentDay = String(d);
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.day === String(d)));
+    filterPOIs(); renderDayOverview(); closeDetail();
+  });
+  dayFlags[d] = fm;
+});
+
+// ============ 路段车程小胶囊（单日视图显示在两点之间）============
+function segLabelText(km) {
+  const realKm = km * 1.3;
+  const driveMin = Math.round(realKm / (realKm < 30 ? 40 : 80) * 60);
+  const walkMin = Math.round(realKm / 5 * 60);
+  const distStr = realKm < 1 ? `${Math.round(realKm * 1000)} m` : `${realKm.toFixed(1)} km`;
+  const mode = realKm < 1.5 ? `🚶 ${walkMin} min` : `🚗 ${driveMin} min`;
+  return `${distStr} · ${mode}`;
+}
+const segLabels = [];
+Object.keys(DAYS).map(Number).forEach(d => {
+  const pts = POIs.filter(p => p.day === d).sort((a, b) => a.num - b.num);
+  for (let i = 0; i < pts.length - 1; i++) {
+    const a = pts[i], b = pts[i + 1];
+    const km = haversineKm(a.lat, a.lng, b.lat, b.lng);
+    const mid = [(a.lat + b.lat) / 2, (a.lng + b.lng) / 2];
+    const icon = L.divIcon({ className: 'seg-label-marker', html: `<div class="seg-label">${segLabelText(km)}</div>`, iconSize: null, iconAnchor: [22, 9] });
+    const m = L.marker(mid, { icon, interactive: false, zIndexOffset: 1500 }).addTo(map);
+    segLabels.push({ day: d, marker: m });
+  }
+});
+
+// ============ PRICE: RMB 为主 · 原货币为辅 ============
+const FX_RATES = { JPY: 0.05, USD: 7.2, EUR: 7.8, GBP: 9.0, KRW: 0.0055, THB: 0.21, AUD: 4.8, CAD: 5.3 };
+const CURRENCY_LABELS = { JPY: '日元', USD: '美元', EUR: '欧元', GBP: '英镑', KRW: '韩元', THB: '泰铢', AUD: '澳元', CAD: '加元' };
+function renderPriceWithRMB(priceStr, origCurrency) {
+  origCurrency = origCurrency || ORIG_CURRENCY;
+  const rate = FX_RATES[origCurrency] || 1;
+  const label = CURRENCY_LABELS[origCurrency] || origCurrency;
+  const symMap = { USD: '\\$', EUR: '€', GBP: '£', JPY: '¥', KRW: '₩', THB: '฿', AUD: 'A\\$', CAD: 'C\\$' };
+  const symbol = symMap[origCurrency] || '¥';
+  const re = new RegExp(`${symbol}(\\d+)(?:-(\\d+))?(\\+)?`, 'g');
+  return priceStr.replace(re, (match, a, b, plus) => {
+    const minR = Math.round(parseInt(a) * rate);
+    const maxR = b ? Math.round(parseInt(b) * rate) : null;
+    const rmbBig = maxR ? `¥${minR}-${maxR}` : `¥${minR}${plus || ''}`;
+    return `<b style="color:${META.accent};font-size:13px;">${rmbBig}</b><span style="color:${META.text_mid};font-size:10px;font-weight:500;">（${match} ${label}）</span>`;
+  });
+}
+
+// ============ 多源图片搜索 ============
+const imgCache = {};
+function isGoodImage(url) {
+  if (!url) return false;
+  // Wikimedia 会给缩略图挂 ?utm_source=…&utm_campaign=parser，
+  // 直接对整个 URL 判 /\.(jpg)$/ 会全军覆没，所以先切掉 query/hash。
+  const path = String(url).split(/[?#]/)[0];
+  return /\.(jpg|jpeg|png)$/i.test(path)
+    && !/logo|icon|seal|coat[_-]of[_-]arms|svg|flag|map|chart/i.test(path);
+}
+async function fetchWikipediaImages(query, max = 4) {
+  try {
+    const sr = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&srlimit=1&format=json&origin=*`);
+    const sd = await sr.json();
+    const title = sd.query?.search?.[0]?.title;
+    if (!title) return [];
+    // 维基是全文搜索，词不沾边也会还你一个「最相关」条目
+    // （真实案例：'SOUTHWEST landscape' → 一篇陶器条目；'…Tour in Kyoto' → Taiwan）。
+    // 命中标题至少要和查询词共享一个实词，否则宁可不出图，也别出错图。
+    const _kw = (s) => (String(s).toLowerCase().match(/[a-z]{3,}/g) || [])
+      .filter(w => !['landscape', 'the', 'and', 'national', 'park', 'city'].includes(w));
+    const _q = _kw(query), _t = new Set(_kw(title));
+    if (_q.length && !_q.some(w => _t.has(w))) return [];   // 中文查询 _q 为空，跳过校验
+    const mr = await fetch(`https://en.wikipedia.org/api/rest_v1/page/media-list/${encodeURIComponent(title)}`);
+    if (!mr.ok) return [];
+    const md = await mr.json();
+    const urls = [];
+    // media-list 按图片在文章里出现的顺序返回，头几张常是地图/示意图；
+    // 条目主图 leadImage 才是那张标准风景照，先把它顶上来。
+    const mediaItems = (md.items || []).filter(i => i.type === 'image')
+      .sort((a, b) => (b.leadImage === true) - (a.leadImage === true));
+    for (const item of mediaItems) {
+      const srcset = item.srcset || [];
+      const best = srcset.find(s => s.scale === '1.5x') || srcset.find(s => s.scale === '1x') || srcset[0];
+      let src = best?.src || item.original?.source || '';
+      if (src.startsWith('//')) src = 'https:' + src;
+      if (isGoodImage(src)) { urls.push(src); if (urls.length >= max) break; }
+    }
+    return urls;
+  } catch (e) { return []; }
+}
+async function fetchCommonsImages(query, max = 4) {
+  try {
+    const params = new URLSearchParams({
+      action: 'query', generator: 'search',
+      gsrsearch: `${query} filetype:bitmap`,
+      gsrnamespace: '6', gsrlimit: '20',
+      prop: 'imageinfo', iiprop: 'url', iiurlwidth: '640',
+      format: 'json', origin: '*',
+    });
+    const res = await fetch(`https://commons.wikimedia.org/w/api.php?${params}`);
+    const data = await res.json();
+    const pages = data.query?.pages;
+    if (!pages) return [];
+    const sorted = Object.values(pages).sort((a, b) => (a.index || 999) - (b.index || 999));
+    const urls = [];
+    for (const p of sorted) {
+      const url = p.imageinfo?.[0]?.thumburl;
+      if (isGoodImage(url)) { urls.push(url); if (urls.length >= max) break; }
+    }
+    return urls;
+  } catch (e) { return []; }
+}
+async function fetchImagesMultiSource(poi, max = 4) {
+  if (imgCache[poi.id]) return imgCache[poi.id];
+  const results = [], sources = [];
+  const query = poi.search || poi.en;
+  if (poi.images && poi.images.length) poi.images.forEach(u => { results.push(u); sources.push('curated'); });
+  if (results.length < max) {
+    const wiki = await fetchWikipediaImages(query, max - results.length);
+    wiki.forEach(u => { if (!results.includes(u)) { results.push(u); sources.push('wiki'); } });
+  }
+  if (results.length < max) {
+    const cm = await fetchCommonsImages(query, max - results.length);
+    cm.forEach(u => { if (!results.includes(u)) { results.push(u); sources.push('commons'); } });
+  }
+  const final = results.slice(0, max).map((u, i) => ({ url: u, source: sources[i] }));
+  imgCache[poi.id] = final;
+  return final;
+}
+window._lbImages = [];
+window._lbIdx = 0;
+window.openLightbox = function(url) {
+  // 用当前 POI 的全部图片做 lightbox 集合
+  const allImgs = Array.from(document.querySelectorAll('.poi-hero-cell img')).map(i => i.src);
+  window._lbImages = allImgs.length ? allImgs : [url];
+  window._lbIdx = Math.max(0, window._lbImages.indexOf(url));
+  if (window._lbIdx < 0) { window._lbImages = [url]; window._lbIdx = 0; }
+  showLightbox();
+};
+function showLightbox() {
+  document.getElementById('lightboxImg').src = window._lbImages[window._lbIdx];
+  document.getElementById('lightbox').classList.add('show');
+  // 渲染 dots
+  const dots = window._lbImages.map((_, i) =>
+    `<span class="lightbox-dot${i === window._lbIdx ? ' active' : ''}" onclick="window._lbIdx=${i};showLightbox();"></span>`
+  ).join('');
+  document.getElementById('lightboxDots').innerHTML = dots;
+  // 按钮状态
+  document.querySelector('.lightbox-prev').disabled = window._lbIdx <= 0;
+  document.querySelector('.lightbox-next').disabled = window._lbIdx >= window._lbImages.length - 1;
+}
+window.navLightbox = function(delta) {
+  const newIdx = window._lbIdx + delta;
+  if (newIdx < 0 || newIdx >= window._lbImages.length) return;
+  window._lbIdx = newIdx;
+  showLightbox();
+};
+window.closeLightbox = function() { document.getElementById('lightbox').classList.remove('show'); };
+
+// 打卡点（纯文字 + Google 图片搜索跳转）
+function renderPhotoSpots(poi) {
+  const container = document.getElementById('pdPhotoSpots');
+  const spots = poi.photo_spots.map(s => typeof s === 'string' ? { text: s, query: null } : s);
+  container.innerHTML = spots.map(s => {
+    const q = s.query || (poi.en + ' ' + s.text.replace(/^📸\s*/, '').slice(0, 25));
+    const gImg = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(q)}`;
+    return `<div class="spot-card"><div class="spot-text">${s.text}</div><a class="spot-more" href="${gImg}" target="_blank" onclick="event.stopPropagation();">🔍 搜图</a></div>`;
+  }).join('');
+}
+
+// 美食列表（每项 Google Maps 跳转）
+function renderFoods(poi) {
+  const container = document.getElementById('pdFoods');
+  const cityHint = (poi.search || poi.en || '').split(/[\s,]/)[0]; // 取主关键词作位置参考
+  container.innerHTML = poi.foods.map(f => {
+    // 抽出餐厅名（多在「」/『』之间或开头一段）
+    let name = f.replace(/^[🍡🍜🍣🍵🍢🍰🍦🥩🥪🍤🥩🍷🍕🍺☕🍔🍱🍣🥟🥗🥨🍩🥯🍴🍝🥢🐟🦀🦪🍇🥃🍫🍳🍻🍂🌮🥙🍞🧀🧊🌭🥒🥢🍙🍡🥃]+\s*/, '').replace(/[（(].*$/, '').trim();
+    // 去掉价格（$20 / ¥80 / RMB 等），避免污染地图搜索
+    name = name.replace(/[$¥￥]\s?\d[\d,.\-–~]*\+?/g, '').replace(/\b(RMB|USD|JPY|EUR|KRW)\b/gi, '').trim();
+    // 店名以拉丁字母开头时，去掉后面的中文用途/描述，只留店名
+    if (/^[^一-鿿]*[A-Za-z]/.test(name)) name = name.replace(/\s*[一-鿿].*$/, '').trim();
+    const m = name.match(/[「『](.+?)[」』]/);
+    if (m) name = m[1];
+    const query = `${name} ${cityHint}`.trim();
+    const gmaps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+    return `<a class="food-link" href="${gmaps}" target="_blank" onclick="event.stopPropagation();"><span class="food-text">${f}</span><span class="food-pin">📍</span></a>`;
+  }).join('');
+}
+
+// ============ INTERACTION ============
+const dayTabs = document.querySelectorAll('.tab');
+let currentDay = 'all', currentDetailId = null;
+dayTabs.forEach(t => {
+  t.addEventListener('click', () => {
+    dayTabs.forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    currentDay = t.dataset.day;
+    filterPOIs(); renderDayOverview(); closeDetail();
+  });
+});
+
+function filterPOIs() {
+  const isAll = currentDay === 'all';
+  Object.entries(markers).forEach(([id, marker]) => {
+    const poi = POIs.find(p => p.id === id);
+    const el = marker.getElement(); if (!el) return;
+    if (isAll) { el.style.opacity = '0'; el.style.pointerEvents = 'none'; el.style.zIndex = '100'; }
+    else if (String(poi.day) === currentDay) { el.style.opacity = '1'; el.style.pointerEvents = ''; el.style.zIndex = '500'; }
+    else { el.style.opacity = '0'; el.style.pointerEvents = 'none'; el.style.zIndex = '100'; }
+  });
+  // 总览模式只显示每天的旗标；进入某天则隐藏旗标
+  if (typeof dayFlags !== 'undefined') {
+    Object.values(dayFlags).forEach(fm => {
+      const el = fm.getElement(); if (!el) return;
+      el.style.opacity = isAll ? '1' : '0';
+      el.style.pointerEvents = isAll ? '' : 'none';
+    });
+  }
+  // 标签/车程胶囊显示与防重叠统一交给 declutterLabels（fitBounds 动画结束后 moveend 会再跑一次）
+  declutterLabels();
+  requestAnimationFrame(declutterLabels);
+  setTimeout(declutterLabels, 380);
+  Object.entries(routeLayers).forEach(([d, line]) => {
+    line.setStyle({ opacity: (isAll || d === currentDay) ? 0.85 : 0 });
+  });
+  if (currentDay !== 'all') {
+    const activePOIs = POIs.filter(p => String(p.day) === currentDay);
+    if (activePOIs.length > 1) {
+      map.fitBounds(L.latLngBounds(activePOIs.map(p => [p.lat, p.lng])), { padding: [70, 110], maxZoom: 14 });
+    } else if (activePOIs.length === 1) {
+      map.setView([activePOIs[0].lat, activePOIs[0].lng], 13);
+    }
+  } else {
+    const allPts = POIs.map(p => [p.lat, p.lng]);
+    if (allPts.length > 1) map.fitBounds(L.latLngBounds(allPts), { paddingTopLeft: [70, 80], paddingBottomRight: [150, 90], maxZoom: META.map_zoom || 10 });
+    else map.setView(META.map_center, META.map_zoom || 10);
+  }
+}
+
+function renderDayOverview() {
+  const overview = document.getElementById('dayOverview');
+  if (currentDay === 'all') {
+    const statsHtml = META.stats.map(s => `<div class="stat"${s.tooltip ? ` title="${s.tooltip}"` : ''}><span class="stat-num">${s.num}</span><span class="stat-label">${s.label}</span><span class="stat-hint">${s.hint || ''}</span></div>`).join('');
+    const highlightsHtml = META.highlight_items.map(h => `• ${h}`).join('<br>');
+    overview.innerHTML = `
+      <div class="day-header">
+        <span class="day-badge" style="background: linear-gradient(135deg, #7a9a4d 0%, #4a6a32 100%)">全部 ${TOTAL_DAYS} 天</span>
+        <div class="day-title">${META.header_emoji} ${META.title_short}</div>
+        <div class="day-where">${META.where_summary} · 含 ${POIs.length} 个核心景点</div>
+      </div>
+      <div class="day-tips all-tip">${formatAllTip(ALL_TIP)}</div>
+      <div class="stats-bar">${statsHtml}</div>
+      <div style="margin-top: 14px; padding: 14px; background: ${META.accent_bg}; border-radius: 10px;">
+        <div style="font-size: 12px; color: ${META.accent}; font-weight: 700; margin-bottom: 8px; letter-spacing: 1px;">${META.highlight_title}</div>
+        <div style="font-size: 11.5px; color: ${META.text_dark}; line-height: 1.7;">${highlightsHtml}</div>
+      </div>
+      <div style="margin-top: 14px; padding: 12px 14px; background: linear-gradient(135deg, rgba(199, 54, 32, 0.18) 0%, rgba(232, 116, 58, 0.12) 100%); border-left: 3px solid #c73620; border-radius: 6px;">
+        <div style="font-size: 11px; color: #c73620; font-weight: 700; margin-bottom: 4px;">${META.warning_title}</div>
+        <div style="font-size: 11px; color: ${META.text_dark}; line-height: 1.55;">${META.warning_text}</div>
+      </div>
+      ${renderPretrip(META.pretrip)}
+      <button class="gpx-export" onclick="exportGPX()">⬇️ 导出 GPX（导入 Google My Maps / Garmin / 离线地图）</button>
+    `;
+  } else {
+    const d = DAYS[currentDay];
+    const points = POIs.filter(p => p.day == currentDay).sort((a, b) => a.num - b.num);
+    const listItems = points.map((p, i) => {
+      let liHtml = `<li onclick="showDetailById('${p.id}')"><span class="route-num">${p.num}</span><span class="route-icon">${p.icon}</span><div class="route-info"><div class="route-name">${p.name}</div><div class="route-time">${p.time}</div></div></li>`;
+      // 在每个 POI 之后插入到下一个 POI 的距离
+      if (i < points.length - 1) {
+        const dist = haversineKm(p.lat, p.lng, points[i+1].lat, points[i+1].lng);
+        liHtml += renderDistance(dist);
+      }
+      return liHtml;
+    }).join('');
+    overview.innerHTML = `
+      <button class="back-btn" onclick="backToAll()" style="background:${META.accent_bg};border:none;color:${META.accent};padding:6px 12px;border-radius:6px;font-size:11px;cursor:pointer;margin-bottom:12px;font-weight:600;">← 返回全部 ${TOTAL_DAYS} 天行程</button>
+      <div class="day-header">
+        <span class="day-badge" style="background: ${d.color}">DAY ${currentDay}</span>
+        <div class="day-title">${d.title}</div>
+        <div class="day-where">📍 ${d.where}</div>
+      </div>
+      <ul class="day-route-list">${listItems}</ul>
+      <div class="day-tips">${d.tip}</div>
+      ${d.plan_b ? `<div class="planb-card"><b style="color:#2d5f8a;">🌧️ Plan B</b><br>${d.plan_b}</div>` : ''}
+      ${renderHotel(d.hotel)}
+    `;
+  }
+}
+
+// 智能默认建议游玩时间（按 tag/icon 推断）
+function getDefaultDuration(poi) {
+  const tags = poi.tags || [];
+  const icon = poi.icon || '';
+  if (icon === '✈️') return '— 抵达/离港';
+  if (icon === '🚄') return '— 路过/换乘';
+  if (tags.includes('必看') || tags.includes('地标') || tags.includes('震撼')) return '1-1.5 小时';
+  if (tags.includes('米其林')) return '2-3 小时';
+  if (tags.includes('美食')) return '1-1.5 小时';
+  if (tags.includes('小吃')) return '30 分钟';
+  if (tags.includes('寺庙') || tags.includes('神社')) return '30-45 分钟';
+  if (tags.includes('观景') || tags.includes('夜景')) return '20-30 分钟';
+  if (tags.includes('自然') || tags.includes('竹林')) return '30-60 分钟';
+  if (tags.includes('海滩')) return '1-3 小时';
+  if (tags.includes('野生动物')) return '1-3 小时';
+  if (tags.includes('火山') || tags.includes('地热') || tags.includes('温泉')) return '1-1.5 小时';
+  if (tags.includes('峡谷') || tags.includes('湖泊')) return '1 小时';
+  if (tags.includes('瀑布')) return '20-30 分钟';
+  if (tags.includes('体验') || tags.includes('传统')) return '半天';
+  if (tags.includes('观星')) return '4-6 小时';
+  if (tags.includes('夜潜') || tags.includes('浮潜')) return '2-3 小时';
+  if (tags.includes('徒步') || tags.includes('独家') || tags.includes('冒险')) return '2-4 小时';
+  if (tags.includes('小镇')) return '1 小时';
+  return '约 1 小时';
+}
+
+// all_tip 智能格式化：分段卡片 + 关键词高亮
+function enhanceText(text) {
+  return text
+    .replace(/「(.+?)」/g, '<b class="hl-quote">「$1」</b>')
+    .replace(/『(.+?)』/g, '<b class="hl-quote">「$1」</b>')
+    .replace(/\bDay\s*(\d+(?:[-~]\d+)?)/g, '<span class="hl-day">Day $1</span>')
+    .replace(/([¥$€£₩฿])\s*([\d,]+(?:[-~][\d,]+)?(?:K|k)?)/g, '<b class="hl-price">$1$2</b>')
+    .replace(/(\d+)\s*(月|点|天|分钟|小时|公里|km|m\b|h\b)/g, '<b class="hl-num">$1$2</b>')
+    .replace(/(早\s*\d+\s*点|清晨|傍晚|凌晨|午夜)/g, '<span class="hl-time">$1</span>');
+}
+function formatAllTip(text) {
+  const sections = text.split(/\n\n+/).filter(s => s.trim());
+  return sections.map(s => {
+    s = s.trim();
+    const m = s.match(/^([\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2700}-\u{27BF}\u{FE0F}]+)\s*(.+?)[：:]\s*([\s\S]*)$/u);
+    if (m) {
+      return `<div class="tip-section"><div class="tip-section-head"><span class="tip-emoji">${m[1]}</span><span>${m[2]}</span></div><div class="tip-body">${enhanceText(m[3])}</div></div>`;
+    }
+    return `<div class="tip-section"><div class="tip-body">${enhanceText(s)}</div></div>`;
+  }).join('');
+}
+
+function renderPretrip(p) {
+  if (!p) return '';
+  const rows = [];
+  if (p.visa) rows.push(`<div class="pretrip-row"><span class="pretrip-label">🛂 签证</span><span>${p.visa}</span></div>`);
+  if (p.voltage) rows.push(`<div class="pretrip-row"><span class="pretrip-label">🔌 电压</span><span>${p.voltage}</span></div>`);
+  if (p.sim) rows.push(`<div class="pretrip-row"><span class="pretrip-label">📱 网络</span><span>${p.sim}</span></div>`);
+  if (p.currency) rows.push(`<div class="pretrip-row"><span class="pretrip-label">💴 换汇</span><span>${p.currency}</span></div>`);
+  if (p.tipping) rows.push(`<div class="pretrip-row"><span class="pretrip-label">💵 小费</span><span>${p.tipping}</span></div>`);
+  if (p.emergency) rows.push(`<div class="pretrip-row"><span class="pretrip-label">🚨 急救</span><span>${p.emergency}</span></div>`);
+  if (!rows.length) return '';
+  return `<div class="pretrip-card"><div class="pretrip-title">✈️ 出行前必看</div>${rows.join('')}</div>`;
+}
+
+// GPX 导出：生成所有 POI + 每天路线
+window.exportGPX = function() {
+  const sorted = [...POIs].sort((a, b) => a.day === b.day ? a.num - b.num : a.day - b.day);
+  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="LiveMap" xmlns="http://www.topografix.com/GPX/1/1">\n`;
+  gpx += `  <metadata>\n    <name>${META.title_short || 'LiveMap Trip'}</name>\n    <desc>Generated by LiveMap</desc>\n  </metadata>\n`;
+  // 每个 POI 一个 waypoint
+  sorted.forEach(p => {
+    gpx += `  <wpt lat="${p.lat}" lon="${p.lng}">\n    <name>Day${p.day}.${p.num} ${p.icon} ${p.name}</name>\n    <desc>${(p.desc||'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'})[c])}</desc>\n    <type>${p.tags?.[0]||'POI'}</type>\n  </wpt>\n`;
+  });
+  // 每天一条 track
+  for (let d = 1; d <= TOTAL_DAYS; d++) {
+    const points = POIs.filter(p => p.day === d).sort((a, b) => a.num - b.num);
+    if (points.length < 2) continue;
+    gpx += `  <trk>\n    <name>Day ${d} · ${DAYS[d].title}</name>\n    <trkseg>\n`;
+    points.forEach(p => { gpx += `      <trkpt lat="${p.lat}" lon="${p.lng}"><name>${p.name}</name></trkpt>\n`; });
+    gpx += `    </trkseg>\n  </trk>\n`;
+  }
+  gpx += `</gpx>`;
+  const blob = new Blob([gpx], { type: 'application/gpx+xml' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${(META.title_short || 'livemap').replace(/[^\w]/g, '_')}.gpx`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
+function renderHotel(h) {
+  if (!h || !h.name_cn) {
+    return '<div class="hotel-card"><div class="hotel-card-title">🏨 推荐酒店</div><div class="hotel-empty">酒店数据待补充 · 重新生成可获取 AI 推荐</div></div>';
+  }
+  const gmapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((h.name_en || h.name_cn) + ' ' + (h.address || ''))}`;
+  const bookingUrl = `https://www.booking.com/searchresults.html?ss=${encodeURIComponent(h.name_en || h.name_cn)}`;
+  const rows = [];
+  if (h.address) rows.push(`<div class="hotel-row"><span class="label">📍 地址</span><span>${h.address}</span></div>`);
+  if (h.price) rows.push(`<div class="hotel-row"><span class="label">💴 价格</span><span>${h.price}</span></div>`);
+  if (h.parking) rows.push(`<div class="hotel-row"><span class="label">🚗 停车</span><span>${h.parking}</span></div>`);
+  if (h.highlights) rows.push(`<div class="hotel-row"><span class="label">✨ 亮点</span><span>${h.highlights}</span></div>`);
+  return `
+    <div class="hotel-card">
+      <div class="hotel-card-title">🏨 推荐酒店</div>
+      <div class="hotel-name-cn">${h.name_cn}</div>
+      ${h.name_en ? `<div class="hotel-name-en">${h.name_en}</div>` : ''}
+      ${rows.join('')}
+      <div class="hotel-actions">
+        <a class="hotel-btn gmaps" href="${gmapsUrl}" target="_blank">📍 Google Maps</a>
+        <a class="hotel-btn booking" href="${bookingUrl}" target="_blank">🔗 Booking 搜</a>
+        ${h.url ? `<a class="hotel-btn official" href="${h.url}" target="_blank">🌐 官网/直订</a>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+// Haversine 公式：算两个经纬度之间的直线距离（km）
+function haversineKm(lat1, lng1, lat2, lng2) {
+  const R = 6371, toRad = d => d * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1), dLng = toRad(lng2 - lng1);
+  const a = Math.sin(dLat/2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng/2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+function renderDistance(km) {
+  // 直线 × 1.3 ≈ 路径距离
+  const realKm = km * 1.3;
+  const walkMin = Math.round(realKm / 5 * 60);   // 步行 5km/h
+  const driveMin = Math.round(realKm / (realKm < 30 ? 40 : 80) * 60); // 城市平均 30km/h
+  const distStr = realKm < 1 ? `${Math.round(realKm * 1000)} m` : `${realKm.toFixed(1)} km`;
+  let modes = '';
+  if (realKm < 1.5) modes = `🚶 ${walkMin} min`;
+  else if (realKm < 5) modes = `🚶 ${walkMin} min <span class="dot-sep">·</span> 🚕 ${driveMin} min`;
+  else modes = `🚕 ${driveMin} min`;
+  return `<div class="day-route-distance">${distStr} <span class="dot-sep">·</span> ${modes}</div>`;
+}
+
+function backToAll() {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+  document.querySelector('.tab.all').classList.add('active');
+  currentDay = 'all';
+  filterPOIs(); renderDayOverview(); closeDetail();
+}
+
+// POI 上一个/下一个导航
+window.navPoi = function(delta) {
+  const list = window._navPoiList || [];
+  const idx = (window._navPoiIdx || 0) + delta;
+  if (idx < 0 || idx >= list.length) return;
+  showDetail(list[idx]);
+};
+
+// 键盘 ← → 切换
+document.addEventListener('keydown', (e) => {
+  if (document.getElementById('lightbox').classList.contains('show')) {
+    if (e.key === 'ArrowLeft') navLightbox(-1);
+    if (e.key === 'ArrowRight') navLightbox(1);
+    if (e.key === 'Escape') closeLightbox();
+  } else if (document.getElementById('poiDetail').classList.contains('show')) {
+    if (e.key === 'ArrowLeft') navPoi(-1);
+    if (e.key === 'ArrowRight') navPoi(1);
+    if (e.key === 'Escape') closeDetail();
+  }
+});
+
+async function showDetail(p) {
+  currentDetailId = p.id;
+  document.getElementById('dayOverview').style.display = 'none';
+  const detail = document.getElementById('poiDetail');
+  detail.classList.add('show'); detail.scrollTop = 0;
+
+  const hero = document.getElementById('pdHero');
+  hero.classList.remove('grid-mode');
+  hero.style.background = `linear-gradient(135deg, ${p.color} 0%, rgba(0,0,0,0.4) 100%)`;
+  hero.innerHTML = `<div class="poi-hero-loading"><div class="loader"></div><div>🔍 搜索 4 张图片中...</div></div>`;
+
+  document.getElementById('pdName').textContent = `${p.icon} ${p.name_cn || p.name}`;
+  document.getElementById('pdEn').textContent = p.en;
+  document.getElementById('pdDesc').textContent = p.desc;
+  (function(){ var qb = encodeURIComponent(p.name || p.en || ''), qg = encodeURIComponent((p.en || p.name || '') + ' 攻略'), qc = encodeURIComponent((p.name || p.en || '') + ' 攻略'); var g = document.getElementById('pdGuides'); if (g) g.innerHTML = '<a class="g-xhs" href="https://www.xiaohongshu.com/search_result?keyword=' + qb + '" target="_blank" rel="noopener">📕 小红书</a>' + '<a class="g-ggl" href="https://www.google.com/search?q=' + qg + '" target="_blank" rel="noopener">🔍 Google</a>' + '<a class="g-baidu" href="https://www.baidu.com/s?wd=' + qc + '" target="_blank" rel="noopener">📖 百度攻略</a>'; })();
+  const priceEl = document.getElementById('pdPrice');
+  if (p.price) priceEl.innerHTML = renderPriceWithRMB(p.price, ORIG_CURRENCY);
+  else priceEl.textContent = '—';
+  document.getElementById('pdHours').textContent = p.hours || '—';
+  document.getElementById('pdDuration').textContent = p.duration || getDefaultDuration(p);
+
+  const meta = document.getElementById('pdMeta'); meta.innerHTML = '';
+  const dayChip = document.createElement('span'); dayChip.className = 'meta-chip day';
+  dayChip.textContent = `Day ${p.day} · #${p.num}`; meta.appendChild(dayChip);
+  const timeChip = document.createElement('span'); timeChip.className = 'meta-chip time';
+  timeChip.textContent = `🕐 ${p.time}`; meta.appendChild(timeChip);
+  (p.tags || []).forEach(tag => {
+    const t = document.createElement('span');
+    t.className = `tag-chip tag-${tag}`;
+    t.textContent = tag; meta.appendChild(t);
+  });
+
+  const photoSection = document.getElementById('pdPhotoSection');
+  if (p.photo_spots?.length) { photoSection.style.display = 'block'; renderPhotoSpots(p); } else photoSection.style.display = 'none';
+  const foodSection = document.getElementById('pdFoodSection');
+  if (p.foods?.length) { foodSection.style.display = 'block'; renderFoods(p); } else foodSection.style.display = 'none';
+  const michelinSection = document.getElementById('pdMichelinSection');
+  if (p.michelin?.length) { michelinSection.style.display = 'block'; document.getElementById('pdMichelin').innerHTML = p.michelin.map(m => `<li>${m}</li>`).join(''); } else michelinSection.style.display = 'none';
+  const avoidSection = document.getElementById('pdAvoidSection');
+  if (p.avoid?.length) { avoidSection.style.display = 'block'; document.getElementById('pdAvoid').innerHTML = p.avoid.map(a => `<li>${a}</li>`).join(''); } else avoidSection.style.display = 'none';
+
+  document.getElementById('pdGmaps').href = `https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}`;
+  // 更新上一个/下一个按钮状态
+  const allPois = POIs.filter(x => currentDay === 'all' || String(x.day) === String(currentDay))
+    .sort((a, b) => a.day === b.day ? a.num - b.num : a.day - b.day);
+  const idx = allPois.findIndex(x => x.id === p.id);
+  document.getElementById('poiCounter').textContent = `${idx + 1} / ${allPois.length}`;
+  document.getElementById('prevPoiBtn').disabled = idx <= 0;
+  document.getElementById('nextPoiBtn').disabled = idx >= allPois.length - 1;
+  window._navPoiList = allPois;
+  window._navPoiIdx = idx;
+
+  document.querySelectorAll('.poi-pin').forEach(el => el.classList.remove('active'));
+  const pinEl = document.querySelector(`.poi-pin[data-id="${p.id}"]`);
+  if (pinEl) pinEl.classList.add('active');
+  map.flyTo([p.lat, p.lng], 13, { duration: 0.8 });
+
+  const imgs = await fetchImagesMultiSource(p, 4);
+  if (currentDetailId !== p.id) return;
+  if (imgs.length > 0) {
+    hero.classList.add('grid-mode');
+    const cells = Array(4).fill(0).map((_, i) => {
+      const item = imgs[i];
+      if (item) {
+        const safeUrl = item.url.replace(/"/g, '&quot;');
+        const badge = item.source === 'wiki' ? 'W' : (item.source === 'curated' ? '★' : 'C');
+        const badgeColor = item.source === 'wiki' ? '#4a8db5' : (item.source === 'curated' ? '#d4854e' : '#7a9a4d');
+        return `<div class="poi-hero-cell"><img src="${safeUrl}" alt="${p.name} ${i+1}" loading="lazy" onclick="openLightbox('${safeUrl}'); event.stopPropagation();" onerror="this.parentElement.classList.add('empty'); this.outerHTML='${p.icon}';"><span class="src-badge" style="background:${badgeColor}">${badge}</span></div>`;
+      } else {
+        return `<div class="poi-hero-cell empty" style="background:linear-gradient(135deg,${p.color}aa,rgba(0,0,0,0.3));">${p.icon}</div>`;
+      }
+    }).join('');
+    const googleSearch = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(p.en + ' ' + (p.search || ''))}`;
+    hero.innerHTML = cells + `<a class="image-source" href="${googleSearch}" target="_blank" onclick="event.stopPropagation();">🔍 Google Images 看更多 →</a>`;
+  } else {
+    hero.classList.remove('grid-mode');
+    hero.innerHTML = `<div class="poi-hero-fallback">${p.icon}</div>`;
+  }
+}
+
+function showDetailById(id) { const p = POIs.find(x => x.id === id); if (p) showDetail(p); }
+function closeDetail() {
+  currentDetailId = null;
+  document.getElementById('dayOverview').style.display = 'block';
+  document.getElementById('poiDetail').classList.remove('show');
+  document.querySelectorAll('.poi-pin').forEach(el => el.classList.remove('active'));
+}
+
+filterPOIs(); renderDayOverview();
+
+/* === HERO BACKGROUND (目的地实景底层背景) === */
+(function initHeroBg(){
+  try {
+    const header = document.querySelector('header');
+    const hero = header && header.querySelector('.hero-bg');
+    if (!hero || hero.dataset.done) return;
+    hero.dataset.done = '1';
+    // 页头大图的搜索词只用「具体地名」。
+    // 别拿 META.subtitle：那是市场话术（如 'Classical Budget Tour in Kyoto'），
+    // 维基全文搜第一条可能是完全无关的条目（真实案例：搜出了 Taiwan）。
+    const queries = [];
+    const np = POIs.find(p => /national park/i.test(p.en || '') || /国家公园/.test(p.name || ''));
+    if (np) queries.push((np.en || np.search) + ' landscape');
+    const place = String((typeof META !== 'undefined' && META.eyebrow) || '').split(/[·•・|]/)[0].trim();
+    if (/^[\x20-\x7e]+$/.test(place) && !/livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
+    POIs.slice(0, 3).forEach(p => { const n = p.search || p.en; if (n) queries.push(n + ' landscape'); });
+    (async () => {
+      // 先用这张图自己的 AI 明信片当页头底图：一定切题，不看搜索脸色。
+      // 维基搜图留作兜底——它会把 'SOUTHWEST' 搜成陶器、把人像当风景。
+      const slug = (location.pathname.split('/').pop() || '').replace(/\.html$/, '');
+      if (slug) {
+        const local = '../assets/postcards/' + slug + '.png';
+        const ok = await new Promise(res => {
+          const im = new Image();
+          im.onload = () => res(true); im.onerror = () => res(false); im.src = local;
+        });
+        if (ok) {
+          hero.style.backgroundImage = 'url("' + local + '")';
+          hero.style.backgroundPosition = 'center 26%';   // 明信片是竖版，主体偏上
+          header.classList.add('has-hero');
+          return;
+        }
+      }
+      for (const q of queries) {
+        if (!q) continue;
+        let imgs = [];
+        try { imgs = await fetchWikipediaImages(q, 3); } catch(e){}
+        const url = (imgs || []).find(isGoodImage);
+        if (url) {
+          const pre = new Image();
+          pre.onload = () => { hero.style.backgroundImage = 'url("' + url + '")'; header.classList.add('has-hero'); };
+          pre.src = url;
+          return;
+        }
+      }
+    })();
+  } catch(e) { console.warn('heroBg err', e); }
+})();
+
+/* === HIGHLIGHTS ENHANCER (O+Q) === */
+function getHighlightDetail(keyword, item) {
+  const stripped = item.replace(/<[^>]+>/g, '').trim();
+  const kw = keyword || stripped.slice(0, 8);
+  return `<div style="font-weight:700; margin-bottom:4px;">${kw}</div>`
+    + `<div style="margin-bottom:8px;">${stripped}</div>`
+    + `<div style="display:flex; gap:8px; flex-wrap:wrap;">`
+    + `<a href="https://www.google.com/search?q=${encodeURIComponent(kw + ' 攻略')}" target="_blank" style="color:#4a7a9a; text-decoration:none; font-size:11px;">🔍 Google 搜攻略</a>`
+    + `<a href="https://www.xiaohongshu.com/search_result?keyword=${encodeURIComponent(kw)}" target="_blank" style="color:#c73620; text-decoration:none; font-size:11px;">📕 小红书</a>`
+    + `<a href="https://www.google.com/search?tbm=isch&q=${encodeURIComponent(kw)}" target="_blank" style="color:#2a7a4a; text-decoration:none; font-size:11px;">🖼️ 看图片</a>`
+    + `</div>`;
+}
+function matchHighlightToPOI(keyword) {
+  if (!keyword || typeof POIs === 'undefined') return null;
+  const kw = keyword.trim();
+  // 1. 完全包含
+  let hit = POIs.find(p => p.name && (p.name.includes(kw) || kw.includes(p.name)));
+  if (hit) return hit;
+  // 2. name_short
+  hit = POIs.find(p => p.name_short && (p.name_short.includes(kw) || kw.includes(p.name_short)));
+  if (hit) return hit;
+  // 3. 2-gram overlap (中文按字符)
+  if (kw.length >= 2) {
+    hit = POIs.find(p => {
+      const pn = (p.name || '') + (p.name_short || '');
+      for (let j = 0; j <= kw.length - 2; j++) {
+        if (pn.includes(kw.substr(j, 2))) return true;
+      }
+      return false;
+    });
+  }
+  return hit || null;
+}
+function enhanceHighlights() {
+  const overview = document.getElementById('dayOverview');
+  if (!overview) return;
+  // 寻找包含"独门绝技"或仅 🔥 的标题 div，其后的兄弟节点是 items
+  const allDivs = overview.querySelectorAll('div');
+  let itemsDiv = null;
+  for (const b of allDivs) {
+    const t = (b.textContent || '').trim();
+    if (t.length < 50 && (/独门绝技|绝技|🔥/.test(t)) && b.nextElementSibling) {
+      const cand = b.nextElementSibling;
+      if (cand.innerHTML && /<b>|•/.test(cand.innerHTML)) { itemsDiv = cand; break; }
+    }
+  }
+  if (!itemsDiv || itemsDiv.dataset.hlEnhanced === '1') return;
+  itemsDiv.dataset.hlEnhanced = '1';
+  const raw = itemsDiv.innerHTML;
+  const items = raw.split(/<br\s*\/?>/i).map(s => s.replace(/^\s*•\s*/, '').trim()).filter(Boolean);
+  itemsDiv.innerHTML = items.map((item, i) => {
+    const m = item.match(/<b>([^<]+)<\/b>/);
+    const keyword = m ? m[1].trim() : '';
+    const matched = matchHighlightToPOI(keyword);
+    if (matched) {
+      return `<div class="hl-item" data-hl="${i}" style="cursor:pointer; padding:5px 7px; border-radius:5px; margin:2px 0; transition:background 0.2s;" onmouseover="this.style.background='rgba(0,0,0,0.06)'" onmouseout="this.style.background='transparent'" onclick="showDetailById('${matched.id}')">• ${item} <span style="color:#999; font-size:10px; margin-left:4px;">→ 跳详情</span></div>`;
+    } else {
+      return `<div class="hl-item" data-hl="${i}" style="padding:5px 7px; border-radius:5px; margin:2px 0;">`
+        + `<div style="cursor:pointer;" onclick="(function(d){const x=d.querySelector('.hl-detail');x.style.display=x.style.display==='block'?'none':'block';d.querySelector('.hl-arrow').textContent=x.style.display==='block'?'▴':'▾';})(this.parentNode)">• ${item} <span class="hl-arrow" style="color:#999; font-size:10px; margin-left:4px;">▾</span></div>`
+        + `<div class="hl-detail" style="display:none; margin-top:6px; padding:8px 10px; background:rgba(255,255,255,0.55); border-radius:5px; font-size:11px; line-height:1.65; border-left:2px solid rgba(0,0,0,0.15);">${getHighlightDetail(keyword, item)}</div>`
+        + `</div>`;
+    }
+  }).join('');
+}
+if (typeof renderDayOverview === 'function') {
+  const _origRDO_HL = renderDayOverview;
+  window.renderDayOverview = function() {
+    _origRDO_HL.apply(this, arguments);
+    if (typeof currentDay !== 'undefined' && currentDay === 'all') {
+      try { enhanceHighlights(); } catch(e) { console.warn('enhanceHighlights err', e); }
+    }
+  };
+  // 首次也跑一次（因为脚本可能在初次 render 之后才注入）
+  setTimeout(() => { try { if (currentDay === 'all') enhanceHighlights(); } catch(e){} }, 100);
+}
+/* === END HIGHLIGHTS ENHANCER === */
+
+</script>
+<!-- ===== 行程海报生成（分享增长回路）===== -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<style>
+ #posterFab{position:fixed;right:16px;bottom:16px;z-index:9998;display:inline-flex;align-items:center;gap:7px;
+   padding:12px 18px;border:none;border-radius:26px;cursor:pointer;font-size:14px;font-weight:800;color:#fff;
+   background:linear-gradient(135deg,#e7843a,#c2542e);box-shadow:0 6px 18px rgba(180,70,30,.42);transition:transform .15s,box-shadow .15s}
+ #posterFab:hover{transform:translateY(-2px);box-shadow:0 9px 24px rgba(180,70,30,.5)}
+ #posterModal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;
+   background:rgba(15,18,16,.72);backdrop-filter:blur(4px)}
+ #posterModal.show{display:flex}
+ .pm-box{display:flex;flex-direction:column;align-items:center;gap:14px;max-height:94vh}
+ .pm-stagewrap{width:454px;height:605px;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+ #posterStage{width:1080px;height:1440px;transform:scale(.4203);transform-origin:top left}
+ .pm-ctrls{display:flex;gap:12px;align-items:center}
+ .pm-btn{padding:12px 22px;border:none;border-radius:24px;font-size:15px;font-weight:800;cursor:pointer}
+ .pm-dl{background:linear-gradient(135deg,#e7843a,#c2542e);color:#fff;box-shadow:0 6px 16px rgba(180,70,30,.4)}
+ .pm-close{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.3)}
+ .pm-hint{color:#e6e2d8;font-size:13px;opacity:.85}
+ /* 海报内部样式（实底，不用 backdrop-filter，保证 html2canvas 还原）*/
+ #posterStage *{margin:0;padding:0;box-sizing:border-box;font-family:'PingFang SC','Hiragino Sans GB',sans-serif}
+ #posterStage .ps-root{position:relative;width:1080px;height:1440px;color:#fff;overflow:hidden;background:#13211c}
+ #posterStage .ps-bg{position:absolute;inset:0;background-size:cover;background-position:center}
+ #posterStage .ps-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,22,18,.64) 0%,rgba(15,22,18,.18) 26%,rgba(15,22,18,.30) 55%,rgba(12,18,14,.88) 100%)}
+ #posterStage .ps-wrap{position:relative;padding:50px 54px 42px;height:100%;display:flex;flex-direction:column}
+ #posterStage .ps-top{display:flex;justify-content:space-between;align-items:flex-start}
+ #posterStage .ps-kick{font-size:21px;font-weight:800;letter-spacing:3px;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+ #posterStage .ps-kick span{background:#e7b24a;color:#1a130a;padding:3px 12px;border-radius:8px;margin-right:10px}
+ #posterStage .ps-seal{width:88px;height:88px;border-radius:50%;border:2px solid #fff;display:flex;flex-direction:column;
+   align-items:center;justify-content:center;font-weight:900;font-size:18px;text-align:center;transform:rotate(-8deg);background:rgba(0,0,0,.2)}
+ #posterStage .ps-seal small{font-size:11px;letter-spacing:2px;opacity:.85}
+ #posterStage h1{font-size:60px;font-weight:900;line-height:1.08;margin:14px 0 8px;text-shadow:0 3px 16px rgba(0,0,0,.55)}
+ #posterStage .ps-chips{display:flex;gap:12px}
+ #posterStage .ps-chip{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);border-radius:30px;padding:8px 18px;font-size:21px;font-weight:800}
+ #posterStage .ps-chip b{color:#ffd47a}
+ #posterStage .ps-map{margin:18px 0;border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.22);background:rgba(10,16,13,.40)}
+ #posterStage .ps-map svg{display:block;width:100%;height:auto}
+ #posterStage .ps-days{display:flex;flex-direction:column;gap:10px;flex:1 1 auto;justify-content:center}
+ #posterStage .ps-row{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.22);border-radius:16px;padding:11px 18px}
+ #posterStage .ps-badge{flex:0 0 auto;width:54px;height:54px;border-radius:14px;color:#fff;font-weight:900;font-size:23px;display:flex;align-items:center;justify-content:center}
+ #posterStage .ps-head{flex:0 0 288px}
+ #posterStage .ps-theme{font-size:25px;font-weight:900;line-height:1.12;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+ #posterStage .ps-count{font-size:15px;color:#d3dcc8;font-weight:700;margin-top:2px}
+ #posterStage .ps-spots{flex:1 1 auto;display:flex;flex-wrap:wrap;gap:7px;align-content:center}
+ #posterStage .ps-spot{font-size:16px;font-weight:700;color:#eef2e6;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.22);border-radius:9px;padding:4px 11px;white-space:nowrap}
+ #posterStage .ps-foot{display:flex;align-items:center;gap:20px;margin-top:14px;background:rgba(8,14,10,.72);border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:18px 26px}
+ #posterStage .ps-qr{flex:0 0 auto;width:104px;height:104px;border-radius:12px;background:#fff;padding:8px}
+ #posterStage .ps-qr img,#posterStage .ps-qr canvas{width:100%!important;height:100%!important;display:block}
+ #posterStage .ps-fcta b{font-size:28px;font-weight:900}
+ #posterStage .ps-fcta p{font-size:19px;opacity:.86;margin-top:6px;line-height:1.4}
+</style>
+<button id="posterFab" onclick="generatePoster()">📸 生成行程海报</button>
+<div id="posterModal" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="pm-box">
+    <div class="pm-stagewrap"><div id="posterStage"></div></div>
+    <div class="pm-ctrls">
+      <button class="pm-btn pm-dl" onclick="downloadPoster(this)">⬇️ 下载海报</button>
+      <button class="pm-btn pm-close" onclick="document.getElementById('posterModal').classList.remove('show')">关闭</button>
+    </div>
+    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张活地图</div>
+  </div>
+</div>
+<script>
+function _posterProject(W,H,PAD){
+  const flat=[...POIs].sort((a,b)=>a.day===b.day?a.num-b.num:a.day-b.day)
+    .map(x=>({day:x.day,lat:x.lat,lng:x.lng,color:(DAYS[x.day]||{}).color||'#888'}));
+  const _cu=(window._lmCustom||[]);
+  const lats=flat.map(p=>p.lat).concat(_cu.map(c=>c.lat)),lngs=flat.map(p=>p.lng).concat(_cu.map(c=>c.lng));
+  const mnLa=Math.min(...lats),mxLa=Math.max(...lats),mnLn=Math.min(...lngs),mxLn=Math.max(...lngs);
+  const spLa=(mxLa-mnLa)||0.01,spLn=(mxLn-mnLn)||0.01;
+  const sc=Math.min((W-2*PAD)/spLn,(H-2*PAD)/spLa);
+  const oX=(W-spLn*sc)/2,oY=(H-spLa*sc)/2;
+  const X=l=>+(oX+(l-mnLn)*sc).toFixed(1),Y=l=>+(oY+(mxLa-l)*sc).toFixed(1);
+  return {pts:flat.map(p=>({...p,x:X(p.lng),y:Y(p.lat)})),X,Y};
+}
+function _posterSVG(){
+  const W=1000,H=460,PAD=64,P=_posterProject(W,H,PAD),pts=P.pts;
+  const glow=pts.slice(1).map((p,i)=>`<line x1="${pts[i].x}" y1="${pts[i].y}" x2="${p.x}" y2="${p.y}" stroke="${p.color}" stroke-width="16" stroke-linecap="round" opacity="0.45" filter="url(#pbl)"/>`).join('');
+  const seg=pts.slice(1).map((p,i)=>`<line x1="${pts[i].x}" y1="${pts[i].y}" x2="${p.x}" y2="${p.y}" stroke="${p.color}" stroke-width="6" stroke-linecap="round"/>`).join('');
+  const dot=pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="7" fill="${p.color}" stroke="#fff" stroke-width="3"/>`).join('');
+  const dayNums=Object.keys(DAYS).map(Number).sort((a,b)=>a-b);
+  const badge=dayNums.map(d=>{const dp=POIs.filter(x=>x.day===d).map(q=>({x:P.X(q.lng),y:P.Y(q.lat)}));if(!dp.length)return'';
+    const cx=dp.reduce((s,q)=>s+q.x,0)/dp.length,cy=dp.reduce((s,q)=>s+q.y,0)/dp.length,c=(DAYS[d]||{}).color||'#888';
+    return `<g><circle cx="${cx.toFixed(1)}" cy="${(cy-2).toFixed(1)}" r="21" fill="${c}" stroke="#fff" stroke-width="3.5"/><text x="${cx.toFixed(1)}" y="${(cy+6).toFixed(1)}" fill="#fff" font-size="21" font-weight="900" text-anchor="middle">${d}</text></g>`;}).join('');
+  const _cust=(window._lmCustom||[]);
+  const cdot=_cust.map(c=>`<g><circle cx="${P.X(c.lng).toFixed(1)}" cy="${P.Y(c.lat).toFixed(1)}" r="10" fill="#7b61c9" stroke="#fff" stroke-width="3"/><text x="${P.X(c.lng).toFixed(1)}" y="${(P.Y(c.lat)+5).toFixed(1)}" font-size="14" text-anchor="middle">📍</text></g>`).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg"><defs><filter id="pbl"><feGaussianBlur stdDeviation="6"/></filter></defs>${glow}${seg}${dot}${badge}${cdot}</svg>`;
+}
+function _posterDays(){
+  const clean=s=>(s||'').replace(/^\d+\.\s*/,'').trim();
+  const trunc=s=>{s=clean(s);return s.length>9?s.slice(0,9)+'…':s;};
+  const dayNums=Object.keys(DAYS).map(Number).sort((a,b)=>a-b);
+  return dayNums.map(d=>{
+    const pois=POIs.filter(x=>x.day===d).sort((a,b)=>a.num-b.num);
+    const c=(DAYS[d]||{}).color||'#888';
+    const spots=pois.slice(0,5).map(q=>`<span class="ps-spot">${q.icon||'📍'} ${trunc(q.name_cn||q.name)}</span>`).join('')+(pois.length>5?`<span class="ps-spot">+${pois.length-5}</span>`:'');
+    return `<div class="ps-row"><div class="ps-badge" style="background:${c}">D${d}</div><div class="ps-head"><div class="ps-theme">${dayThemeText(d)}</div><div class="ps-count">${pois.length} 个玩点</div></div><div class="ps-spots">${spots}</div></div>`;
+  }).join('');
+}
+function _posterBgStyle(cb){
+  const slug=location.pathname.split('/').pop().replace('.html','');
+  const url='../assets/postcards/'+slug+'.png';
+  const img=new Image();
+  img.onload=()=>cb(`background-image:url('${url}')`);
+  img.onerror=()=>cb('background-image:linear-gradient(165deg,#16302a,#3a2c1e 70%,#4a3020)');
+  img.src=url;
+}
+function _posterShareURL(){
+  var u=location.href.split('#')[0];
+  if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==='file:'){
+    // 本地文件没有公网地址可扫，二维码退化成指向项目主页（顺带署名）
+    u='https://github.com/shixiann25/livemap';
+  }
+  return u;
+}
+window.generatePoster=function(){
+  const stage=document.getElementById('posterStage');
+  const title=(typeof META!=='undefined'&&META.title_short)||document.title.split('·')[0].trim();
+  _posterBgStyle(bg=>{
+    stage.innerHTML=`<div class="ps-root"><div class="ps-bg" style="${bg}"></div><div class="ps-scrim"></div>
+      <div class="ps-wrap">
+        <div class="ps-top"><div class="ps-kick"><span>LiveMap</span>活地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
+        <h1>${title}</h1>
+        <div class="ps-chips"><div class="ps-chip">📅 <b>${Object.keys(DAYS).map(Number).filter(n=>!isNaN(n)).length}</b> 天</div><div class="ps-chip">📍 <b>${POIs.length}</b> 个精选点</div>${(window._lmVisitedCount&&window._lmVisitedCount()>0)?'<div class="ps-chip">✅ 已打卡 <b>'+window._lmVisitedCount()+'</b></div>':'<div class="ps-chip">🚗 自驾路线</div>'}${(window._lmCustom&&window._lmCustom.length)?'<div class="ps-chip">📍 我的点 <b>'+window._lmCustom.length+'</b></div>':''}</div>
+        <div class="ps-map">${_posterSVG()}</div>
+        <div class="ps-days">${_posterDays()}</div>
+        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互活地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
+      </div></div>`;
+    const qd=document.getElementById('posterQR'); qd.innerHTML='';
+    try{ new QRCode(qd,{text:_posterShareURL(),width:170,height:170,colorDark:'#0e1a14',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
+    document.getElementById('posterModal').classList.add('show');
+  });
+};
+window.downloadPoster=function(btn){
+  const stage=document.getElementById('posterStage');
+  const old=btn.textContent; btn.textContent='生成中…'; btn.disabled=true;
+  const _pt=stage.style.transform; stage.style.transform='none';
+  html2canvas(stage.querySelector('.ps-root'),{useCORS:true,backgroundColor:null,scale:2,width:1080,height:1440,windowWidth:1080,windowHeight:1440}).then(canvas=>{
+    stage.style.transform=_pt;
+    canvas.toBlob(b=>{
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(b);
+      a.download=((typeof META!=='undefined'&&META.title_short)||'livemap').replace(/[^一-龥\w]/g,'_')+'_海报.png';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href);
+      btn.textContent=old; btn.disabled=false;
+    },'image/png');
+  }).catch(e=>{ stage.style.transform=_pt; alert('生成失败：'+e.message); btn.textContent=old; btn.disabled=false; });
+};
+</script>
+<!-- lm_checkin.js 由 skill/build_skill.py 内联进来，保证产物是真单文件 -->
+<script>
+/* LiveMap · 打卡 checklist + 自定义点（本地 localStorage，按地图 slug 隔离）
+   依赖页面全局：POIs, DAYS, map, markers, showDetail。数据也喂给海报（window._lmCustom / _lmVisitedCount）。*/
+(function () {
+  if (typeof POIs === 'undefined' || typeof map === 'undefined' || !map) return;
+  const SLUG = (location.pathname.split('/').pop() || 'map').replace('.html', '');
+  const LS = {
+    get(k, d) { try { const v = JSON.parse(localStorage.getItem('lm_' + k + '_' + SLUG)); return v == null ? d : v; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem('lm_' + k + '_' + SLUG, JSON.stringify(v)); } catch (e) {} }
+  };
+  let visited = new Set(LS.get('visited', []));
+  let custom = LS.get('custom', []); // [{id,name,note,lat,lng}]
+  const customMarkers = {};
+  let curPOI = null, addMode = false;
+
+  // 暴露给海报
+  window._lmVisited = visited;
+  window._lmCustom = custom;
+  window._lmVisitedCount = () => [...visited].filter(id => POIs.some(p => p.id === id)).length;
+
+  // ---------- 样式 ----------
+  const css = document.createElement('style');
+  css.textContent = `
+    .lm-progress{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:9997;
+      display:flex;align-items:center;gap:9px;padding:7px 15px;border-radius:22px;font-size:13px;font-weight:800;
+      color:#2b3a30;background:rgba(255,255,255,0.94);box-shadow:0 2px 12px rgba(0,0,0,0.18);backdrop-filter:blur(6px);cursor:default}
+    .lm-progress .bar{width:90px;height:7px;border-radius:4px;background:#e2e6df;overflow:hidden}
+    .lm-progress .bar i{display:block;height:100%;background:linear-gradient(90deg,#58a87c,#1f7a5a);width:0%}
+    .lm-addbtn{position:fixed;right:16px;bottom:74px;z-index:9998;display:inline-flex;align-items:center;gap:7px;
+      padding:11px 16px;border:none;border-radius:24px;cursor:pointer;font-size:14px;font-weight:800;color:#fff;
+      background:linear-gradient(135deg,#7b61c9,#5a3fa8);box-shadow:0 6px 18px rgba(90,63,168,.4);transition:transform .15s}
+    .lm-addbtn:hover{transform:translateY(-2px)}
+    .lm-addbtn.active{background:linear-gradient(135deg,#c2542e,#9a3a1e)}
+    .lm-checkbtn{width:100%;margin:6px 0 12px;padding:11px;border-radius:9px;border:1.5px solid #58a87c;cursor:pointer;
+      font-size:14px;font-weight:800;color:#1f7a5a;background:#eefaf2;transition:all .15s}
+    .lm-checkbtn.done{background:linear-gradient(135deg,#58a87c,#1f7a5a);color:#fff;border-color:#1f7a5a}
+    .poi-pin.lm-visited::after{content:"✓";position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;
+      background:#1f7a5a;color:#fff;font-size:12px;font-weight:900;line-height:18px;text-align:center;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+    .lm-cpin{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50% 50% 50% 0;
+      transform:rotate(-45deg);background:linear-gradient(135deg,#7b61c9,#5a3fa8);box-shadow:0 3px 9px rgba(0,0,0,.4);border:2px solid #fff}
+    .lm-cpin span{transform:rotate(45deg);font-size:16px}
+    .lm-hint{position:fixed;top:54px;left:50%;transform:translateX(-50%);z-index:10001;padding:9px 18px;border-radius:20px;
+      background:rgba(20,24,20,.9);color:#fff;font-size:13px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+    .lm-modal{position:fixed;inset:0;z-index:10002;display:none;align-items:center;justify-content:center;background:rgba(15,18,16,.6)}
+    .lm-modal.show{display:flex}
+    .lm-card{width:300px;background:#fff;border-radius:16px;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+    .lm-card h4{margin:0 0 12px;font-size:17px;color:#2b3a30}
+    .lm-card input,.lm-card textarea{width:100%;box-sizing:border-box;padding:9px 11px;margin-bottom:10px;border:1px solid #d8ddd4;
+      border-radius:8px;font-size:14px;font-family:inherit;resize:vertical}
+    .lm-card .row{display:flex;gap:8px;margin-top:4px}
+    .lm-card button{flex:1;padding:10px;border:none;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer}
+    .lm-save{background:linear-gradient(135deg,#7b61c9,#5a3fa8);color:#fff}
+    .lm-cancel{background:#eee;color:#555}
+    .lm-del{background:#fbe9e7;color:#c1440e;flex:0 0 auto;padding:10px 14px}
+  `;
+  document.head.appendChild(css);
+
+  // ---------- 进度条 ----------
+  const prog = document.createElement('div');
+  prog.className = 'lm-progress';
+  prog.innerHTML = `<span>🎯 已打卡 <b class="n">0</b>/${POIs.length}</span><span class="bar"><i></i></span>`;
+  document.body.appendChild(prog);
+  function updateProgress() {
+    const n = window._lmVisitedCount();
+    prog.querySelector('.n').textContent = n;
+    prog.querySelector('.bar i').style.width = (POIs.length ? Math.round(n / POIs.length * 100) : 0) + '%';
+  }
+
+  // ---------- 标记打卡徽章 ----------
+  function applyBadges() {
+    document.querySelectorAll('.poi-pin').forEach(el => {
+      el.classList.toggle('lm-visited', visited.has(el.getAttribute('data-id')));
+    });
+  }
+  function toggleVisited(id) {
+    if (!id) return;
+    if (visited.has(id)) visited.delete(id); else visited.add(id);
+    LS.set('visited', [...visited]);
+    updateProgress(); applyBadges(); updateCheckBtn();
+  }
+
+  // ---------- 详情面板「打卡」按钮 ----------
+  const checkBtn = document.createElement('button');
+  checkBtn.className = 'lm-checkbtn';
+  checkBtn.onclick = () => { if (curPOI) toggleVisited(curPOI.id); };
+  function updateCheckBtn() {
+    if (!curPOI) return;
+    const done = visited.has(curPOI.id);
+    checkBtn.classList.toggle('done', done);
+    checkBtn.textContent = done ? '✓ 已打卡（点击取消）' : '✓ 标记我去过这里';
+  }
+  function mountCheckBtn() {
+    const meta = document.getElementById('pdMeta');
+    if (meta && !meta.parentNode.querySelector('.lm-checkbtn')) meta.insertAdjacentElement('afterend', checkBtn);
+  }
+  // 监听详情面板内容变化，识别当前 POI（用 pdGmaps 的经纬度兜底匹配）
+  const pdName = document.getElementById('pdName');
+  if (pdName) {
+    const obs = new MutationObserver(() => {
+      mountCheckBtn();
+      const g = document.getElementById('pdGmaps');
+      const m = g && /query=(-?\d+\.?\d*),(-?\d+\.?\d*)/.exec(g.getAttribute('href') || '');
+      if (m) {
+        const la = +m[1], ln = +m[2];
+        curPOI = POIs.find(p => Math.abs(p.lat - la) < 1e-4 && Math.abs(p.lng - ln) < 1e-4) || curPOI;
+      }
+      updateCheckBtn();
+    });
+    obs.observe(pdName, { childList: true, characterData: true, subtree: true });
+  }
+
+  // ---------- 自定义点 ----------
+  const cIcon = (typeof L !== 'undefined') ? () => L.divIcon({ className: 'lm-cpin-wrap', html: '<div class="lm-cpin"><span>📍</span></div>', iconSize: [34, 34], iconAnchor: [17, 32] }) : null;
+  function renderCustom() {
+    custom.forEach(c => {
+      if (customMarkers[c.id]) return;
+      const mk = L.marker([c.lat, c.lng], { icon: cIcon() }).addTo(map);
+      mk.on('click', () => openEditor(c.id));
+      mk.bindTooltip('📍 ' + c.name, { direction: 'top' });
+      customMarkers[c.id] = mk;
+    });
+    window._lmCustom = custom;
+  }
+  function saveCustomArr() { LS.set('custom', custom); window._lmCustom = custom; }
+
+  // ---------- 地理编码（搜地点）----------
+  async function geocode(q) {
+    if (!q) return [];
+    try { const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=6&accept-language=zh&q=' + encodeURIComponent(q)); return r.ok ? await r.json() : []; }
+    catch (e) { return []; }
+  }
+  async function translateZhEn(q) {
+    try { const r = await fetch('https://api.mymemory.translated.net/get?langpair=zh|en&q=' + encodeURIComponent(q)); const d = await r.json(); const t = d && d.responseData && d.responseData.translatedText; return (t && t.trim()) ? t.trim() : ''; }
+    catch (e) { return ''; }
+  }
+  // 中文先查 OSM，没命中就翻成英文再查
+  async function smartGeo(q) {
+    let hits = await geocode(q), note = '';
+    if (!hits.length && /[一-鿿]/.test(q)) {
+      const en = await translateZhEn(q);
+      if (en) { const h2 = await geocode(en); if (h2.length) { hits = h2; note = '已按英文「' + en + '」搜索'; } }
+    }
+    return { hits, note };
+  }
+
+  // ---------- 添加/编辑弹窗 ----------
+  const modal = document.createElement('div');
+  modal.className = 'lm-modal';
+  modal.innerHTML = `<div class="lm-card">
+    <h4 class="t">添加我的点</h4>
+    <div class="lm-search">
+      <div style="display:flex;gap:6px"><input class="sq" placeholder="🔍 搜地点，如 Universal Studios" style="flex:1"><button class="lm-sbtn" type="button" style="flex:0 0 auto;background:#eef6ff;color:#1f6fd0">搜</button></div>
+      <div class="sres" style="margin-top:6px"></div>
+      <div class="sloc" style="display:none;font-size:12px;color:#1f7a5a;font-weight:700;margin:2px 0"></div>
+      <button class="lm-mapbtn" type="button" style="background:#f0f0f5;color:#555;margin-bottom:6px">📍 或点地图选位置</button>
+    </div>
+    <input class="nm" placeholder="名字，如『超好吃的拉面店』" maxlength="20">
+    <textarea class="nt" rows="2" placeholder="备注（可选）" maxlength="80"></textarea>
+    <div class="row">
+      <button class="lm-del" style="display:none">删除</button>
+      <button class="lm-cancel">取消</button>
+      <button class="lm-save">保存</button>
+    </div></div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show'); });
+  let editing = null, pending = null;
+  function openModal(title, name, note, isEdit) {
+    modal.querySelector('.t').textContent = title;
+    modal.querySelector('.nm').value = name || '';
+    modal.querySelector('.nt').value = note || '';
+    modal.querySelector('.lm-del').style.display = isEdit ? 'block' : 'none';
+    modal.querySelector('.lm-search').style.display = isEdit ? 'none' : 'block';
+    modal.querySelector('.sq').value = ''; modal.querySelector('.sres').innerHTML = '';
+    const loc = modal.querySelector('.sloc'); loc.style.display = pending ? 'block' : 'none'; loc.textContent = pending ? '✓ 已选位置，点保存即可' : '';
+    modal.classList.add('show');
+    setTimeout(() => modal.querySelector(isEdit ? '.nm' : '.sq').focus(), 50);
+  }
+  const runSearch = async () => {
+    const q = modal.querySelector('.sq').value.trim(); if (!q) return;
+    const res = modal.querySelector('.sres');
+    res.innerHTML = '<div style="font-size:12px;color:#9aa;padding:3px">搜索中…（中文自动翻译后再查）</div>';
+    const { hits, note } = await smartGeo(q);
+    if (!hits.length) { res.innerHTML = '<div style="font-size:12px;color:#c1440e;padding:3px">没找到 · 海外景点用英文官方名（如 Universal Studios Florida）</div>'; return; }
+    res.innerHTML = note ? '<div style="font-size:11px;color:#8a948c;margin-bottom:4px">' + note + '</div>' : '';
+    hits.forEach(h => {
+      const it = document.createElement('div');
+      it.style.cssText = 'padding:6px 8px;border:1px solid #e3ece5;border-radius:7px;margin-bottom:4px;cursor:pointer;font-size:12px;background:#fff';
+      it.textContent = '📍 ' + (h.display_name || '').slice(0, 48);
+      it.onclick = () => {
+        pending = { lat: +(+h.lat).toFixed(5), lng: +(+h.lon).toFixed(5) };
+        if (!modal.querySelector('.nm').value) modal.querySelector('.nm').value = q;
+        const loc = modal.querySelector('.sloc'); loc.style.display = 'block'; loc.textContent = '✓ 已定位「' + q + '」，点保存即可';
+        res.innerHTML = ''; try { map.setView([pending.lat, pending.lng], Math.max(map.getZoom(), 12)); } catch (e) {}
+      };
+      res.appendChild(it);
+    });
+  };
+  modal.querySelector('.lm-sbtn').onclick = runSearch;
+  modal.querySelector('.sq').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); runSearch(); } });
+  modal.querySelector('.lm-mapbtn').onclick = () => { modal.classList.remove('show'); setAddMode(true); };
+  modal.querySelector('.lm-cancel').onclick = () => { modal.classList.remove('show'); editing = pending = null; };
+  modal.querySelector('.lm-save').onclick = () => {
+    const name = modal.querySelector('.nm').value.trim() || '我的点';
+    const note = modal.querySelector('.nt').value.trim();
+    if (editing) {
+      const c = custom.find(x => x.id === editing); if (c) { c.name = name; c.note = note; customMarkers[editing].setTooltipContent('📍 ' + name); }
+    } else if (pending) {
+      const c = { id: 'c' + Date.now(), name, note, lat: pending.lat, lng: pending.lng };
+      custom.push(c); renderCustom();
+    } else { alert('请先搜索地点，或点「📍 或点地图选位置」'); return; }
+    saveCustomArr(); modal.classList.remove('show'); editing = pending = null;
+  };
+  modal.querySelector('.lm-del').onclick = () => {
+    if (editing) { custom = custom.filter(x => x.id !== editing); if (customMarkers[editing]) { map.removeLayer(customMarkers[editing]); delete customMarkers[editing]; } saveCustomArr(); }
+    modal.classList.remove('show'); editing = pending = null;
+  };
+  function openEditor(id) { const c = custom.find(x => x.id === id); if (c) { editing = id; pending = null; openModal('编辑我的点', c.name, c.note, true); } }
+
+  // ---------- 添加模式 ----------
+  const addBtn = document.createElement('button');
+  addBtn.className = 'lm-addbtn';
+  addBtn.innerHTML = '➕ 我的点';
+  document.body.appendChild(addBtn);
+  let hint = null;
+  function setAddMode(on) {
+    addMode = on; addBtn.classList.toggle('active', on);
+    addBtn.innerHTML = on ? '✕ 取消添加' : '➕ 我的点';
+    document.getElementById('map').style.cursor = on ? 'crosshair' : '';
+    if (on && !hint) { hint = document.createElement('div'); hint.className = 'lm-hint'; hint.textContent = '点击地图任意位置添加你的点'; document.body.appendChild(hint); }
+    if (!on && hint) { hint.remove(); hint = null; }
+  }
+  addBtn.onclick = () => {
+    if (addMode) { setAddMode(false); return; }
+    editing = null; pending = null;
+    openModal('添加我的点', '', '', false);
+  };
+  map.on('click', e => {
+    if (!addMode) return;
+    pending = { lat: +e.latlng.lat.toFixed(5), lng: +e.latlng.lng.toFixed(5) }; editing = null;
+    setAddMode(false);
+    openModal('添加我的点', '', '', false);
+  });
+
+  // ---------- 初始化 ----------
+  function init() { updateProgress(); applyBadges(); renderCustom(); }
+  if (document.readyState === 'complete') setTimeout(init, 300);
+  else window.addEventListener('load', () => setTimeout(init, 300));
+  // 标记可能在地图渲染后才出现，补一次
+  setTimeout(applyBadges, 1500);
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,441 @@
+{
+  "meta": {
+    "title": "🍜韩剧美食之旅·首尔 3 天深度游",
+    "title_short": "首尔美食韩剧游",
+    "subtitle": "Seoul 3-Day Food and K-drama Tour",
+    "eyebrow": "SEOUL · LIVEMAP · 2026",
+    "header_emoji": "🍜",
+    "color_scheme": "warm",
+    "currency": "KRW",
+    "map_center": [
+      37.5665,
+      126.978
+    ],
+    "map_zoom": 11,
+    "where_summary": "仁川国际机场进/出",
+    "all_tip": "🎯 主题定调：这是一场融合韩剧浪漫与地道美食的首尔之旅，带你沉浸式体验韩剧场景与舌尖上的韩国风味。\n\n🎬 节奏递进：行程采用浅入深的节奏，Day1 适应环境，打卡热门韩剧取景地；Day2 深入体验美食文化；Day3 慢节奏告别，在购物中结束旅程。\n\n🗺️ 路线设计：以明洞为基地，不换酒店，减少行李搬运。每天的行程按地理就近原则安排，避免来回折返，节省时间和体力。\n\n💡 实用建议：提前在网上购买交通卡，方便出行。避开周末和节假日前往热门景点，以免人多拥挤。",
+    "stats": [
+      {
+        "num": "3",
+        "label": "天数",
+        "hint": "DAYS"
+      },
+      {
+        "num": "12",
+        "label": "景点",
+        "hint": "POI"
+      },
+      {
+        "num": "₩800,000 - 1,200,000",
+        "label": "预计花费/人",
+        "hint": "BUDGET / PERSON",
+        "tooltip": "不含国际机票，含食宿门票当地交通"
+      },
+      {
+        "num": "地铁",
+        "label": "交通方式",
+        "hint": "TRANSPORT",
+        "tooltip": "推荐主要交通方式"
+      }
+    ],
+    "highlight_title": "🔥 首尔独门绝技",
+    "highlight_items": [
+      "<b>韩剧取景地打卡</b>（亲身感受韩剧里的浪漫场景）",
+      "<b>品尝地道美食</b>（体验韩国美食的独特魅力）",
+      "<b>明洞购物</b>（享受购物的乐趣）",
+      "<b>南山塔观景</b>（俯瞰首尔的美景）"
+    ],
+    "warning_title": "⚠️ 安全/礼仪/避坑",
+    "warning_text": "在韩国要注意礼仪，尊重当地文化。购物时注意价格和质量，避免被宰。",
+    "footer": "SEOUL · 开启美食韩剧之旅 · 2026"
+  },
+  "days": {
+    "1": {
+      "color": "#c97b5a",
+      "title": "Day 1 · 韩剧初体验",
+      "where": "📍 明洞",
+      "tip": "💡 提前下载好韩剧取景地地图，方便打卡。",
+      "hotel": {
+        "name_cn": "明洞 Ibis 大使酒店",
+        "name_en": "Ibis Ambassador Myeongdong",
+        "address": "首尔特别市中区明洞 8 街 59",
+        "price": "₩100000-150000/晚（¥550-825）",
+        "parking": "免费",
+        "highlights": "明洞地铁站步行 3 分钟，明洞购物街 5 分钟，去景福宫地铁 2 站"
+      }
+    },
+    "2": {
+      "color": "#c97b5a",
+      "title": "Day 2 · 美食大冒险",
+      "where": "📍 明洞",
+      "tip": "💡 品尝美食时，可以多尝试一些当地特色小吃。",
+      "hotel": {
+        "name_cn": "明洞 Ibis 大使酒店",
+        "name_en": "Ibis Ambassador Myeongdong",
+        "address": "同上",
+        "price": "₩100000-150000/晚",
+        "parking": "免费",
+        "highlights": "Day2 南山塔缆车站步行 15 分钟，梨泰院地铁 10 分钟"
+      }
+    },
+    "3": {
+      "color": "#c97b5a",
+      "title": "Day 3 · 购物与告别",
+      "where": "📍 明洞",
+      "tip": "💡 购物时注意比较价格，避免买到高价商品。",
+      "hotel": {
+        "name_cn": "明洞 Ibis 大使酒店",
+        "name_en": "Ibis Ambassador Myeongdong",
+        "address": "同上",
+        "price": "₩100000-150000/晚",
+        "parking": "免费",
+        "highlights": "去仁川机场 AREX 直达列车 60 分钟"
+      }
+    }
+  },
+  "pois": [
+    {
+      "id": "namsantower",
+      "day": 1,
+      "num": 1,
+      "name": "南山塔",
+      "en": "Namsan Tower",
+      "lat": 37.5519,
+      "lng": 126.9882,
+      "icon": "🌃",
+      "color": "#6b7a6e",
+      "search": "Namsan Tower",
+      "price": "₩9,000 - 12,000",
+      "hours": "10:00 - 23:00",
+      "desc": "首尔地标，韩剧热门取景地。最佳傍晚前往，可赏绝美夜景。提前网上订票，避免排队。",
+      "tags": [
+        "必看",
+        "观景",
+        "夜景"
+      ],
+      "time": "傍晚",
+      "photo_spots": [
+        "📸 塔前广场拍全景",
+        "📸 观景台拍城市夜景"
+      ],
+      "foods": []
+    },
+    {
+      "id": "myeongdong",
+      "day": 1,
+      "num": 2,
+      "name": "明洞",
+      "en": "Myeongdong",
+      "lat": 37.5622,
+      "lng": 126.9816,
+      "icon": "🛍️",
+      "color": "#c97b5a",
+      "search": "Myeongdong",
+      "price": "免费",
+      "hours": "10:00 - 24:00",
+      "desc": "购物美食天堂，韩剧常出现。周末人多，平日下午前往更佳。",
+      "tags": [
+        "必去",
+        "美食",
+        "购物"
+      ],
+      "time": "下午",
+      "photo_spots": [
+        "📸 明洞标志前拍照"
+      ],
+      "foods": [
+        "🍜 明洞炒年糕（₩3,000）",
+        "🍡 鱼饼（₩2,000）"
+      ]
+    },
+    {
+      "id": "gwanghwamun",
+      "day": 1,
+      "num": 3,
+      "name": "光化门",
+      "en": "Gwanghwamun",
+      "lat": 37.5761,
+      "lng": 126.9769,
+      "icon": "🏯",
+      "color": "#6b4a7e",
+      "search": "Gwanghwamun",
+      "price": "免费",
+      "hours": "24h",
+      "desc": "韩国历史象征，韩剧取景地。上午有换岗仪式可看。",
+      "tags": [
+        "必看",
+        "地标",
+        "传统"
+      ],
+      "time": "上午",
+      "photo_spots": [
+        "📸 光化门前拍建筑",
+        "📸 换岗仪式时抓拍"
+      ],
+      "foods": []
+    },
+    {
+      "id": "insadong",
+      "day": 1,
+      "num": 4,
+      "name": "仁寺洞",
+      "en": "Insadong",
+      "lat": 37.5702,
+      "lng": 126.9882,
+      "icon": "🎨",
+      "color": "#c97b5a",
+      "search": "Insadong",
+      "price": "免费",
+      "hours": "10:00 - 22:00",
+      "desc": "传统文化街区，有很多特色小店。下午人多，上午去更惬意。",
+      "tags": [
+        "必去",
+        "传统",
+        "体验"
+      ],
+      "time": "上午",
+      "photo_spots": [
+        "📸 传统建筑前拍照"
+      ],
+      "foods": [
+        "🍵 传统茶点（₩5,000）"
+      ]
+    },
+    {
+      "id": "gangnam",
+      "day": 2,
+      "num": 1,
+      "name": "江南区",
+      "en": "Gangnam-gu",
+      "lat": 37.4979,
+      "lng": 127.0276,
+      "icon": "🌟",
+      "color": "#c97b5a",
+      "search": "Gangnam-gu",
+      "price": "免费",
+      "hours": "24h",
+      "desc": "时尚繁华之地，韩剧常见场景。下午逛街购物，晚上体验夜生活。",
+      "tags": [
+        "必去",
+        "购物",
+        "夜景"
+      ],
+      "time": "下午",
+      "photo_spots": [
+        "📸 江南风格建筑前拍照"
+      ],
+      "foods": [
+        "🍱 高档韩餐（₩30,000 - 50,000）"
+      ]
+    },
+    {
+      "id": "samgyetang",
+      "day": 2,
+      "num": 2,
+      "name": "参鸡汤店",
+      "en": "Samgyetang Restaurant",
+      "lat": 37.563,
+      "lng": 126.982,
+      "icon": "🍲",
+      "color": "#c97b5a",
+      "search": "Samgyetang Restaurant",
+      "price": "₩15,000 - 20,000",
+      "hours": "11:00 - 22:00",
+      "desc": "品尝地道参鸡汤，下午前往人少，记得搭配米饭和小菜。",
+      "tags": [
+        "美食"
+      ],
+      "time": "下午",
+      "photo_spots": [],
+      "foods": [
+        "🍲 参鸡汤（₩15,000）"
+      ]
+    },
+    {
+      "id": "bukchon",
+      "day": 2,
+      "num": 3,
+      "name": "北村韩屋村",
+      "en": "Bukchon Hanok Village",
+      "lat": 37.5743,
+      "lng": 126.9869,
+      "icon": "🏘️",
+      "color": "#6b4a7e",
+      "search": "Bukchon Hanok Village",
+      "price": "免费",
+      "hours": "24h",
+      "desc": "保存完好的韩屋区，韩剧取景地。上午光线好，适合拍照。",
+      "tags": [
+        "必看",
+        "传统",
+        "体验"
+      ],
+      "time": "上午",
+      "photo_spots": [
+        "📸 韩屋小巷拍照",
+        "📸 传统庭院内拍照"
+      ],
+      "foods": []
+    },
+    {
+      "id": "dongdaemun",
+      "day": 2,
+      "num": 4,
+      "name": "东大门",
+      "en": "Dongdaemun",
+      "lat": 37.5665,
+      "lng": 127.0042,
+      "icon": "🛍️",
+      "color": "#c97b5a",
+      "search": "Dongdaemun",
+      "price": "免费",
+      "hours": "24h",
+      "desc": "购物批发中心，晚上更热闹。砍价是这里的特色。",
+      "tags": [
+        "必去",
+        "购物"
+      ],
+      "time": "晚上",
+      "photo_spots": [
+        "📸 东大门建筑前拍照"
+      ],
+      "foods": [
+        "🍜 辣炒年糕（₩3,000）"
+      ]
+    },
+    {
+      "id": "coexmall",
+      "day": 3,
+      "num": 1,
+      "name": "COEX 商场",
+      "en": "COEX Mall",
+      "lat": 37.5129,
+      "lng": 127.0593,
+      "icon": "🛍️",
+      "color": "#c97b5a",
+      "search": "COEX Mall",
+      "price": "免费",
+      "hours": "10:00 - 22:00",
+      "desc": "大型综合商场，品牌众多。下午购物人相对少。",
+      "tags": [
+        "必去",
+        "购物"
+      ],
+      "time": "下午",
+      "photo_spots": [
+        "📸 商场内特色装饰前拍照"
+      ],
+      "foods": [
+        "🍔 汉堡（₩8,000）"
+      ]
+    },
+    {
+      "id": "seoulstation",
+      "day": 3,
+      "num": 2,
+      "name": "首尔站",
+      "en": "Seoul Station",
+      "lat": 37.5537,
+      "lng": 126.9708,
+      "icon": "🚉",
+      "color": "#4a5d52",
+      "search": "Seoul Station",
+      "price": "免费",
+      "hours": "24h",
+      "desc": "交通枢纽，可在此乘坐机场大巴。提前规划好时间。",
+      "tags": [
+        "交通"
+      ],
+      "time": "下午",
+      "photo_spots": [],
+      "foods": []
+    },
+    {
+      "id": "lotteworld",
+      "day": 3,
+      "num": 3,
+      "name": "乐天世界",
+      "en": "Lotte World",
+      "lat": 37.5113,
+      "lng": 127.1084,
+      "icon": "🎠",
+      "color": "#c97b5a",
+      "search": "Lotte World",
+      "price": "₩48,000 - 55,000",
+      "hours": "10:30 - 22:00",
+      "desc": "大型游乐园，韩剧取景地。提前网上订票，避开周末。",
+      "tags": [
+        "必去",
+        "亲子",
+        "体验"
+      ],
+      "time": "上午",
+      "photo_spots": [
+        "📸 乐园标志性建筑前拍照"
+      ],
+      "foods": [
+        "🍿 爆米花（₩5,000）"
+      ]
+    },
+    {
+      "id": "starbucks",
+      "day": 3,
+      "num": 4,
+      "name": "星巴克",
+      "en": "Starbucks",
+      "lat": 37.5625,
+      "lng": 126.9818,
+      "icon": "☕",
+      "color": "#c97b5a",
+      "search": "Starbucks",
+      "price": "₩4,000 - 6,000",
+      "hours": "7:00 - 22:00",
+      "desc": "可在明洞店品尝特色咖啡，下午人少可慢慢享受。",
+      "tags": [
+        "美食"
+      ],
+      "time": "下午",
+      "photo_spots": [],
+      "foods": [
+        "☕ 拿铁（₩4,500）"
+      ]
+    }
+  ],
+  "legend": [
+    {
+      "color": "#6b4a7e",
+      "icon": "🏯",
+      "label": "传统建筑"
+    },
+    {
+      "color": "#c97b5a",
+      "icon": "🍜",
+      "label": "美食"
+    },
+    {
+      "color": "#6b7a6e",
+      "icon": "🌃",
+      "label": "观景地"
+    },
+    {
+      "color": "#4a5d52",
+      "icon": "🚉",
+      "label": "交通枢纽"
+    },
+    {
+      "color": "#c97b5a",
+      "icon": "🛍️",
+      "label": "购物地"
+    },
+    {
+      "color": "#6b4a7e",
+      "icon": "🎨",
+      "label": "文化街区"
+    },
+    {
+      "color": "#c97b5a",
+      "icon": "🎠",
+      "label": "游乐园"
+    }
+  ]
+}

@@ -138,6 +138,31 @@ python3 generator/gen_postcard.py "Lassen Volcanic" assets/postcards/lassen_volc
 node tools/gen_og_cards.mjs                 # 补分享卡（幂等，只补缺的）
 ```
 
+## 也可以当 Claude Code skill 用
+
+同一套模板，另一种用法：装成 skill 之后，**行程数据由 Claude 直接写**，不需要任何 API key、
+不需要后端、不花钱——而且可以对话式改（「第 3 天太赶了，拆成两天」）。
+
+```bash
+python3 skill/build_skill.py --install     # 构建并装到 ~/.claude/skills/livemap/
+```
+
+然后对 Claude 说「帮我做个京都 6 天的活地图」就行。
+
+```
+skill/
+├── build_skill.py        从主仓库派生 skill 包（模板内联依赖 / 规格从 CLAUDE_PROMPT 提取）
+└── livemap/
+    ├── SKILL.md          工作流
+    ├── reference/        数据契约 + 真实样例
+    └── scripts/          render.py（JSON→HTML，带校验）· extract.py（HTML→JSON，用于改图）
+```
+
+skill 包是**从主仓库自动派生的**，不是手抄的副本：`template.html` 会把
+`lm_checkin.js` 内联进去、去掉需要后端的编辑器，保证产物是真单文件；
+`reference/schema.md` 直接从 `generator/generate.py` 的 `CLAUDE_PROMPT` 提取。
+CI 会跑 `--check` 拦住「主仓库改了但 skill 包没重建」。
+
 ## 改完必须跑的 QA
 
 改了地图 UI / 模板，**一定要跑真实渲染审计**——这个项目最容易坏的就是标签重叠和溢出，肉眼在一两张图上看不出来：
@@ -148,6 +173,7 @@ python3 generator/build_static.py --out dist
 python3 -m http.server 8000 --directory dist &
 
 python3 generator/patch_maps.py --check       # 32 张成品是否跟上了模板改动
+python3 skill/build_skill.py --check          # skill 包是否跟上了主仓库
 node tools/audit_maps.mjs                     # 验收：重叠 0 · 超界 0 · 错误 0（非 0 退出即失败）
 node tools/test_poster.mjs                    # 海报功能 E2E
 node tools/shot_maps.mjs                      # 用户视角截图 → /tmp/livemap_qa/
