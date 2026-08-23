@@ -453,7 +453,7 @@
 
   <!-- ===== HERO ===== -->
   <section class="hero">
-    <div class="brand-badge">⚡ LIVEMAP · v0.3</div>
+    <div class="brand-badge">⚡ LIVEMAP · v0.5</div>
     <h1>把旅行攻略<br>变成一张能"看"的地图</h1>
     <p class="tagline">
       告别 5000 字文档。输入目的地 → <b>10 秒生成可交互活地图</b> → 发给同伴一眼秒懂。
@@ -490,7 +490,7 @@
         <span class="chip mode-chip" data-mode="budget">💸 穷游省钱</span>
       </div>
       <button class="gen-btn" id="genBtn" onclick="generateMap()">✨ 生成我的活地图</button>
-      <div class="gen-hint">💡 v0.2 预览版：演示生成流程（实际 AI 生成功能在 v0.2.1）</div>
+      <div class="gen-hint" id="genHint">💡 单文件 HTML · 生成后可直接发微信 / AirDrop</div>
     </div>
 
     <!-- Hot Links -->
@@ -685,7 +685,7 @@
   </section>
 
   <footer>
-    <span class="version">LIVEMAP v0.4 · AI 生成已通路</span> · 2026 · 🌍 · <a href="PRD_LiveMap.md" style="color:#6a7a8a;">PRD</a>
+    <span class="version">LIVEMAP v0.5 · 32 条行程 · 560+ 景点</span> · 2026 · 🌍 · <a href="PRD_LiveMap.md" style="color:#6a7a8a;">PRD</a>
   </footer>
 </div>
 
@@ -715,6 +715,15 @@
   const STATIC_DEPLOY = !!window.STATIC_DEPLOY;
   // 检测是否通过 server.py 启动（有后端可真生成）；静态分享版没有后端
   const IS_SERVER_MODE = !STATIC_DEPLOY && (location.protocol === 'http:' || location.protocol === 'https:');
+
+  // 生成按钮下面那行提示，按当前是不是有后端说实话
+  (function () {
+    const hint = document.getElementById('genHint');
+    if (!hint) return;
+    hint.innerHTML = IS_SERVER_MODE
+      ? '💡 约 10 秒出图 · 热门目的地命中存量直接返回，不花 token'
+      : '💡 这是<b>只读静态镜像</b>：画廊里 32 条行程随便看；在线生成需要跑后端（见 <a href="README.md" style="color:#f4c065;">README</a>）';
+  })();
 
   function showModal(html) {
     document.getElementById('modalContent').innerHTML = html;
