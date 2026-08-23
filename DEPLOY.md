@@ -53,6 +53,9 @@ python3 -m http.server 8000      # 浏览器开 http://localhost:8000
 1. 注册 / 登录 [Render](https://render.com)（免费档即可）
 2. **New + → Blueprint → 选本仓库 → Apply**（会自动读 `render.yaml`）
 3. 部署后到该服务的 **Environment** 里，手动填入真实 `VOLC_API_KEY`（火山控制台拿，**不要写进仓库**）
+   > 还没拿到 key？照样可以先部署：Blueprint 表单里填 `changeme` 之类的占位值即可。
+   > 服务会以**只读模式**启动——画廊和 32 张地图正常访问，只有「生成」按钮会返回
+   > 一句「本站暂未配置生成后端」。之后把真 key 填进去、重启服务就开了。
 4. 几分钟后访问 Render 给的 `https://livemap-xxxx.onrender.com/` —— 这就是「能在线生成」的完整版链接
 
 **关键环境变量（render.yaml 已预设，仅 key 需手填）：**

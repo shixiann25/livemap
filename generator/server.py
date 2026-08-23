@@ -42,6 +42,15 @@ def is_public():
     return os.getenv("PUBLIC_DEPLOY", "").lower() in ("1", "true", "yes")
 
 
+def has_llm_key():
+    """占位值（如 Render 表单里随手填的 changeme）不算数，否则会等到调用时才炸。"""
+    for name in ("VOLC_API_KEY", "ANTHROPIC_API_KEY"):
+        v = (os.getenv(name) or "").strip()
+        if v and v.lower() not in ("changeme", "todo", "none", "null", "xxx", "placeholder"):
+            return True
+    return False
+
+
 _quota_lock = threading.Lock()
 _quota = {"day": None, "total": 0, "by_ip": {}}
 
@@ -169,8 +178,9 @@ class LiveMapHandler(http.server.SimpleHTTPRequestHandler):
                 return self._json(400, {"error": "请输入目的地"})
             if not (1 <= days <= 14):
                 return self._json(400, {"error": "天数应在 1-14 之间"})
-            if not (os.getenv("VOLC_API_KEY") or os.getenv("ANTHROPIC_API_KEY")):
-                return self._json(500, {"error": "服务端未设 VOLC_API_KEY 或 ANTHROPIC_API_KEY"})
+            if not has_llm_key():
+                return self._json(503, {"error": "本站暂未配置 AI 生成后端，下面画廊里的地图可以照常浏览～"
+                                                 "（想自己无限量生成：clone 仓库，配好 key 后本地跑 server.py）"})
 
             ip = self.client_ip()
             over = quota_reject(ip)
@@ -250,9 +260,10 @@ class LiveMapHandler(http.server.SimpleHTTPRequestHandler):
                 }
                 entry.update(card_meta(f))
                 maps.append(entry)
-        # can_edit 让 lm_editor.js 知道该不该挂载，省得用户改半天才发现存不了
+        # can_edit 让 lm_editor.js 知道该不该挂载，省得用户改半天才发现存不了；
+        # can_generate 让 Hub 的提示语说实话（没配 key 时别写「约 10 秒出图」）
         can_edit = (not is_public()) or bool(os.getenv("LIVEMAP_EDIT_TOKEN"))
-        return self._json(200, {"maps": maps, "can_edit": can_edit})
+        return self._json(200, {"maps": maps, "can_edit": can_edit, "can_generate": has_llm_key()})
 
     def _json(self, code, data):
         body = json.dumps(data, ensure_ascii=False).encode("utf-8")
@@ -272,23 +283,32 @@ def main():
     if public:
         os.environ["LLM_PROVIDER"] = "volc"
 
-    if not (os.getenv("VOLC_API_KEY") or os.getenv("ANTHROPIC_API_KEY")):
-        print("❌ 未设 VOLC_API_KEY 或 ANTHROPIC_API_KEY。请检查 generator/.env 或托管平台环境变量")
-        sys.exit(1)
-    if public and not os.getenv("VOLC_API_KEY"):
-        print("❌ PUBLIC_DEPLOY=1 需要 VOLC_API_KEY（强制使用火山便宜模型）")
-        sys.exit(1)
+    # 缺 key 不再直接退出。画廊和 32 张地图是纯静态的，跟「能不能生成」没关系，
+    # 没道理因为少一个可选凭证把整个站点带下线。降级成：站照常开，生成接口返回 503。
+    if not has_llm_key():
+        print("⚠️  未设 VOLC_API_KEY / ANTHROPIC_API_KEY —— 以【只读模式】启动：")
+        print("    画廊和已有地图正常访问，AI 生成接口会返回「暂未配置生成后端」。")
+        print("    配好 key（generator/.env 或托管平台环境变量）后重启即可开启生成。")
+    elif public and not os.getenv("VOLC_API_KEY"):
+        # 公网只想走便宜模型；只有 Claude key 时提醒一句，但不拦着
+        print("⚠️  PUBLIC_DEPLOY=1 但没有 VOLC_API_KEY，将使用 ANTHROPIC_API_KEY（单价高不少，注意配额）")
+        os.environ["LLM_PROVIDER"] = "anthropic"
 
-    # 报告当前 LLM 提供商
-    provider = os.getenv("LLM_PROVIDER", "").lower()
+    # 报告当前 LLM 提供商（只读模式下别报，否则日志会说「后端 volc」但其实生成不了）
+    provider, model_info = "", ""
+    if has_llm_key():
+        provider = os.getenv("LLM_PROVIDER", "").lower()
+        if not provider:
+            provider = "volc" if (os.getenv("VOLC_API_KEY") or "").strip() else "anthropic"
     if not provider:
-        provider = "volc" if os.getenv("VOLC_API_KEY") else "anthropic"
-    if provider in ("volc", "volcengine", "ark"):
+        model_info = ""
+    elif provider in ("volc", "volcengine", "ark"):
         model_info = f" · 模型 {os.getenv('VOLC_ENDPOINT_ID') or os.getenv('VOLC_MODEL', 'doubao-1-5-pro-32k-250115')}"
     else:
         model_info = f" · 模型 {os.getenv('CLAUDE_MODEL', 'claude-sonnet-4-5')}"
-    print(f"  🤖 LLM 后端：{provider}{model_info}{' · 公网模式（强制便宜模型）' if public else ''}")
-    if public:
+    print(f"  🤖 LLM 后端：{provider or '（未配置 · 只读模式）'}{model_info}"
+          f"{' · 公网模式（强制便宜模型）' if public and provider else ''}")
+    if public and has_llm_key():
         print(f"  🛡  防刷：每天 {os.getenv('DAILY_GENERATE_LIMIT', '40')} 张 · "
               f"单 IP {os.getenv('DAILY_GENERATE_LIMIT_PER_IP', '5')} 张（命中存量不占额度）")
         print(f"  ✏️  编辑保存：{'开（需 X-LiveMap-Token）' if os.getenv('LIVEMAP_EDIT_TOKEN') else '关'}")

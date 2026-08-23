@@ -803,6 +803,17 @@ $ open http://localhost:5005
       const data = await res.json();
       const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
 
+      // 429（今日额度用完）和 503（本站没配生成后端）都是预期内的状态，
+      // 不该套「生成失败 + 排查清单」那套吓人的壳
+      if (res.status === 429 || res.status === 503) {
+        showModal(`
+          <h2 style="color:#f4c065;">${res.status === 429 ? '🫖 今天先到这儿' : '📖 本站是只读镜像'}</h2>
+          <p style="text-align:left;">${data.error || ''}</p>
+          <button class="gen-modal-close" onclick="closeModal()">好，我去看画廊</button>
+        `);
+        return;
+      }
+
       if (data.error) throw new Error(data.error);
 
       if (data.cached) {
@@ -867,6 +878,11 @@ $ open http://localhost:5005
       } else {
         const res = await fetch('/api/list');
         data = await res.json();
+        // 后端起着但没配 key（只读模式）时，别让提示语继续吹「约 10 秒出图」
+        if (data.can_generate === false) {
+          const hint = document.getElementById('genHint');
+          if (hint) hint.innerHTML = '💡 本站后端<b>未配置生成 key</b>，是只读镜像：下面 32 条行程随便看';
+        }
       }
       const hardcoded = ['usnp_top20_5d', 'kyoto_6d', 'yellowstone_5d', 'big_island_7d', 'hokkaido_5d'];
       const extras = (data.maps || []).filter(m => !hardcoded.includes(m.name));
