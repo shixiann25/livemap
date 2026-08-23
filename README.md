@@ -6,7 +6,7 @@
 
 输入「北海道 5 天」→ 10 秒生成一张可交互的旅行地图 → 发给同伴，不用注册、不用装 App，浏览器打开就懂。
 
-[**▶ 在线体验**](https://shixiann25.github.io/livemap/) · [产品 PRD](PRD_LiveMap.md) · [开发指南](SETUP.md) · [部署](DEPLOY.md)
+[**▶ 浏览 32 条行程**](https://shixiann25.github.io/livemap/) · [**✨ 自己生成一张**](https://livemap-b1im.onrender.com/) · [产品 PRD](PRD_LiveMap.md) · [开发指南](SETUP.md) · [部署](DEPLOY.md)
 
 <sub>*LiveMap turns a travel itinerary into a single self-contained interactive HTML map — real basemap, day-by-day routes, ticket prices in your own currency, photo spots and food picks. One file, ~110 KB, no backend needed to view. Built with vanilla JS + Leaflet + an LLM that writes the POI data. UI is in Chinese.*</sub>
 
@@ -173,7 +173,9 @@ CI（`.github/workflows/`）会在每次 push 时跑同一套检查，然后自�
 
 ## 已知限制
 
-- **在线 AI 生成需要后端。** GitHub Pages 是静态站，首页的生成按钮会降级成说明弹窗；要让访客真能生成，得部署 `server.py`（仓库含 Render 蓝图，见 [DEPLOY.md](DEPLOY.md)）。
+- **两个线上入口用途不同。** GitHub Pages 是秒开的只读镜像，生成按钮会降级成说明；能真生成的是 Render 那个（免费档闲置会休眠，冷启动要等 50 秒以上）。
+- **生成慢，且随天数线性增长。** 实测约每个景点 15 秒：1 天 60 秒，5 天 3 分半，8 天要五六分钟。走流式传输，否则连接会被负载均衡掐掉。
+- **访客新生成的地图没有 AI 明信片**，页头会回退到维基搜图，质量不如仓库里那 32 张。
 - **生成结果不持久。** 现在存本地文件系统，Render 免费档重启即丢。要真正跑通「生成 → 短链 → 分享」还缺对象存储和短链服务。
 - **单图 98–120 KB**，超出了 PRD 自己定的 100 KB 目标，主要是内联的模板逻辑。
 - **POI 由 LLM 生成**，坐标和营业信息可能有误，目前靠人工抽检，没有自动校正。
