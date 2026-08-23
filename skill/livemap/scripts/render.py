@@ -15,6 +15,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from generate import render_html  # noqa: E402
+from i18n import LANGS, translate, leftover_chinese  # noqa: E402
 
 REQUIRED_META = ["title", "title_short", "subtitle", "eyebrow", "header_emoji",
                  "color_scheme", "currency", "map_center", "map_zoom",
@@ -34,6 +35,11 @@ def validate(data):
     for k in REQUIRED_META:
         if k not in meta:
             problems.append(f"meta 缺 `{k}`")
+    lang = (meta.get("lang") or "zh").lower()
+    if lang not in ("zh", "zh-cn") and lang not in LANGS:
+        problems.append(f"meta.lang={lang!r} 还没有界面翻译。"
+                        f"目前支持 zh + {', '.join(LANGS)}；"
+                        f"要加新语言就往 scripts/i18n.py 的 LANGS 里加一个 dict")
     if meta.get("color_scheme") not in ("warm", "sakura", "ocean", "snow", "forest"):
         problems.append(f"meta.color_scheme 必须是 warm/sakura/ocean/snow/forest 之一，"
                         f"现在是 {meta.get('color_scheme')!r}")
@@ -81,10 +87,23 @@ def main():
     if problems:
         sys.exit("❌ 数据结构有问题，先修好再渲染：\n  · " + "\n  · ".join(problems[:20]))
 
+    lang = (data["meta"].get("lang") or "zh").lower()
+    html = translate(render_html(data), lang)
+
+    if lang not in ("zh", "zh-cn"):
+        # 数据是用目标语言写的，所以剩下的中文只可能是漏翻的界面文字
+        rest = leftover_chinese(html)
+        if rest:
+            print(f"⚠️  界面上还有 {len(rest)} 处中文没翻到（scripts/i18n.py 里补一下）：",
+                  file=sys.stderr)
+            for ln, s in rest[:8]:
+                print(f"      L{ln}: {s[:60]}", file=sys.stderr)
+
     dst.parent.mkdir(parents=True, exist_ok=True)
-    dst.write_text(render_html(data), encoding="utf-8")
+    dst.write_text(html, encoding="utf-8")
     kb = dst.stat().st_size // 1024
-    print(f"🗺️  已生成：{dst}（{kb} KB · {len(data['pois'])} 个景点 · {len(data['days'])} 天）")
+    tag = "" if lang.startswith("zh") else f" · {lang}"
+    print(f"🗺️  已生成：{dst}（{kb} KB · {len(data['pois'])} 个景点 · {len(data['days'])} 天{tag}）")
     print("   单文件，双击就能打开，也可以直接发微信 / AirDrop。")
 
 

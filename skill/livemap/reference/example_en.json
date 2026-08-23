@@ -1,0 +1,347 @@
+{
+  "meta": {
+    "title": "🚋 Lisbon in 2 Days",
+    "title_short": "Lisbon Essential 2 Days",
+    "subtitle": "SEVEN HILLS ON FOOT",
+    "eyebrow": "LISBON · LIVEMAP · 2026",
+    "header_emoji": "🚋",
+    "color_scheme": "warm",
+    "currency": "EUR",
+    "map_center": [
+      38.7139,
+      -9.1394
+    ],
+    "map_zoom": 13,
+    "where_summary": "In and out of Lisbon Airport",
+    "all_tip": "🎯 The idea: This isn't a checklist tour of a European capital. It's a walk that rises and falls across seven hills — Lisbon's beauty lives in the turns, in the rattle of the tram, in the faded tiles. Worth wearing your soles down for.\n\n🎬 How it builds: Day 1 starts at the highest point, São Jorge Castle, so you get the lay of the land, then rolls downhill through the Alfama — gravity does half the work. Day 2 shifts to Belém by the river, a flat line from monastery to monument, ending in custard tarts. High to low, old to new, no street walked twice.\n\n🗺️ Why this route: Same hotel both nights, no repacking. Day 1 is downhill on foot; Day 2 rides tram 15 along one straight riverside line, so you never climb the hills twice. Nothing is more than 25 minutes apart.\n\n💡 Practical: Wear grippy shoes — Lisbon's mosaic pavement turns lethal in rain. Book the monastery online; the walk-up queue hits an hour in peak season. Skip August: hot and packed.",
+    "stats": [
+      {
+        "num": "2",
+        "label": "Days",
+        "hint": "DAYS"
+      },
+      {
+        "num": "8",
+        "label": "Stops",
+        "hint": "POI"
+      },
+      {
+        "num": "€280-370",
+        "label": "Budget / person",
+        "hint": "BUDGET / PERSON",
+        "tooltip": "Excludes international flights. Hotel (split for a double) + food + tickets + local transport, with a ±15% band."
+      },
+      {
+        "num": "Walking + tram",
+        "label": "Getting around",
+        "hint": "TRANSPORT",
+        "tooltip": "Recommended mode"
+      }
+    ],
+    "highlight_title": "🔥 Lisbon insider moves",
+    "highlight_items": [
+      "<b>Tram 28</b> (don't queue at the terminus — walk one stop up and you'll actually get a seat)",
+      "<b>Belém tarts</b> (go to the original Pastéis de Belém; standing at the counter is cheaper than sitting)",
+      "<b>Miradouro hopping</b> (the viewpoints are the soul of this city — go an hour before sunset)",
+      "<b>Tile hunting</b> (no two azulejo walls in the Alfama are the same; every alley is a photo)"
+    ],
+    "warning_title": "⚠️ Safety & etiquette",
+    "warning_text": "Tram 28 and the Alfama are pickpocket territory — wear your bag on your front. The mosaic pavement is slippery when wet; leave the hard soles at home.",
+    "footer": "LISBON · CITY OF SEVEN HILLS · 2026",
+    "pretrip": {
+      "visa": "Schengen visa required for Chinese passports (~¥800, about 15 working days)",
+      "voltage": "230V · Type C/F plug (adapter needed)",
+      "sim": "eSIM via Airalo (~$8 / 5GB) · local Vodafone SIM about €15",
+      "currency": "€1 ≈ $1.08 · cards accepted almost everywhere, carry a little cash for small shops",
+      "tipping": "Not expected; 5–10% if you enjoyed it",
+      "emergency": "112 for all emergencies"
+    },
+    "lang": "en"
+  },
+  "days": {
+    "1": {
+      "color": "#c2542e",
+      "title": "Day 1 · Downhill from the castle",
+      "where": "📍 Baixa",
+      "tip": "💡 Taxi straight up to the castle first — everything after that is downhill, which saves your legs.",
+      "hotel": {
+        "name_cn": "Ibis Lisboa Liberdade",
+        "name_en": "Ibis Lisboa Liberdade",
+        "address": "Rua Barata Salgueiro 53, 1250-142 Lisboa",
+        "price": "€85-110/night",
+        "parking": "€18/night, book ahead",
+        "highlights": "6 min walk to Avenida metro; 20 min direct to the airport"
+      },
+      "plan_b": "💧 If it rains: the mosaic pavement is treacherous. Swap for the Gulbenkian Museum + Time Out Market + the National Tile Museum — all indoors."
+    },
+    "2": {
+      "color": "#4a8db5",
+      "title": "Day 2 · Belém and the age of sail",
+      "where": "📍 Baixa",
+      "tip": "💡 Tram 15 runs from Comércio square straight to Belém — leave before 9am to beat the tour groups.",
+      "hotel": {
+        "name_cn": "Ibis Lisboa Liberdade",
+        "name_en": "Ibis Lisboa Liberdade",
+        "address": "Same as Day 1 (no hotel change)",
+        "price": "€85-110/night",
+        "parking": "€18/night",
+        "highlights": "Tram 15 back, 25 minutes"
+      },
+      "plan_b": "💧 If it rains: Belém is exposed. Swap for the Oceanário + Oriente Station + Colombo mall."
+    }
+  },
+  "pois": [
+    {
+      "id": "castelo",
+      "day": 1,
+      "num": 1,
+      "name": "São Jorge Castle",
+      "name_cn": "São Jorge Castle",
+      "en": "São Jorge Castle",
+      "lat": 38.7139,
+      "lng": -9.1335,
+      "icon": "🏰",
+      "color": "#6b4a7e",
+      "search": "Sao Jorge Castle Lisbon",
+      "price": "€15",
+      "hours": "9:00-21:00",
+      "duration": "1.5-2 h",
+      "desc": "Highest point in the city — the ramparts give you all of Lisbon and the Tagus in one sweep. Come at opening; once the tour buses land around noon the walls are too packed to photograph. Peacocks roam the inner courtyard.",
+      "tags": [
+        "Must-see",
+        "Landmark",
+        "Viewpoint"
+      ],
+      "time": "Morning",
+      "photo_spots": [
+        "📸 East rampart: red rooftops running down to the river",
+        "📸 Catch a peacock mid-display in the courtyard"
+      ],
+      "foods": []
+    },
+    {
+      "id": "miradouro-santa-luzia",
+      "day": 1,
+      "num": 2,
+      "name": "Santa Luzia Viewpoint",
+      "name_cn": "Santa Luzia Viewpoint",
+      "en": "Miradouro de Santa Luzia",
+      "lat": 38.7118,
+      "lng": -9.1301,
+      "icon": "🌇",
+      "color": "#6b7a6e",
+      "search": "Miradouro de Santa Luzia",
+      "price": "Free",
+      "hours": "24h",
+      "duration": "30 min",
+      "desc": "First terrace on the way down from the castle — wisteria trellis over blue-and-white tilework, the most photogenic corner in Lisbon. Usually a fado busker. Sit a while before moving on.",
+      "tags": [
+        "Must-visit",
+        "Viewpoint",
+        "Free"
+      ],
+      "time": "Morning",
+      "photo_spots": [
+        "📸 Shoot the tiles backlit through the wisteria",
+        "📸 Alfama rooftops stacking up from the railing"
+      ],
+      "foods": []
+    },
+    {
+      "id": "alfama",
+      "day": 1,
+      "num": 3,
+      "name": "Alfama",
+      "name_cn": "Alfama",
+      "en": "Alfama District",
+      "lat": 38.7118,
+      "lng": -9.1275,
+      "icon": "🏘️",
+      "color": "#c97b5a",
+      "search": "Alfama Lisbon",
+      "price": "Free",
+      "hours": "24h",
+      "duration": "2 h",
+      "desc": "The oldest quarter, the only one that survived the 1755 earthquake. There's no itinerary here — head downhill and turn wherever. Laundry lines and tiled walls are the whole point. Pickpockets work this area; bag on your front.",
+      "tags": [
+        "Must-see",
+        "Historic",
+        "Wander"
+      ],
+      "time": "Afternoon",
+      "photo_spots": [
+        "📸 Laundry lines against a tiled wall in a narrow alley",
+        "📸 Press to the wall and catch tram 28 taking the corner"
+      ],
+      "foods": [
+        "🐟 Grilled sardines (€12, best at the hole-in-the-wall places)",
+        "🍷 Vinho Verde (€3 a glass)"
+      ]
+    },
+    {
+      "id": "comercio",
+      "day": 1,
+      "num": 4,
+      "name": "Praça do Comércio",
+      "name_cn": "Praça do Comércio",
+      "en": "Praça do Comércio",
+      "lat": 38.7075,
+      "lng": -9.1364,
+      "icon": "⛲",
+      "color": "#6b7a6e",
+      "search": "Praca do Comercio Lisbon",
+      "price": "Free",
+      "hours": "24h",
+      "duration": "45 min",
+      "desc": "End of the downhill run — a huge yellow square opening onto the river. The light under the arch is best at sunset; €4 gets you onto the roof. Cafés on the east side run about a third cheaper than the west.",
+      "tags": [
+        "Must-visit",
+        "Landmark",
+        "Free"
+      ],
+      "time": "Evening",
+      "photo_spots": [
+        "📸 Dead-centre symmetry through the triumphal arch",
+        "📸 Sit on the river steps for sunset silhouettes"
+      ],
+      "foods": [
+        "☕ Espresso (a 'bica', €0.80 standing at the counter)"
+      ]
+    },
+    {
+      "id": "jeronimos",
+      "day": 2,
+      "num": 1,
+      "name": "Jerónimos Monastery",
+      "name_cn": "Jerónimos Monastery",
+      "en": "Jerónimos Monastery",
+      "lat": 38.6979,
+      "lng": -9.2064,
+      "icon": "⛪",
+      "color": "#6b4a7e",
+      "search": "Jeronimos Monastery",
+      "price": "€18",
+      "hours": "9:30-18:00 (closed Mon)",
+      "duration": "1.5 h",
+      "desc": "World Heritage site and the high point of Manueline architecture; Vasco da Gama is buried here. Book online — the peak-season queue runs to an hour. The church is free, the cloister is ticketed, and the cloister is the reason you came.",
+      "tags": [
+        "Must-see",
+        "Landmark",
+        "Historic"
+      ],
+      "time": "Morning",
+      "photo_spots": [
+        "📸 Upper cloister: the arcade running away in perspective",
+        "📸 Look straight up at the south portal carving"
+      ],
+      "foods": []
+    },
+    {
+      "id": "pasteis-belem",
+      "day": 2,
+      "num": 2,
+      "name": "Pastéis de Belém",
+      "name_cn": "Pastéis de Belém",
+      "en": "Pastéis de Belém",
+      "lat": 38.6975,
+      "lng": -9.2033,
+      "icon": "🥧",
+      "color": "#c97b5a",
+      "search": "Pasteis de Belem",
+      "price": "€1.4 each",
+      "hours": "8:00-23:00",
+      "duration": "30 min",
+      "desc": "The 1837 original recipe — the ancestor of every custard tart on earth. The takeaway queue out front is long but there are hundreds of seats inside, so just walk in and grab a table. Dust with cinnamon before eating.",
+      "tags": [
+        "Must-visit",
+        "Food",
+        "Iconic"
+      ],
+      "time": "Morning",
+      "photo_spots": [
+        "📸 A plate of tarts against the blue tiled interior"
+      ],
+      "foods": [
+        "🥧 Pastel de Belém (€1.40 each — order at least two)",
+        "☕ Galão (€2)"
+      ]
+    },
+    {
+      "id": "padrao",
+      "day": 2,
+      "num": 3,
+      "name": "Monument to the Discoveries",
+      "name_cn": "Monument to the Discoveries",
+      "en": "Padrão dos Descobrimentos",
+      "lat": 38.6936,
+      "lng": -9.2058,
+      "icon": "⛵",
+      "color": "#4a8db5",
+      "search": "Padrao dos Descobrimentos",
+      "price": "€10 (rooftop)",
+      "hours": "10:00-19:00",
+      "duration": "1 h",
+      "desc": "Riverside monument to the age of exploration. Go up top or you'll only see half of the giant compass rose laid into the pavement below — you need height and distance for that shot.",
+      "tags": [
+        "Must-visit",
+        "Landmark",
+        "Viewpoint"
+      ],
+      "time": "Afternoon",
+      "photo_spots": [
+        "📸 From the top, the whole compass rose from above",
+        "📸 Backlit profile of the carved figures on the prow"
+      ],
+      "foods": []
+    },
+    {
+      "id": "belem-tower",
+      "day": 2,
+      "num": 4,
+      "name": "Belém Tower",
+      "name_cn": "Belém Tower",
+      "en": "Belém Tower",
+      "lat": 38.6916,
+      "lng": -9.216,
+      "icon": "🗼",
+      "color": "#6b4a7e",
+      "search": "Belem Tower",
+      "price": "€8",
+      "hours": "9:30-18:00 (closed Mon)",
+      "duration": "1 h",
+      "desc": "The white stone tower in the river, the departure point of the age of sail. The single spiral stair inside runs on a traffic light — 20 minutes of waiting when it's busy, so if you only want the photo, the bank is enough. At low tide you can walk out to the base.",
+      "tags": [
+        "Must-see",
+        "Landmark"
+      ],
+      "time": "Evening",
+      "photo_spots": [
+        "📸 Low tide: the tower mirrored at water level",
+        "📸 From the causeway with the sun behind it"
+      ],
+      "foods": []
+    }
+  ],
+  "legend": [
+    {
+      "color": "#6b4a7e",
+      "icon": "🏰",
+      "label": "Monuments"
+    },
+    {
+      "color": "#6b7a6e",
+      "icon": "🌇",
+      "label": "Viewpoints"
+    },
+    {
+      "color": "#c97b5a",
+      "icon": "🥧",
+      "label": "Food & streets"
+    },
+    {
+      "color": "#4a8db5",
+      "icon": "⛵",
+      "label": "Riverside"
+    }
+  ]
+}
