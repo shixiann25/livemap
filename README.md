@@ -4,7 +4,7 @@
 
 **把旅行攻略变成一张能「看」的地图**
 
-输入「北海道 5 天」→ 10 秒生成一张可交互的旅行地图 → 发给同伴，不用注册、不用装 App，浏览器打开就懂。
+输入「北海道 5 天」→ AI 生成一张可交互的旅行地图 → 发给同伴，不用注册、不用装 App，浏览器打开就懂。
 
 [**▶ 浏览 32 条行程**](https://shixiann25.github.io/livemap/) · [**✨ 自己生成一张**](https://livemap-b1im.onrender.com/) · [产品 PRD](PRD_LiveMap.md) · [开发指南](SETUP.md) · [部署](DEPLOY.md)
 
@@ -126,7 +126,7 @@ cd dist && python3 -m http.server 8000     # 打开 http://localhost:8000
 只看地图不需要任何依赖和密钥。**要用 AI 生成新地图**才需要配 key：
 
 ```bash
-cp generator/.env.example generator/.env    # 填 VOLC_API_KEY（豆包，约 ¥0.05/张）
+cp generator/.env.example generator/.env    # 填 VOLC_API_KEY（火山方舟，豆包语言模型）
 python3 generator/server.py                 # http://localhost:5005 首页输入框可直接生成
 ```
 
@@ -182,7 +182,8 @@ CI（`.github/workflows/`）会在每次 push 时跑同一套检查，然后自�
 
 ## Roadmap
 
-- [ ] 部署常驻后端 + 每日生成额度（防刷），让线上首页的生成按钮真的可用
+- [x] ~~部署常驻后端 + 每日生成额度（防刷）~~ —— 已上线，首页生成按钮可用
+- [ ] 生成加速：现在约每个景点 15 秒，8 天行程要五六分钟。可以按天并行拆分请求
 - [ ] 短链 + 生成结果持久化，跑通 PRD 里的完整分享回路
 - [ ] 把 `audit_maps.mjs` 的验收范围扩到移动端视口
 - [ ] 单图瘦身到 100 KB 以内
