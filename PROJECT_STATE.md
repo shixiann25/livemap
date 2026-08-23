@@ -80,6 +80,8 @@ node tools/test_poster.mjs
 
 **❌ 不要在老三张手写地图里假设 `META` 存在**——`big_island_7d` / `kyoto_6d` / `yellowstone_5d` 没有 `const META`，直接写 `META.eyebrow` 会抛 ReferenceError，把整个 `initHeroBg` 连带兜底逻辑一起干掉。写 `typeof META !== 'undefined' &&`。
 
+**❌ 别把豆包模型 ID 当常量**——豆包模型名带日期后缀（`doubao-seed-2-1-pro-260628`），旧版本会静悄悄下架。`doubao-1-5-pro-32k-250115` 就是这么没的，配置不改就一直报「模型不存在」，看起来像 key 错了。`call_volcengine` 已带候选回退链，换代时把新 ID 放 `VOLC_MODEL_FALLBACKS` 首位即可。
+
 **❌ 顶层 `const` 别被更早执行的函数引用**——`loadCardScenery()` 在 `const _tryImg` 声明之前就被 `renderGallery()` 调到，撞 TDZ。用 `function` 声明。
 
 ## 待办

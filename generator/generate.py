@@ -294,10 +294,10 @@ def call_volcengine(destination: str, days: int, prefs: str, mode: str = "") -> 
     # 2026 年初 doubao-1-5-pro-32k-250115 就悄悄没了，配置不改就一直报「模型不存在」。
     # 所以这里像 gen_postcard.py 一样准备一串候选，挨个试，别让一个过期的 ID 卡死整条链路。
     VOLC_MODEL_FALLBACKS = [
-        "doubao-seed-2-1-pro",       # 主力：知识强，POI 坐标/票价靠它
-        "doubao-seed-2-1-turbo",     # 半价备选
+        "doubao-seed-2-1-pro-260628",  # 主力：知识强，POI 坐标/票价靠它（2026-06-28 版）
+        "doubao-seed-2-1-pro",         # 不带日期的别名，将来 260628 下架时兜一手
+        "doubao-seed-2-1-turbo",       # 半价备选
         "doubao-seed-2-0-lite",
-        "doubao-seed-1-8",
     ]
     configured = os.getenv("VOLC_ENDPOINT_ID") or os.getenv("VOLC_MODEL", "")
     candidates = ([configured] if configured else []) + [
