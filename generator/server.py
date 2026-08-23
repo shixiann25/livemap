@@ -16,6 +16,8 @@ LiveMap 本地服务 · v0.5
 import json
 import os
 import sys
+import threading
+import time
 import http.server
 import socketserver
 import urllib.parse
@@ -31,12 +33,61 @@ from generate import (
 PORT = 5005
 
 
+# ============ 公网防刷 ============
+# 公网部署用的是「作者自己的」API key，等于谁都能花你的钱。
+# 本地跑（PUBLIC_DEPLOY 未设）完全不限，公网模式才启用配额。
+# 额度用完只影响新生成，画廊里的存量地图照常浏览。
+
+def is_public():
+    return os.getenv("PUBLIC_DEPLOY", "").lower() in ("1", "true", "yes")
+
+
+_quota_lock = threading.Lock()
+_quota = {"day": None, "total": 0, "by_ip": {}}
+
+
+def _today():
+    return time.strftime("%Y-%m-%d", time.gmtime())
+
+
+def quota_reject(ip):
+    """放行返回 None，超额返回给用户看的中文提示。"""
+    if not is_public():
+        return None
+    day_cap = int(os.getenv("DAILY_GENERATE_LIMIT", "40"))
+    ip_cap = int(os.getenv("DAILY_GENERATE_LIMIT_PER_IP", "5"))
+    with _quota_lock:
+        if _quota["day"] != _today():
+            _quota.update(day=_today(), total=0, by_ip={})
+        if _quota["total"] >= day_cap:
+            return (f"今天的免费生成额度（{day_cap} 张）已经用完了，明天再来～"
+                    f"下面画廊里的地图随便看。")
+        if _quota["by_ip"].get(ip, 0) >= ip_cap:
+            return (f"你今天已经生成 {ip_cap} 张了，明天再来～"
+                    f"想不限量可以把项目 clone 到本地跑 server.py。")
+    return None
+
+
+def quota_commit(ip):
+    """只在真的调了 AI 之后才记账——命中存量缓存不花钱，不该占额度。"""
+    if not is_public():
+        return
+    with _quota_lock:
+        _quota["total"] += 1
+        _quota["by_ip"][ip] = _quota["by_ip"].get(ip, 0) + 1
+
+
 class LiveMapHandler(http.server.SimpleHTTPRequestHandler):
     """同时提供静态文件 + API 端点。"""
 
     def __init__(self, *args, **kwargs):
         # 静态文件根目录指向 livemap/
         super().__init__(*args, directory=str(ROOT), **kwargs)
+
+    def client_ip(self):
+        # Render / 任何反代后面，真实 IP 在 X-Forwarded-For 的第一段
+        fwd = self.headers.get("X-Forwarded-For", "")
+        return (fwd.split(",")[0].strip() if fwd else self.client_address[0]) or "unknown"
 
     def log_message(self, fmt, *args):
         # 简化日志
@@ -65,7 +116,17 @@ class LiveMapHandler(http.server.SimpleHTTPRequestHandler):
         self.send_error(404, "API not found")
 
     def _save(self):
-        """可视化编辑器保存：收完整 data(meta/days/pois/legend) → render_html → 写回地图文件 + JSON 备份。"""
+        """可视化编辑器保存：收完整 data(meta/days/pois/legend) → render_html → 写回地图文件 + JSON 备份。
+
+        注意：这个端点会覆盖 maps/ 下的文件。公网部署默认关闭——否则任何访客
+        都能改掉你的地图。要在公网开编辑，设 LIVEMAP_EDIT_TOKEN，
+        并让客户端带 X-LiveMap-Token 头。
+        """
+        token = os.getenv("LIVEMAP_EDIT_TOKEN")
+        if is_public() and not token:
+            return self._json(403, {"error": "公网部署已关闭编辑保存（设 LIVEMAP_EDIT_TOKEN 可开启）"})
+        if token and self.headers.get("X-LiveMap-Token") != token:
+            return self._json(403, {"error": "编辑令牌不正确"})
         try:
             length = int(self.headers.get("Content-Length", 0))
             payload = json.loads(self.rfile.read(length).decode("utf-8"))
@@ -111,6 +172,12 @@ class LiveMapHandler(http.server.SimpleHTTPRequestHandler):
             if not (os.getenv("VOLC_API_KEY") or os.getenv("ANTHROPIC_API_KEY")):
                 return self._json(500, {"error": "服务端未设 VOLC_API_KEY 或 ANTHROPIC_API_KEY"})
 
+            ip = self.client_ip()
+            over = quota_reject(ip)
+            if over:
+                print(f"⛔ 配额拦截 {ip}：{destination} · {days} 天")
+                return self._json(429, {"error": over})
+
             # —— 存量优先：先按 slug+mode+days 查本地是否已有，命中直接返回，不调 AI ——
             base_guess = slugify(destination)
             if base_guess and base_guess != "destination":
@@ -128,6 +195,7 @@ class LiveMapHandler(http.server.SimpleHTTPRequestHandler):
                     })
 
             print(f"\n🤖 生成请求：{destination} · {days} 天 · 偏好={pref or '无'} · 模式={mode or '标准'}")
+            quota_commit(ip)   # 真要花 token 了才记账；上面命中缓存的那条路不占额度
             ai_data = call_llm(destination, days, pref, mode)
             if mode:
                 ai_data.setdefault("meta", {})["mode"] = mode
@@ -182,7 +250,9 @@ class LiveMapHandler(http.server.SimpleHTTPRequestHandler):
                 }
                 entry.update(card_meta(f))
                 maps.append(entry)
-        return self._json(200, {"maps": maps})
+        # can_edit 让 lm_editor.js 知道该不该挂载，省得用户改半天才发现存不了
+        can_edit = (not is_public()) or bool(os.getenv("LIVEMAP_EDIT_TOKEN"))
+        return self._json(200, {"maps": maps, "can_edit": can_edit})
 
     def _json(self, code, data):
         body = json.dumps(data, ensure_ascii=False).encode("utf-8")
@@ -198,7 +268,7 @@ def main():
     load_env_file()
 
     # 公网托管模式：强制走便宜模型（火山豆包），避免被刷爆时用到贵的 Claude
-    public = os.getenv("PUBLIC_DEPLOY", "").lower() in ("1", "true", "yes")
+    public = is_public()
     if public:
         os.environ["LLM_PROVIDER"] = "volc"
 
@@ -218,6 +288,10 @@ def main():
     else:
         model_info = f" · 模型 {os.getenv('CLAUDE_MODEL', 'claude-sonnet-4-5')}"
     print(f"  🤖 LLM 后端：{provider}{model_info}{' · 公网模式（强制便宜模型）' if public else ''}")
+    if public:
+        print(f"  🛡  防刷：每天 {os.getenv('DAILY_GENERATE_LIMIT', '40')} 张 · "
+              f"单 IP {os.getenv('DAILY_GENERATE_LIMIT_PER_IP', '5')} 张（命中存量不占额度）")
+        print(f"  ✏️  编辑保存：{'开（需 X-LiveMap-Token）' if os.getenv('LIVEMAP_EDIT_TOKEN') else '关'}")
 
     # 托管平台（Render/Railway/Fly）通过 $PORT 指定端口，并需绑定 0.0.0.0
     host = "0.0.0.0" if (public or os.getenv("PORT")) else "localhost"

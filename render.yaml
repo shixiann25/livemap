@@ -15,5 +15,9 @@ services:
         value: volc
       - key: VOLC_MODEL           # 豆包 · 约 ¥0.05/张
         value: doubao-1-5-pro-32k-250115
+      - key: DAILY_GENERATE_LIMIT        # 全站每天最多生成多少张（命中存量地图不占额度）
+        value: "40"
+      - key: DAILY_GENERATE_LIMIT_PER_IP # 单个 IP 每天最多几张
+        value: "5"
       - key: VOLC_API_KEY         # ⚠️ 在 Render 控制台手动填，sync:false 表示不进仓库
         sync: false

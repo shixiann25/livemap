@@ -9,7 +9,12 @@
   // 免得每张图都往控制台扔一个 404。
   if (window.LIVEMAP_STATIC) return;
   // 仅当后端存在（server.py 提供 /api/list）才挂编辑器
-  fetch('/api/list').then(r => { if (r.ok) boot(); }).catch(() => {});
+  // 后端还要回一个 can_edit：公网部署默认关掉保存（否则任何访客都能覆盖地图文件），
+  // 这时候不挂编辑器，省得用户改半天才发现存不了。
+  fetch('/api/list')
+    .then(r => (r.ok ? r.json() : null))
+    .then(d => { if (d && d.can_edit !== false) boot(); })
+    .catch(() => {});
 
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
   function reconstruct() {
