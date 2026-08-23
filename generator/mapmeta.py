@@ -41,8 +41,20 @@ def _image_query(meta):
     return _clean_title(meta)
 
 
+def _counts(html, meta, stem):
+    """天数与 POI 数。新地图 POI 是 "lat": ，老三张（big_island/kyoto_6d/yellowstone_5d）是 lat: 。"""
+    n = len(re.findall(r'["\']?lat["\']?\s*:', html))
+    if meta.get("map_center"):
+        n -= 1                                    # map_center 也是一处坐标，减掉
+    days = meta.get("total_days") or 0
+    if not days:
+        m = re.search(r"_(\d+)d$", stem)
+        days = int(m.group(1)) if m else 0
+    return max(n, 0), days
+
+
 def card_meta(html_path):
-    """返回 {title, emoji, en, query, color_scheme, tags}，解析失败时返回 {}。"""
+    """返回 {title, emoji, en, query, color_scheme, tags, poi, days}，解析失败时返回 {}。"""
     try:
         html = html_path.read_text(encoding="utf-8")
         m = _META_RE.search(html)
@@ -50,6 +62,7 @@ def card_meta(html_path):
             return {}
         meta = json.loads(m.group(1))
         tags = _legend_tags(html)
+        poi, days = _counts(html, meta, html_path.stem)
         en = (meta.get("eyebrow") or "").split("·")[0].strip() or _image_query(meta)
         return {
             "title": _clean_title(meta),
@@ -58,6 +71,24 @@ def card_meta(html_path):
             "query": _image_query(meta),
             "color_scheme": meta.get("color_scheme") or "",
             "tags": tags,
+            "poi": poi,
+            "days": days,
         }
     except Exception:
         return {}
+
+
+def title_fallback(html_path):
+    """没有 const META 的老地图：从 <title> 抠标题，并数出天数/POI 数。"""
+    try:
+        html = html_path.read_text(encoding="utf-8")
+    except Exception:
+        return {}
+    t = re.search(r"<title>(.*?)</title>", html, re.S)
+    raw = (t.group(1) if t else html_path.stem).replace("· LiveMap", "").strip()
+    raw = re.split(r"\s*[·|]\s*", raw)[0]
+    raw = re.sub(r"\s*(精准)?攻略地图\s*$", "", raw).strip()
+    poi, days = _counts(html, {}, html_path.stem)
+    return {"title": _EMOJI_PREFIX.sub("", raw).strip() or html_path.stem,
+            "emoji": (re.search(r"[\U0001F000-\U0001FAFF]", raw) or [""])[0] if re.search(r"[\U0001F000-\U0001FAFF]", raw) else "",
+            "poi": poi, "days": days, "tags": _legend_tags(html)}

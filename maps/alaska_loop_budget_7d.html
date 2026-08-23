@@ -732,19 +732,36 @@ function renderPriceWithRMB(priceStr, origCurrency) {
 
 // ============ 多源图片搜索 ============
 const imgCache = {};
-function isGoodImage(url) { return url && /\.(jpg|jpeg|png)$/i.test(url) && !/logo|icon|seal|coat[_-]of[_-]arms|svg|flag|map|chart/i.test(url); }
+function isGoodImage(url) {
+  if (!url) return false;
+  // Wikimedia 会给缩略图挂 ?utm_source=…&utm_campaign=parser，
+  // 直接对整个 URL 判 /\.(jpg)$/ 会全军覆没，所以先切掉 query/hash。
+  const path = String(url).split(/[?#]/)[0];
+  return /\.(jpg|jpeg|png)$/i.test(path)
+    && !/logo|icon|seal|coat[_-]of[_-]arms|svg|flag|map|chart/i.test(path);
+}
 async function fetchWikipediaImages(query, max = 4) {
   try {
     const sr = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&srlimit=1&format=json&origin=*`);
     const sd = await sr.json();
     const title = sd.query?.search?.[0]?.title;
     if (!title) return [];
+    // 维基是全文搜索，词不沾边也会还你一个「最相关」条目
+    // （真实案例：'SOUTHWEST landscape' → 一篇陶器条目；'…Tour in Kyoto' → Taiwan）。
+    // 命中标题至少要和查询词共享一个实词，否则宁可不出图，也别出错图。
+    const _kw = (s) => (String(s).toLowerCase().match(/[a-z]{3,}/g) || [])
+      .filter(w => !['landscape', 'the', 'and', 'national', 'park', 'city'].includes(w));
+    const _q = _kw(query), _t = new Set(_kw(title));
+    if (_q.length && !_q.some(w => _t.has(w))) return [];   // 中文查询 _q 为空，跳过校验
     const mr = await fetch(`https://en.wikipedia.org/api/rest_v1/page/media-list/${encodeURIComponent(title)}`);
     if (!mr.ok) return [];
     const md = await mr.json();
     const urls = [];
-    for (const item of (md.items || [])) {
-      if (item.type !== 'image') continue;
+    // media-list 按图片在文章里出现的顺序返回，头几张常是地图/示意图；
+    // 条目主图 leadImage 才是那张标准风景照，先把它顶上来。
+    const mediaItems = (md.items || []).filter(i => i.type === 'image')
+      .sort((a, b) => (b.leadImage === true) - (a.leadImage === true));
+    for (const item of mediaItems) {
       const srcset = item.srcset || [];
       const best = srcset.find(s => s.scale === '1.5x') || srcset.find(s => s.scale === '1x') || srcset[0];
       let src = best?.src || item.original?.source || '';
@@ -1216,12 +1233,32 @@ filterPOIs(); renderDayOverview();
     if (!hero) { hero = document.createElement('div'); hero.className = 'hero-bg'; header.insertBefore(hero, header.firstChild); }
     if (hero.dataset.done) return;
     hero.dataset.done = '1';
+    // 页头大图的搜索词只用「具体地名」。
+    // 别拿 META.subtitle：那是市场话术（如 'Classical Budget Tour in Kyoto'），
+    // 维基全文搜第一条可能是完全无关的条目（真实案例：搜出了 Taiwan）。
     const queries = [];
     const np = POIs.find(p => /national park/i.test(p.en || '') || /国家公园/.test(p.name || ''));
     if (np) queries.push((np.en || np.search) + ' landscape');
-    (META.subtitle || '').split(/[\u00b7\u2022\u30fb|]/).map(s => s.trim()).filter(s => s && !/livemap|\d{4}/i.test(s)).forEach(s => queries.push(s + ' landscape'));
-    if (POIs[0]) queries.push((POIs[0].search || POIs[0].en || POIs[0].name) + ' landscape');
+    const place = String((typeof META !== 'undefined' && META.eyebrow) || '').split(/[·•・|]/)[0].trim();
+    if (/^[\x20-\x7e]+$/.test(place) && !/livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
+    POIs.slice(0, 3).forEach(p => { const n = p.search || p.en; if (n) queries.push(n + ' landscape'); });
     (async () => {
+      // 先用这张图自己的 AI 明信片当页头底图：一定切题，不看搜索脸色。
+      // 维基搜图留作兜底——它会把 'SOUTHWEST' 搜成陶器、把人像当风景。
+      const slug = (location.pathname.split('/').pop() || '').replace(/\.html$/, '');
+      if (slug) {
+        const local = '../assets/postcards/' + slug + '.png';
+        const ok = await new Promise(res => {
+          const im = new Image();
+          im.onload = () => res(true); im.onerror = () => res(false); im.src = local;
+        });
+        if (ok) {
+          hero.style.backgroundImage = 'url("' + local + '")';
+          hero.style.backgroundPosition = 'center 26%';   // 明信片是竖版，主体偏上
+          header.classList.add('has-hero');
+          return;
+        }
+      }
       for (const q of queries) {
         if (!q) continue;
         let imgs = [];

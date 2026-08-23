@@ -15,5 +15,6 @@ dist/
 Nestle MMM Executive Summary.html
 
 node_modules/
-package.json
-package-lock.json
+
+# 本地编辑器/预览配置（每台机器不一样）
+.claude/

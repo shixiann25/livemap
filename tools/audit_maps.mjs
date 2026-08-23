@@ -4,8 +4,9 @@
 import { chromium } from 'playwright';
 import fs from 'fs';
 
-const BASE = 'http://localhost:8000/maps';
-const MAPS_DIR = '/Users/bytedance/xunzhi/livemap/dist/maps';
+const BASE = (process.env.BASE_URL || 'http://localhost:8000') + '/maps';
+const ROOT = new URL('..', import.meta.url).pathname;
+const MAPS_DIR = process.env.MAPS_DIR || `${ROOT}dist/maps`;
 const VIEWPORTS = process.env.VP === 'both'
   ? [{ width: 1440, height: 900 }, { width: 1920, height: 1080 }]
   : [{ width: 1920, height: 1080 }];
@@ -66,7 +67,13 @@ for (const f of files) {
       for (const d of days) {
         await page.evaluate(switchDay, d);
         await page.waitForTimeout(650); // 等 fitBounds 动画 + moveend declutter
-        const m = await page.evaluate(measure);
+        let m = await page.evaluate(measure);
+        // 复测一次：declutter 挂在 moveend 上，慢机器（CI）可能还没跑完就被量到，
+        // 直接判失败会变成 flaky。给它第二次机会，以复测结果为准。
+        if (m.overlaps.length || m.clipped.length) {
+          await page.waitForTimeout(900);
+          m = await page.evaluate(measure);
+        }
         mapOv += m.overlaps.length; mapClip += m.clipped.length;
         if (m.overlaps.length || m.clipped.length) {
           lines.push(`    [w${vp.width}] Day${d}: 可见${m.visCount}` +
@@ -85,3 +92,8 @@ for (const f of files) {
 await browser.close();
 console.log(report.join('\n'));
 console.log(`\n==== 汇总：${files.length} 张图 × ${VIEWPORTS.length} 视口 | 重叠对=${totalOverlap} 超界=${totalClip} 错误=${totalErr} ====`);
+
+// 验收标准：重叠=0 超界=0 错误=0。不满足就以非 0 退出，供 CI 当质量门用。
+const failed = totalOverlap || totalClip || totalErr;
+console.log(failed ? '❌ AUDIT FAILED' : '✅ AUDIT PASSED');
+process.exitCode = failed ? 1 : 0;

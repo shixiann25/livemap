@@ -5,6 +5,9 @@
   const FILE = location.pathname.split('/').pop();
   let data = null, addMode = false, dirty = false;
 
+  // 静态站（GitHub Pages）没有后端，构建期注入 LIVEMAP_STATIC 直接跳过探测，
+  // 免得每张图都往控制台扔一个 404。
+  if (window.LIVEMAP_STATIC) return;
   // 仅当后端存在（server.py 提供 /api/list）才挂编辑器
   fetch('/api/list').then(r => { if (r.ok) boot(); }).catch(() => {});
 

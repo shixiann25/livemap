@@ -9,7 +9,7 @@ const bgData = 'data:image/png;base64,' + fs.readFileSync(BG).toString('base64')
 
 const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: 1080, height: 1440 }, deviceScaleFactor: 2 });
-await p.goto(`http://localhost:8000/maps/${MAP}`, { waitUntil: 'domcontentloaded' });
+await p.goto(`${process.env.BASE_URL || 'http://localhost:8000'}/maps/${MAP}`, { waitUntil: 'domcontentloaded' });
 await p.waitForFunction(() => { try { return typeof POIs!=='undefined' && typeof DAYS!=='undefined'; } catch(e){ return false; } }, { timeout: 15000 });
 const data = await p.evaluate(() => {
   const title=(document.title.split('·')[0]||document.title).trim();

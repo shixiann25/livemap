@@ -510,7 +510,7 @@
   <div class="gallery">
 
     <a class="map-card usnp" href="maps/usnp_top20_5d.html" style="--card-bg:radial-gradient(ellipse at center, #c1440e 0%, #5a3a1a 55%, #0a0805 100%);">
-      <div class="preview" style="background: radial-gradient(ellipse at center, #c1440e 0%, #5a3a1a 55%, #0a0805 100%);">
+      <div class="preview" data-slug="usnp_top20_5d" style="background: radial-gradient(ellipse at center, #c1440e 0%, #5a3a1a 55%, #0a0805 100%);">
         <div class="preview-emoji">🏞️</div>
         <div style="position:absolute;top:10px;left:10px;z-index:3;display:flex;gap:4px;">
           <span style="padding:2px 6px;background:rgba(255,212,72,0.95);color:#1a1410;font-size:9px;border-radius:4px;font-weight:800;">🏆 一生必去</span>
@@ -536,7 +536,7 @@
     </a>
 
     <a class="map-card kyoto" href="maps/kyoto_6d.html">
-      <div class="preview">
+      <div class="preview" data-slug="kyoto_6d">
         <div class="preview-emoji">⛩️</div>
         <div style="position:absolute;top:10px;left:10px;z-index:3;display:flex;gap:4px;">
           <span style="padding:2px 6px;background:rgba(232,168,184,0.9);color:#1a1018;font-size:9px;border-radius:4px;font-weight:700;">✨ v0.3</span>
@@ -562,7 +562,7 @@
     </a>
 
     <a class="map-card yellowstone" href="maps/yellowstone_5d.html">
-      <div class="preview">
+      <div class="preview" data-slug="yellowstone_5d">
         <div class="preview-emoji">🌋</div>
         <div style="position:absolute;top:10px;left:10px;z-index:3;display:flex;gap:4px;">
           <span style="padding:2px 6px;background:rgba(232,168,94,0.9);color:#1a1410;font-size:9px;border-radius:4px;font-weight:700;">✨ v0.3</span>
@@ -588,7 +588,7 @@
     </a>
 
     <a class="map-card bigisland" href="maps/big_island_7d.html">
-      <div class="preview">
+      <div class="preview" data-slug="big_island_7d">
         <div class="preview-emoji">🌺</div>
         <div style="position:absolute;top:10px;left:10px;z-index:3;display:flex;gap:4px;">
           <span style="padding:2px 6px;background:rgba(88,168,124,0.9);color:#1a3a2a;font-size:9px;border-radius:4px;font-weight:700;">✨ v0.3</span>
@@ -614,7 +614,7 @@
     </a>
 
     <a class="map-card hokkaido" href="maps/hokkaido_5d.html" style="--card-bg:radial-gradient(ellipse at center, #5a8ab0 0%, #2a3a5a 60%, #050811 100%);">
-      <div class="preview" style="background: radial-gradient(ellipse at center, #5a8ab0 0%, #2a3a5a 60%, #050811 100%);">
+      <div class="preview" data-slug="hokkaido_5d" style="background: radial-gradient(ellipse at center, #5a8ab0 0%, #2a3a5a 60%, #050811 100%);">
         <div class="preview-emoji">❄️</div>
         <div style="position:absolute;top:10px;left:10px;z-index:3;display:flex;gap:4px;">
           <span style="padding:2px 6px;background:rgba(255,212,72,0.95);color:#1a1410;font-size:9px;border-radius:4px;font-weight:800;">🚀 v0.4 AI 生成</span>
@@ -762,7 +762,7 @@ $ open http://localhost:5005
         <p style="text-align:left;">你现在是 <code style="background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:4px;">file://</code> 打开的，所以无法直接调 AI。<b>启动本地服务后</b>，输入框会真正能用：</p>
         <div class="code-snippet" style="text-align:left;">
 <span style="color:#8a9aaa;"># 1. 终端跑这行</span><br>
-$ cd /Users/bytedance/xunzhi/livemap/generator<br>
+$ cd livemap/generator<br>
 $ python3 server.py<br>
 <br>
 <span style="color:#8a9aaa;"># 2. 浏览器换地址访问</span><br>
@@ -885,7 +885,7 @@ $ open http://localhost:5005
         const bg = SCHEME_BG[m.color_scheme] || DEFAULT_BG;
         return `
         <a class="map-card" href="${m.url}">
-          <div class="preview" data-q="${esc(m.query || title)}" style="background:${bg};background-size:cover;background-position:center;">
+          <div class="preview" data-slug="${esc(m.name || '')}" data-q="${esc(m.query || title)}" style="background:${bg};background-size:cover;background-position:center;">
             <div class="preview-emoji">${emoji}</div>
             <div style="position:absolute;top:10px;left:10px;z-index:3;display:flex;gap:4px;">
               <span style="padding:2px 6px;background:rgba(255,212,72,0.95);color:#1a1410;font-size:9px;border-radius:4px;font-weight:800;">🤖 AI</span>
@@ -914,7 +914,12 @@ $ open http://localhost:5005
   }
 
   // ===== 卡片目的地风景图（Wikipedia，懒加载，失败回退渐变底）=====
-  const _isGoodImg = u => u && /\.(jpg|jpeg|png)$/i.test(u) && !/logo|icon|seal|coat[_-]of[_-]arms|svg|flag|map|chart/i.test(u);
+  // 注意 split：Wikimedia 现在给缩略图挂 ?utm_source=…，直接判 /\.jpg$/ 会一张都过不了。
+  const _isGoodImg = u => {
+    if (!u) return false;
+    const path = String(u).split(/[?#]/)[0];
+    return /\.(jpg|jpeg|png)$/i.test(path) && !/logo|icon|seal|coat[_-]of[_-]arms|svg|flag|map|chart/i.test(path);
+  };
   async function fetchSceneryImage(query) {
     try {
       const sr = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&srlimit=1&format=json&origin=*`);
@@ -933,22 +938,37 @@ $ open http://localhost:5005
     } catch (e) {}
     return null;
   }
-  function loadCardScenery() {
-    document.querySelectorAll('.preview[data-q]:not([data-loaded])').forEach(async el => {
-      el.dataset.loaded = '1';
-      const q = el.dataset.q;
-      if (!q) return;
-      const url = await fetchSceneryImage(q + ' landscape') || await fetchSceneryImage(q);
-      if (!url) return;
-      const pre = new Image();
-      pre.onload = () => {
-        el.style.backgroundImage = `url("${url}")`;
-        const emoji = el.querySelector('.preview-emoji');
-        if (emoji) emoji.style.display = 'none';
-      };
-      pre.src = url;
+  // 用 function 声明而不是 const：renderGallery() 会在本行之前就调 loadCardScenery，
+  // 写成 const 会撞上 TDZ（Cannot access '_tryImg' before initialization）。
+  function _tryImg(url) {
+    return new Promise(res => {
+      const im = new Image();
+      im.onload = () => res(url); im.onerror = () => res(null); im.src = url;
     });
   }
+
+  function loadCardScenery() {
+    // 优先用每张地图自己的 AI 明信片：切题、好看、不看维基搜索脸色
+    // （维基全文搜索必返回结果，'SOUTHWEST' 能搜出陶器条目）。搜图只当兜底。
+    document.querySelectorAll('.preview[data-slug],.preview[data-q]').forEach(async el => {
+      if (el.dataset.loaded) return;
+      el.dataset.loaded = '1';
+      const slug = el.dataset.slug;
+      const q = el.dataset.q;
+      let url = slug ? await _tryImg(`assets/postcards/${slug}.png`) : null;
+      if (!url && q) {
+        const remote = await fetchSceneryImage(q + ' landscape') || await fetchSceneryImage(q);
+        url = remote ? await _tryImg(remote) : null;
+      }
+      if (!url) return;
+      el.style.backgroundImage = `url("${url}")`;
+      el.style.backgroundSize = 'cover';
+      el.style.backgroundPosition = 'center 22%';
+      const emoji = el.querySelector('.preview-emoji');
+      if (emoji) emoji.style.display = 'none';
+    });
+  }
+  loadCardScenery();   // 5 张手写卡片不走 renderGallery，得单独触发一次
 </script>
 </body>
 </html>

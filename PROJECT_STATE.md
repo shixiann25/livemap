@@ -1,167 +1,102 @@
 # LiveMap · 项目状态快照
 
-> 用于 Claude Code `/clear` 后快速恢复上下文。每次重大改动后更新本文件。
+> 给 Claude Code `/clear` 之后快速恢复上下文用。每次重大改动后更新本文件。
+> 上次更新：2026-08-22
 
 ---
 
-## 🎯 项目本质
+## 一句话
 
-把"目的地+天数+偏好" → **10 秒生成可交互的旅行活地图 HTML**。
-- 后端：火山引擎豆包（¥0.05/张）/ Claude（免费，靠 Claude Code 直出）
-- 前端：Hub 落地页 + 9 张已生成地图
-- 服务：本地 `http://localhost:5005`（python3 server.py 后台跑）
+「目的地 + 天数 + 偏好」→ 一个可交互的**单文件 HTML 旅行地图**（~110 KB，离线可看，微信能发）。
+产品动机和指标见 [PRD_LiveMap.md](PRD_LiveMap.md)，对外介绍见 [README.md](README.md)。
 
----
+## 当前规模
 
-## 📁 关键路径
+- **32 张成品地图 / 560+ POI**，覆盖美国国家公园、日本、韩国、泰国、西班牙、九寨沟
+- 四种出行模式：标准 / J 人精算 / P 人随性 / 中产舒适 / 穷游省钱
+- 线上：GitHub Pages 静态站（只读画廊）；在线 AI 生成需要常驻后端，**尚未部署**
+
+## 关键路径
 
 ```
-/Users/bytedance/xunzhi/livemap/
-├── index.html               Hub 落地页
-├── maps/                    9 张已生成地图（全部走同一套 v0.7 模板）
-│   ├── kyoto_6d.html        京都 6 天
-│   ├── yellowstone_5d.html  黄石 5 天
-│   ├── big_island_7d.html   大岛 7 天
-│   ├── hokkaido_5d.html     北海道 5 天
-│   ├── orlando_5d.html      奥兰多 5 天
-│   ├── seoul_3d.html        首尔 3 天
-│   ├── barcelona_4d.html    巴塞罗那 4 天
-│   ├── chiangmai_3d.html    清迈 3 天
-│   └── alaska_5d.html       阿拉斯加 5 天
+~/livemap/
+├── index.html                Hub 落地页（输入框 + 画廊）
+├── maps/*.html               32 张成品（自包含单文件）
 ├── generator/
-│   ├── template.html        通用模板（17 个占位符）
-│   ├── generate.py          CLI 生成器（3 模式：--api/--data/--mock）
-│   ├── server.py            本地 HTTP（5005 端口）
-│   ├── .env                 含 VOLC_API_KEY + VOLC_MODEL=doubao-1-5-pro-32k-250115
-│   └── data/*.json          POI 源数据
-└── PRD_LiveMap.md           完整 PRD（飞书已同步）
+│   ├── template.html         地图模板（占位符）
+│   ├── generate.py           目的地 → LLM → POI JSON → HTML
+│   ├── build_static.py       打包 dist/：注入画廊列表 + OG 分享卡标签
+│   ├── patch_maps.py         给 32 张成品批量回填模板改动（幂等，CI 会 --check）
+│   ├── mapmeta.py            从成品 HTML 反解元信息（标题/emoji/标签/天数/POI 数）
+│   ├── server.py             本地 & Render 后端：/api/generate /api/list /api/save
+│   ├── gen_postcard.py       单张 AI 明信片
+│   ├── gen_all_postcards.py  批量补齐明信片（幂等）
+│   └── .env                  VOLC_API_KEY（gitignored，未随仓库提供）
+├── assets/
+│   ├── postcards/*.png       每图一张 AI 明信片（页头底图 / 卡片配图 / 海报底）
+│   ├── og/*.jpg              每图一张社交分享卡 1200×630（+ _site.jpg 站点卡）
+│   ├── lm_checkin.js         打卡 checklist + 自定义点（localStorage）
+│   └── lm_editor.js          可视化编辑器（仅后端在线时挂载）
+├── tools/*.mjs               Playwright：渲染审计 / 截图 / 海报 E2E / 分享卡 / README 图
+└── docs/img/*.jpg            README 用产品截图
 ```
 
-## 🚀 启动命令
+## 常用命令
 
 ```bash
-# 后台启动服务
-cd /Users/bytedance/xunzhi/livemap/generator
-nohup python3 server.py > /tmp/livemap_server.log 2>&1 &
-echo $! > /tmp/livemap_server.pid
+# 构建 + 本地预览
+python3 generator/build_static.py --out dist
+python3 -m http.server 8000 --directory dist
 
-# 停服务
-kill $(cat /tmp/livemap_server.pid)
+# 生成新地图（花 token）
+python3 generator/generate.py "巴黎" 5 --pref 美食 --slug paris
+python3 generator/gen_postcard.py "Paris" assets/postcards/paris_5d.png
+node tools/gen_og_cards.mjs          # 幂等，只补缺的；--force 全量重画
 
-# 用 Claude API 生成（需要 ANTHROPIC_API_KEY）
-python3 generate.py "巴黎" 5 --pref 美食 --open
+# 在线生成（需 generator/.env 里的 VOLC_API_KEY）
+python3 generator/server.py          # http://localhost:5005
 
-# 用火山生成（已配 .env）
-python3 generate.py "巴黎" 5 --pref 美食 --open  # 自动用 VOLC
-
-# mock 数据测试
-python3 generate.py --mock --open
+# QA（改完地图 UI 必跑）
+python3 generator/patch_maps.py --check
+node tools/audit_maps.mjs            # 验收：重叠 0 · 超界 0 · 错误 0
+node tools/test_poster.mjs
 ```
 
----
+## 架构上的两条硬约束
 
-## ✨ 已实现功能清单（v0.7）
+**1. 地图是「生成的产物」，不是「运行的应用」。**
+纯 vanilla JS + Leaflet，没有框架、没有构建产物、没有运行时数据请求。因为产物必须能双击打开、能微信发、断网能看。任何「加个框架就好了」的想法都会破坏这条。
 
-### 地图本体
-- Leaflet 真实地理底图（CartoDB Voyager）+ 风格切换（简洁/地形）
-- 移动端适配（≤768px 单列 + Day Tab 横向滚动 + map 360px）
-- POI markers 带编号 + 颜色分类
-- Day 路线连线（彩色虚线，每天独立颜色）
+**2. 成品是单文件副本，模板改动不会自动流下去。**
+改了 `generator/template.html` 里的运行时逻辑，32 张成品**不会跟着变**。必须在 `generator/patch_maps.py` 里登记一条补丁（旧写法 → 新写法 + 幂等 marker），然后跑一遍回填。CI 的 `--check` 会拦住忘了回填的 PR。
 
-### POI 详情面板
-- **4 宫格大图**（Wikimedia + Commons 多源搜图，搜不到回退 emoji）
-- **Lightbox** 全屏看图 + 左右箭头 + 底部圆点 + 键盘 ← →
-- **POI 上一个/下一个导航** `‹ 3/24 ›`（键盘 ← →）
-- **3 个 info-cell**：💴 门票（RMB+原币）/ ⏰ 营业 / **⏱️ 建议游玩**（智能默认）
-- 描述 + 拍照点（搜图按钮）+ 美食（每行点 📍 跳 Google Maps）+ 米其林 + 避雷
-- 「📍 在 Google Maps 打开导航」大按钮
+## 踩过的坑（别再踩）
 
-### Day 视图
-- POI 列表（每两点之间显示距离 + 步行/打车时间）
-- Day tip + Plan B（雨天预案）
-- 推荐酒店卡片（地址/价格 RMB/停车/Booking/Google Maps）
+**❌ 不要用 MutationObserver 监听 body 子树**——会和 Day Tab 切换的 innerHTML 重渲染产生竞态，历史上 L、M、P 三次升级都栽在这。要改行为就 regex patch 源码，或 `const _orig = showDetail; window.showDetail = ...`。
 
-### 全部 N 天视图
-- 4 段结构化 all_tip（🎯主题/🎬节奏/🗺️路线/💡实用）
-  - 段标题 16px + emoji 20px + 段间虚线分隔
-  - 关键词自动高亮：「引用」黄色记号笔 / Day N 灰徽章 / ¥价 橙记号笔 / 时段词 蓝记号笔
-- 统计卡 4 槽：天数 / 景点 / **预计花费/人** / **交通方式**
-- 🔥 独门绝技 + ⚠️ 安全提醒
-- ✈️ 出行前必看（签证/电压/SIM/汇率/小费/急救）
-- ⬇️ GPX 导出按钮（导入 Google My Maps / Garmin）
+**❌ 不要对带 query 的外部 URL 直接判扩展名**——Wikimedia 给缩略图挂了 `?utm_source=…`，`/\.(jpg)$/` 于是全军覆没，32 张图的四宫格静默回退 emoji 且不报错。判之前先 `split(/[?#]/)[0]`。
 
-### Hub 落地页
-- 输入框 + 偏好 chips + 生成按钮（点击调 /api/generate）
-- 已生成地图 Gallery（自动 fetch /api/list 动态列出所有 maps/）
-- 「工作原理」4 步说明
+**❌ 不要拿市场话术当搜索词**——维基是全文搜索，永远有结果但不保证对。`"Classical Budget Tour in Kyoto"` 搜出 Taiwan，`"SOUTHWEST"` 搜出陶器条目，页头一度挂着人像照。现在：本地明信片优先 → 搜索词只用具体地名 → 命中标题必须和查询词共享实词。
 
-### 后端
-- generate.py：3 模式（--api / --data / --mock）+ slug 映射
-- server.py：Python stdlib http.server，端口 5005
-  - `POST /api/generate` 生成新地图
-  - `GET /api/list` 列出所有地图
-  - 静态文件直接服务整个 livemap/ 目录
-- 双 LLM：VOLC（默认）/ ANTHROPIC，自动 fallback
-- 货币：JPY/USD/EUR/GBP/KRW/THB/AUD/CAD 自动换算 RMB
+**❌ 不要在老三张手写地图里假设 `META` 存在**——`big_island_7d` / `kyoto_6d` / `yellowstone_5d` 没有 `const META`，直接写 `META.eyebrow` 会抛 ReferenceError，把整个 `initHeroBg` 连带兜底逻辑一起干掉。写 `typeof META !== 'undefined' &&`。
 
----
+**❌ 顶层 `const` 别被更早执行的函数引用**——`loadCardScenery()` 在 `const _tryImg` 声明之前就被 `renderGallery()` 调到，撞 TDZ。用 `function` 声明。
 
-## 🐛 重要教训
+## 待办
 
-**❌ 不要用 MutationObserver 监听 body 子树**
-- 会和 Day Tab 切换的 innerHTML 重渲染产生竞态
-- 之前的 L、M、P 升级都因为用了 observer 导致 Day Tab bug
+**上线可用**
+- [ ] 部署常驻后端（Render 蓝图已在 `render.yaml`），让首页生成按钮真能用；需要在 Render 控制台手填 `VOLC_API_KEY`
+- [ ] 公网生成接口加每日额度上限（现在是用作者的 key，没有防刷）
 
-**✅ 正确做法**
-- 直接 regex patch 源码
-- 或 override 函数：`const _orig = showDetail; window.showDetail = ...`
+**分享增长**
+- [x] 每张地图的 OG / Twitter 分享卡（`assets/og/`，构建期注入 `dist/`）
+- [ ] 短链 + 生成结果持久化（对象存储），跑通 PRD 的完整分享回路
 
----
+**工程质量**
+- [x] `audit_maps.mjs` 非 0 退出 + 慢机器复测，可当 CI 质量门
+- [x] `patch_maps.py --check` 拦住「模板改了但成品没回填」
+- [ ] 审计范围扩到移动端视口
+- [ ] 单图瘦身到 100 KB 以内（现 98–120 KB）
 
-## 🚧 待办 / 用户提过的需求（未完成）
-
-1. **O · 独门绝技项可点击** → 跳 POI 详情（task #33 pending）
-2. **多模式系统**（J 人计划 / P 人随性 / 中产 / 穷游）
-   - 影响：消费/节奏/玩法/酒店/餐厅/交通
-   - 设计：每个模式独立 HTML 文件，Hub mode picker
-3. **独门绝技点击展开深度介绍**（pending）
-
----
-
-## 💡 当前协作模式
-
-| 谁出 token | 场景 |
-|---|---|
-| **Claude（免费）** | 用户对话里"生成 XX N 天"——我直接写 JSON + 跑 `generate.py --data` 渲染 |
-| **火山 API（¥0.05/张）** | 用户在 Hub 输入框点生成 |
-
----
-
-## 🔑 .env 内容（在 generator/.env）
-
-```
-VOLC_API_KEY=<你的火山引擎 key>
-VOLC_MODEL=doubao-1-5-pro-32k-250115
-LLM_PROVIDER=volc
-```
-
-⚠️ 真实 key 只放本地 `generator/.env`（已被 .gitignore 忽略），切勿写进任何会提交的文件。
-
----
-
-## 📊 关键技术决策
-
-- **不用 React/Vue**——纯 vanilla JS，每张 HTML 独立 56KB，可微信/AirDrop 分享
-- **不用 Mapbox**——CartoDB 免费瓦片够用（Stamen 水彩需 API key 已放弃）
-- **图片源**：Wikipedia REST API（首图）+ Wikimedia Commons 搜索 + Google Images 跳转兜底
-- **数据流**：POI JSON → template.html 占位符替换 → 静态 HTML
-- **风格 5 套**：warm / sakura / ocean / snow / forest（LLM 按目的地气质选）
-
----
-
-## 🆘 如果 Claude Code 重启后
-
-1. 跑 `cat /Users/bytedance/xunzhi/livemap/PROJECT_STATE.md` 拉回上下文
-2. 跑 `ls /Users/bytedance/xunzhi/livemap/maps/` 看现有地图
-3. 跑 `curl -s http://localhost:5005/api/list | head` 看服务是否还活着
-4. 如果服务挂了：`cd generator && nohup python3 server.py > /tmp/livemap_server.log 2>&1 &`
+**产品**
+- [ ] 「独门绝技」条目可点击 → 跳对应 POI 详情 / 展开深度介绍

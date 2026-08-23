@@ -5,8 +5,9 @@
 import { chromium } from 'playwright';
 import fs from 'fs';
 
-const BASE = 'http://localhost:8000/maps';
-const MAPS_DIR = '/Users/bytedance/xunzhi/livemap/dist/maps';
+const BASE = (process.env.BASE_URL || 'http://localhost:8000') + '/maps';
+const ROOT = new URL('..', import.meta.url).pathname;
+const MAPS_DIR = process.env.MAPS_DIR || `${ROOT}dist/maps`;
 const OUT_DIR = '/tmp/livemap_qa';
 fs.mkdirSync(OUT_DIR, { recursive: true });
 

@@ -1,8 +1,15 @@
-name: Deploy LiveMap to GitHub Pages
+name: CI · 审计 + 发布 GitHub Pages
+
+# 两段：先真实渲染审计，通过了才发布。
+# 这个项目最容易坏、又最难靠肉眼发现的是两件事：
+#   1) 地图标签重叠 / 溢出（32 张图 × 每天一个视图，人工看不过来）
+#   2) 模板改了但 32 张单文件成品没回填
+# 所以它们是发布的前置条件，而不是「有空再看」的附加检查。
 
 on:
   push:
     branches: [main, master]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -14,12 +21,65 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
-# 让 Node 20 的 actions 以 Node 24 运行，消除弃用告警（2026-06-02 后将成为默认）
+# 让 Node 20 的 actions 以 Node 24 运行，消除弃用告警
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  build-deploy:
+  audit:
+    name: 渲染审计
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: 成品是否跟上了模板改动
+        run: python3 generator/patch_maps.py --check
+
+      - name: 构建静态站
+        run: python3 generator/build_static.py --out dist
+
+      - name: 装 Playwright
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: 起本地静态服务
+        run: |
+          python3 -m http.server 8000 --directory dist &
+          # 等端口真能连上再往下走，别用 sleep 赌
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:8000/ >/dev/null && break
+            sleep 1
+          done
+          curl -sf http://localhost:8000/ >/dev/null
+
+      - name: 渲染审计（验收：重叠 0 · 超界 0 · 错误 0）
+        run: node tools/audit_maps.mjs
+
+      - name: 海报功能 E2E
+        run: node tools/test_poster.mjs
+
+      - name: 失败时留下截图
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: livemap-qa-screenshots
+          path: /tmp/livemap_qa/
+          if-no-files-found: ignore
+
+  deploy:
+    name: 发布 Pages
+    needs: audit
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -31,10 +91,11 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Build static site
-        run: |
-          cd generator
-          python3 build_static.py --out ../dist
+      - name: 构建静态站
+        # og:image / og:url 要绝对地址，用仓库实际的 Pages 域名，换仓库不用改代码
+        env:
+          LIVEMAP_SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+        run: python3 generator/build_static.py --out dist
 
       - uses: actions/configure-pages@v5
 
