@@ -102,7 +102,7 @@ function cardHTML(meta, postcardDataUri) {
 </style></head><body>
   <div class="left">
     <div>
-      <div class="brand">◆ Itinera 旅行地图</div>
+      <div class="brand">◆ Itinera</div>
       ${meta.eyebrow ? `<div class="eyebrow">${esc(meta.eyebrow)}</div>` : ''}
       <div class="title"><span class="emoji">${meta.emoji}</span>${esc(meta.title)}</div>
       <div class="chips">${chips.map((c) => `<span class="chip">${esc(c)}</span>`).join('')}</div>
@@ -138,9 +138,9 @@ function siteHTML(collage, mapCount, poiCount) {
   <div class="strip">${collage.map((d) => `<img src="${d}">`).join('')}</div>
   <div class="scrim"></div>
   <div class="wrap">
-    <div class="brand">◆ Itinera 旅行地图</div>
-    <h1>把旅行攻略<br>变成一张能<em>「看」</em>的地图</h1>
-    <p>输入目的地 → 10 秒生成可交互旅行地图 → 发给同伴一眼秒懂</p>
+    <div class="brand">◆ Itinera</div>
+    <h1>跟着这本地图<br>打开你的<em>旅行</em></h1>
+    <p>一次旅行，收进一个可以随身带走的文件</p>
     <div class="chips">
       <span class="chip">🗺️ ${mapCount} 条现成行程</span>
       <span class="chip">📍 ${poiCount}+ 个景点</span>

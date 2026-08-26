@@ -31,8 +31,8 @@ from mapmeta import card_meta, title_fallback
 # 换域名时用环境变量覆盖，不用改代码：ITINERA_SITE_URL=https://xxx python3 build_static.py
 SITE_URL = os.environ.get("ITINERA_SITE_URL", "https://shixiann25.github.io/itinera").rstrip("/")
 SITE_NAME = "Itinera 旅行地图"
-SITE_DESC = ("输入目的地和天数，10 秒生成一张可交互的旅行地图："
-             "真实底图 + 每日路线 + 门票价格 + 拍照点 + 美食。单文件 HTML，发微信就能看。")
+SITE_DESC = ("跟着这本地图，打开你的旅行。一次旅行，收进一个可以随身带走的文件："
+             "真实地图、每天一色的路线、门票与营业时间、拍照点与美食。单文件 HTML，发微信就能看。")
 
 
 def _esc(s):
