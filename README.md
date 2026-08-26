@@ -143,11 +143,22 @@ node tools/gen_og_cards.mjs                 # 补分享卡（幂等，只补缺�
 同一套模板，另一种用法：装成 skill 之后，**行程数据由 Claude 直接写**，不需要任何 API key、
 不需要后端、不花钱——而且可以对话式改（「第 3 天太赶了，拆成两天」）。
 
+### 安装（两种）
+
+**给别人用**——[下载 livemap-skill.zip](https://github.com/shixiann25/livemap/releases/latest)，解压到 `~/.claude/skills/`：
+
+```bash
+unzip ~/Downloads/livemap-skill.zip -d ~/.claude/skills/
+```
+
+不需要 clone 仓库、不需要 API key、不需要 pip 装任何东西——只要有 `python3`。
+装完对 Claude 说「帮我做个京都 6 天的活地图」就行。
+
+**自己开发**——从主仓库构建，改了模板能立刻同步：
+
 ```bash
 python3 skill/build_skill.py --install     # 构建并装到 ~/.claude/skills/livemap/
 ```
-
-然后对 Claude 说「帮我做个京都 6 天的活地图」就行。
 
 ```
 skill/
