@@ -1,6 +1,6 @@
 ---
 name: livemap
-description: 把「目的地 + 天数 + 偏好」变成一张可交互的旅行活地图——真实地理底图、每日分色路线、景点门票与营业时间、拍照点与美食，输出一个 ~110KB 的单文件 HTML，双击就能看、发微信就能分享。当用户说「帮我规划 XX N 天」「做个 XX 的行程」「生成一张旅行地图」「把这个攻略变成地图」，或提到活地图 / LiveMap 时使用。也能改已有地图：加景点、删一天、换模式。
+description: Turn a destination + number of days + preferences into an interactive travel map — real basemap, colour-coded daily routes, ticket prices and opening hours, photo spots and food picks — output as a single self-contained ~110KB HTML file you can double-click or send to a friend. Also edits existing maps: add stops, split a day, switch travel mode. Works in English or Chinese. Use when the user asks to plan a trip, build an itinerary, make a travel map, or turn a guide into a map. 中文触发：把「目的地 + 天数 + 偏好」变成一张可交互的旅行活地图，输出单文件 HTML，双击就能看、发微信就能分享。当用户说「帮我规划 XX N 天」「做个 XX 的行程」「生成一张旅行地图」「把这个攻略变成地图」，或提到活地图 / LiveMap 时使用。也能改已有地图：加景点、删一天、换模式。
 metadata:
   openclaw:
     requires:
