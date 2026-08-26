@@ -2,13 +2,18 @@
 
 # 🗺️ LiveMap · 活地图
 
-**把旅行攻略变成一张能「看」的地图**
+### 没人会看你写的 5000 字攻略，但他们会看这张图。
 
-输入「北海道 5 天」→ AI 生成一张可交互的旅行地图 → 发给同伴，不用注册、不用装 App，浏览器打开就懂。
+说一句「北海道 5 天」，拿回一个自包含的 HTML 文件：真实地图、每天一色的路线、
+每个景点的门票多少钱、几点开门、该待多久。发给同伴——不用注册、不用装 App、
+断网也能看。
 
-[**▶ 浏览 32 条行程**](https://shixiann25.github.io/livemap/) · [**✨ 自己生成一张**](https://livemap-b1im.onrender.com/) · [产品 PRD](PRD_LiveMap.md) · [开发指南](SETUP.md) · [部署](DEPLOY.md)
+[**▶ 浏览 32 条行程**](https://shixiann25.github.io/livemap/) · [**✨ 自己生成一张**](https://livemap-b1im.onrender.com/) · [**🗺️ 装成 Claude Skill**](https://github.com/shixiann25/livemap-skill) · [PRD](PRD_LiveMap.md) · [部署](DEPLOY.md)
 
-<sub>*LiveMap turns a travel itinerary into a single self-contained interactive HTML map — real basemap, day-by-day routes, ticket prices in your own currency, photo spots and food picks. One file, ~110 KB, no backend needed to view. Built with vanilla JS + Leaflet + an LLM that writes the POI data. UI is in Chinese.*</sub>
+<sub>*Nobody reads your 5,000-word itinerary — they'll look at this. Say where you're going and how
+many days; get back one self-contained HTML file with a real basemap, colour-coded daily routes,
+ticket prices, opening hours, photo spots and food picks. ~110 KB, opens with a double-click,
+works offline. Vanilla JS + Leaflet + an LLM that writes the POI data. UI in Chinese or English.*</sub>
 
 ![LiveMap Hub](docs/img/hub.jpg)
 
