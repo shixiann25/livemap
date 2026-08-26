@@ -157,6 +157,39 @@ POSTCARD_NEW = (
     "        if (!q) continue;"
 )
 
+
+# ---------------------------------------------------------------- 补丁 6
+# renderFoods 用「手写 emoji 白名单 + 没有 /u 标志」的正则剥条目开头的 emoji。
+# emoji 是代理对，没有 /u 时字符类里存的是半个字符；名单里的 🍜🍣🍡… 共享同一个
+# 高位代理 D83C，于是任何名单外、但同属 U+1F3xx 段的 emoji（如 🍲）都会被砍掉高位代理，
+# 留下一个孤立的低位代理 → encodeURIComponent 抛 URIError。
+# 这个异常是在 showDetail 里同步抛的，后面所有渲染全部中断：
+# 四宫格永远停在「搜索中」，美食、导航按钮一个都不出来。
+# renderPhotoSpots 的 slice(0, 25) 同理会把 emoji 劈成两半。
+#
+# 两处一起修：用 \p{Extended_Pictographic} + /u 认整个 emoji，
+# 再给拼出来的搜索串加一道去落单代理的兜底。
+# 锚点用函数定义本身，不要带上面那行注释——老三张和几张早期图的注释文案不同，
+# 带上注释会漏掉它们，而 safeQuery 的调用点又是全量打的，会留下「调用了未定义函数」的坏状态。
+# 锚点必须选「前面不可能有修饰符、且 33 个文件里写法完全一致」的顶层语句。
+# 教训：先前锚在 `function renderPhotoSpots(poi) {` 上，而 9 张老图写的是
+# `async function renderPhotoSpots(poi) {`——子串匹配把 async 和它的函数劈开了，
+# async 跑去修饰新插入的 safeQuery，原函数里的 await 变非法，整个脚本解析失败。
+SURROGATE_OLDS = ["const imgCache = {};"]
+SURROGATE_NEW = "const imgCache = {};\n\n// 拼 Google 搜索串前先去掉落单的代理项。\n// 上游任何一次 slice/replace 都可能把一个 emoji 劈成两半，剩下的孤立代理\n// 会让 encodeURIComponent 抛 URIError——而它是在 showDetail 里同步抛的，\n// 整个详情面板会停在半截：四宫格一直转圈、美食和导航按钮都不渲染。\nfunction safeQuery(s) {\n  // [...str] 按码点迭代：合法代理对会作为一个整体出来（码点 > 0xFFFF），\n  // 只有落单的代理才会以单个码元的形式出现，据此筛掉。\n  return [...String(s)].filter(ch => {\n    const c = ch.codePointAt(0);\n    return !(c >= 0xD800 && c <= 0xDFFF);\n  }).join('');\n}"
+
+FOOD_EMOJI_OLDS = [
+    "    let name = f.replace(/^[🍡🍜🍣🍵🍢🍰🍦🥩🥪🍤🥩🍷🍕🍺☕🍔🍱🍣🥟🥗🥨🍩🥯🍴🍝🥢🐟🦀🦪🍇🥃🍫🍳🍻🍂🌮🥙🍞🧀🧊🌭🥒🥢🍙🍡🥃]+\\s*/, '').replace(/[（(].*$/, '').trim();",
+    "    let name = f.replace(/^[🍡🍜🍣🍵🍢🍰🍦🥩🥪🍤🍷🍕🍺☕🍔🍱🥟🥗🥨🍩🥯🍴🍝🥢🐟🦀🦪🍇🥃🍫🍳🍻🌮🥙🍞🧀🧊🌭🥒🍙]+\\s*/, '').replace(/[（(].*$/, '').trim();",
+]
+FOOD_EMOJI_NEW = "    // 认整个 emoji：\\p{Extended_Pictographic} + /u。\n    // 手写 emoji 白名单 + 没有 /u 会劈开代理对：名单外但同段的 emoji（如 🍲）\n    // 只被砍掉高位代理，留下孤立低位代理，后面 encodeURIComponent 直接抛 URIError。\n    let name = f.replace(/^(?:\\p{Extended_Pictographic}|\\uFE0F|\\u200D)+\\s*/u, '')\n                .replace(/[（(].*$/, '').trim();"
+
+QUERY_OLDS = ["""    const gImg = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(q)}`;"""]
+QUERY_NEW = """    const gImg = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(safeQuery(q))}`;"""
+
+FOODQ_OLDS = ["""    const query = `${name} ${cityHint}`.trim();"""]
+FOODQ_NEW = """    const query = safeQuery(`${name} ${cityHint}`.trim());"""
+
 PATCHES = [
     {
         "name": "wikimedia-thumb-query",
@@ -192,6 +225,34 @@ PATCHES = [
         "olds": [POSTCARD_OLD],
         "new": POSTCARD_NEW,
         "marker": "const local = '../assets/postcards/' + slug + '.png';",
+    },
+    {
+        "name": "safe-query-helper",
+        "why": "拼 Google 搜索串时落单的代理项会让 encodeURIComponent 抛错，打断整个详情面板",
+        "olds": SURROGATE_OLDS,
+        "new": SURROGATE_NEW,
+        "marker": "function safeQuery(s) {",
+    },
+    {
+        "name": "food-emoji-unicode-regex",
+        "why": "美食条目开头 emoji 的白名单正则没加 /u，名单外的 emoji（如 🍲）会被劈成半个字符",
+        "olds": FOOD_EMOJI_OLDS,
+        "new": FOOD_EMOJI_NEW,
+        "marker": "|\\uFE0F|\\u200D)+\\s*/u",
+    },
+    {
+        "name": "safe-query-photospots",
+        "why": "拍照点的 slice(0,25) 会切断 emoji，搜索串要过 safeQuery",
+        "olds": QUERY_OLDS,
+        "new": QUERY_NEW,
+        "marker": "encodeURIComponent(safeQuery(q))",
+    },
+    {
+        "name": "safe-query-foods",
+        "why": "美食搜索串同样要过 safeQuery",
+        "olds": FOODQ_OLDS,
+        "new": FOODQ_NEW,
+        "marker": "const query = safeQuery(",
     },
 ]
 

@@ -769,6 +769,19 @@ function renderPriceWithRMB(priceStr, origCurrency) {
 
 // ============ 多源图片搜索 ============
 const imgCache = {};
+
+// 拼 Google 搜索串前先去掉落单的代理项。
+// 上游任何一次 slice/replace 都可能把一个 emoji 劈成两半，剩下的孤立代理
+// 会让 encodeURIComponent 抛 URIError——而它是在 showDetail 里同步抛的，
+// 整个详情面板会停在半截：四宫格一直转圈、美食和导航按钮都不渲染。
+function safeQuery(s) {
+  // [...str] 按码点迭代：合法代理对会作为一个整体出来（码点 > 0xFFFF），
+  // 只有落单的代理才会以单个码元的形式出现，据此筛掉。
+  return [...String(s)].filter(ch => {
+    const c = ch.codePointAt(0);
+    return !(c >= 0xD800 && c <= 0xDFFF);
+  }).join('');
+}
 function isGoodImage(url) {
   if (!url) return false;
   // Wikimedia 会给缩略图挂 ?utm_source=…&utm_campaign=parser，
@@ -1225,7 +1238,7 @@ function _renderPhotoSpotsTextOnly(poi) {
   const spots = poi.photo_spots.map(s => typeof s === 'string' ? { text: s, query: null } : s);
   container.innerHTML = spots.map(s => {
     const q = s.query || (poi.en + ' ' + s.text.replace(/^📸\s*/, '').slice(0, 25));
-    const gImg = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(q)}`;
+    const gImg = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(safeQuery(q))}`;
     return `<div class="spot-card"><div class="spot-text">${s.text}</div><a class="spot-more" href="${gImg}" target="_blank" onclick="event.stopPropagation();">🔍 搜图</a></div>`;
   }).join('');
 }
@@ -1233,14 +1246,18 @@ window.renderFoods = function(poi) {
   const container = document.getElementById('pdFoods');
   const cityHint = (poi.search || poi.en || '').split(/[\s,]/)[0];
   container.innerHTML = poi.foods.map(f => {
-    let name = f.replace(/^[🍡🍜🍣🍵🍢🍰🍦🥩🥪🍤🍷🍕🍺☕🍔🍱🥟🥗🥨🍩🥯🍴🍝🥢🐟🦀🦪🍇🥃🍫🍳🍻🌮🥙🍞🧀🧊🌭🥒🍙]+\s*/, '').replace(/[（(].*$/, '').trim();
+    // 认整个 emoji：\p{Extended_Pictographic} + /u。
+    // 手写 emoji 白名单 + 没有 /u 会劈开代理对：名单外但同段的 emoji（如 🍲）
+    // 只被砍掉高位代理，留下孤立低位代理，后面 encodeURIComponent 直接抛 URIError。
+    let name = f.replace(/^(?:\p{Extended_Pictographic}|\uFE0F|\u200D)+\s*/u, '')
+                .replace(/[（(].*$/, '').trim();
     // 去掉价格（$20 / ¥80 / RMB 等），避免污染地图搜索
     name = name.replace(/[$¥￥]\s?\d[\d,.\-–~]*\+?/g, '').replace(/\b(RMB|USD|JPY|EUR|KRW)\b/gi, '').trim();
     // 店名以拉丁字母开头时，去掉后面的中文用途/描述，只留店名
     if (/^[^一-鿿]*[A-Za-z]/.test(name)) name = name.replace(/\s*[一-鿿].*$/, '').trim();
     const m = name.match(/[「『](.+?)[」』]/);
     if (m) name = m[1];
-    const query = `${name} ${cityHint}`.trim();
+    const query = safeQuery(`${name} ${cityHint}`.trim());
     const gmaps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
     return `<a class="food-link" href="${gmaps}" target="_blank" onclick="event.stopPropagation();"><span class="food-text">${f}</span><span class="food-pin">📍</span></a>`;
   }).join('');
