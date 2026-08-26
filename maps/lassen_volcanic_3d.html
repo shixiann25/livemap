@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>拉森火山国家公园 3 天自驾深度游 · LiveMap</title>
+<title>拉森火山国家公园 3 天自驾深度游 · Itinera</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
@@ -385,14 +385,14 @@
 </style>
 </head>
 <body>
-<!-- LIVEMAP-BACK-BTN -->
-<a href="../index.html" id="livemapBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ LiveMap 首页</a>
-<!-- /LIVEMAP-BACK-BTN -->
+<!-- ITINERA-BACK-BTN -->
+<a href="../index.html" id="itineraBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ Itinera 首页</a>
+<!-- /ITINERA-BACK-BTN -->
 
 <div class="app">
   <header>
     <div class="hero-bg"></div>
-    <div class="eyebrow">拉森火山国家公园 · LIVEMAP · 2026</div>
+    <div class="eyebrow">拉森火山国家公园 · ITINERA · 2026</div>
     <h1>🌋 拉森火山国家公园 3 天自驾深度游</h1>
     <div class="sub">Lassen Volcanic National Park 3-Day Self-Driving Tour</div>
   </header>
@@ -491,7 +491,7 @@
 <script>
 const POIs = [{"id": "sjc-airport", "day": 1, "num": 1, "name": "SJC 机场取车", "name_cn": "圣何塞机场", "en": "San Jose International Airport (SJC)", "lat": 37.3626, "lng": -121.929, "icon": "🚗", "color": "#4a5d52", "search": "San Jose International Airport", "price": "免费", "hours": "24h", "duration": "— 抵达/离港", "desc": "开启自驾之旅的起点，提前预订租车。", "tags": ["必去"], "time": "上午", "photo_spots": [], "foods": []}, {"id": "red-bluff", "day": 1, "num": 2, "name": "雷丁补给", "name_cn": "雷丁小镇", "en": "Redding", "lat": 40.5861, "lng": -122.3917, "icon": "🍔", "color": "#c97b5a", "search": "Redding", "price": "免费", "hours": "全天", "duration": "1 小时", "desc": "自驾途中的补给点，可品尝当地美食。", "tags": ["小镇", "美食"], "time": "中午", "photo_spots": ["📸 小镇街景"], "foods": ["🍜 汉堡（$10）", "🍜 披萨（$15）"]}, {"id": "lassen-southwest", "day": 1, "num": 3, "name": "公园西南入口", "name_cn": "公园西南口", "en": "Southwest Entrance of Lassen Volcanic National Park", "lat": 40.49, "lng": -121.46, "icon": "🏞️", "color": "#5a7a4a", "search": "Southwest Entrance of Lassen Volcanic National Park", "price": "$30/车", "hours": "8:00 - 17:00", "duration": "— 抵达", "desc": "进入公园的入口，提前购买门票更便捷。", "tags": ["必去"], "time": "傍晚", "photo_spots": ["📸 入口标志"], "foods": []}, {"id": "sulfurworks", "day": 2, "num": 1, "name": "硫磺工厂", "name_cn": "硫磺工厂", "en": "Sulfur Works", "lat": 40.55, "lng": -121.47, "icon": "🌋", "color": "#d4854e", "search": "Sulfur Works", "price": "包含在公园门票内", "hours": "全天", "duration": "1 - 1.5 小时", "desc": "可闻到刺鼻硫磺味，最佳游览时间是上午。", "tags": ["必看", "地热"], "time": "上午", "photo_spots": ["📸 蒸汽喷口"], "foods": []}, {"id": "bumpasshell", "day": 2, "num": 2, "name": "邦帕斯地狱", "name_cn": "邦帕斯地狱", "en": "Bumpass Hell", "lat": 40.56, "lng": -121.48, "icon": "🌋", "color": "#d4854e", "search": "Bumpass Hell", "price": "包含在公园门票内", "hours": "全天", "duration": "2 - 3 小时", "desc": "有沸腾泥浆池和蒸汽喷口，徒步需注意安全。", "tags": ["必看", "地热"], "time": "上午", "photo_spots": ["📸 泥浆池"], "foods": []}, {"id": "lake", "day": 2, "num": 3, "name": "公园湖泊", "name_cn": "公园湖泊", "en": "Lakes in Lassen Volcanic National Park", "lat": 40.57, "lng": -121.49, "icon": "💧", "color": "#4a8db5", "search": "Lakes in Lassen Volcanic National Park", "price": "免费", "hours": "全天", "duration": "1 - 1.5 小时", "desc": "宁静美丽，适合放松和拍照。", "tags": ["湖泊", "观景"], "time": "下午", "photo_spots": ["📸 湖边倒影"], "foods": []}, {"id": "cinder-cone", "day": 2, "num": 4, "name": "火山渣锥", "name_cn": "火山渣锥", "en": "Cinder Cone", "lat": 40.58, "lng": -121.5, "icon": "🌋", "color": "#d4854e", "search": "Cinder Cone", "price": "包含在公园门票内", "hours": "全天", "duration": "2 - 3 小时", "desc": "可攀登俯瞰美景，需一定体力。", "tags": ["必看", "火山"], "time": "下午", "photo_spots": ["📸 山顶全景"], "foods": []}, {"id": "lassen-north", "day": 3, "num": 1, "name": "公园北段", "name_cn": "公园北段", "en": "North Part of Lassen Volcanic National Park", "lat": 40.6, "lng": -121.52, "icon": "🏞️", "color": "#5a7a4a", "search": "North Part of Lassen Volcanic National Park", "price": "包含在公园门票内", "hours": "8:00 - 17:00", "duration": "2 - 3 小时", "desc": "有独特自然景观，适合上午游览。", "tags": ["必去", "自然"], "time": "上午", "photo_spots": ["📸 山林景色"], "foods": []}, {"id": "lassen-east", "day": 3, "num": 2, "name": "公园东段", "name_cn": "公园东段", "en": "East Part of Lassen Volcanic National Park", "lat": 40.59, "lng": -121.45, "icon": "🏞️", "color": "#5a7a4a", "search": "East Part of Lassen Volcanic National Park", "price": "包含在公园门票内", "hours": "8:00 - 17:00", "duration": "2 - 3 小时", "desc": "欣赏不同地貌风光，下午光线好。", "tags": ["必去", "自然"], "time": "下午", "photo_spots": ["📸 峡谷景观"], "foods": []}, {"id": "sjc-return", "day": 3, "num": 3, "name": "返回圣何塞", "name_cn": "返回圣何塞", "en": "Return to San Jose", "lat": 37.3626, "lng": -121.929, "icon": "🚗", "color": "#4a5d52", "search": "Return to San Jose", "price": "免费", "hours": "—", "duration": "— 离港", "desc": "结束愉快旅程，提前归还租车。", "tags": ["必去"], "time": "晚上", "photo_spots": [], "foods": []}];
 const DAYS = {"1": {"color": "#4a5d52", "title": "Day 1 · 自驾前往公园", "where": "📍 拉森火山国家公园西南", "tip": "💡 提前规划好途中补给点，注意休息。", "hotel": {"name_cn": "公园西南酒店", "name_en": "Southwest Hotel of Lassen Volcanic", "address": "123 Southwest Road, Lassen Volcanic", "price": "$150/晚（约 ¥1000）", "parking": "免费", "highlights": "距离公园入口近", "url": "https://www.booking.com"}, "plan_b": "💧 雨天/旺季备选：如果路途受阻，改去附近室内博物馆参观。"}, "2": {"color": "#5a7a4a", "title": "Day 2 · 公园核心深度游", "where": "📍 拉森火山国家公园西南", "tip": "💡 穿着舒适徒步鞋，携带足够饮用水。", "hotel": {"name_cn": "公园西南酒店", "name_en": "Southwest Hotel of Lassen Volcanic", "address": "123 Southwest Road, Lassen Volcanic", "price": "$150/晚（约 ¥1000）", "parking": "免费", "highlights": "距离公园入口近", "url": "https://www.booking.com"}, "plan_b": "💧 雨天/旺季备选：如果景点关闭，改去公园游客中心观看科普影片。"}, "3": {"color": "#4a5d52", "title": "Day 3 · 公园北段游玩后返程", "where": "📍 圣何塞", "tip": "💡 提前归还租车，预留足够时间前往机场。", "hotel": {"name_cn": "", "name_en": "", "address": "", "price": "", "parking": "", "highlights": "", "url": ""}, "plan_b": "💧 雨天/旺季备选：如果公园北段道路封闭，直接返回圣何塞市区购物。"}};
-const META = {"title": "🌋 拉森火山国家公园 3 天自驾深度游", "title_short": "拉森火山深度游", "subtitle": "Lassen Volcanic National Park 3-Day Self-Driving Tour", "eyebrow": "拉森火山国家公园 · LIVEMAP · 2026", "header_emoji": "🌋", "color_scheme": "forest", "currency": "USD", "map_center": [40.49, -121.46], "map_zoom": 9, "where_summary": "圣何塞 SJC 机场进出，自驾往返", "all_tip": "🎯 主题定调：这是一场探索火山奇观的自驾之旅，穿越自然美景，感受火山的独特魅力。\n\n🎬 节奏递进：行程先通过自驾抵达公园，适应节奏；第二天深入公园核心，体验高潮；第三天从公园北段返回，节奏放缓。\n\n🗺️ 路线设计：选择自驾往返，避免折返。在公园附近住宿，减少路途时间。考虑到体能，合理安排每天行程。\n\n💡 实用建议：提前预订租车和酒店，夏季前往最佳，携带保暖衣物和徒步装备，提前购买公园门票。", "stats": [{"num": "3", "label": "天数", "hint": "DAYS"}, {"num": "12", "label": "景点", "hint": "POI"}, {"num": "¥3000 - 4000", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票当地交通。算法：住宿总和(每晚价×晚数，双人房按2人均摊)+餐饮(每天×天数)+门票总和+当地交通，再给上下浮区间"}, {"num": "租车", "label": "交通方式", "hint": "TRANSPORT", "tooltip": "推荐主要交通方式"}], "highlight_title": "🔥 拉森火山独门绝技", "highlight_items": ["<b>硫磺工厂</b>（感受刺鼻硫磺味，体验独特地热景观）", "<b>邦帕斯地狱</b>（欣赏沸腾泥浆池和蒸汽喷口）", "<b>火山渣锥</b>（攀登火山渣锥，俯瞰壮丽景色）", "<b>湖泊风光</b>（在宁静湖泊边享受自然之美）"], "warning_title": "⚠️ 安全/礼仪/避坑", "warning_text": "在公园内遵守规定，注意火山活动和野生动物。", "footer": "拉森火山国家公园 · 探索火山奇观 · 2026", "pretrip": {"visa": "需提前办签证（约 ¥1000 元，约 10 个工作日）", "voltage": "110V · A型插头（需转换头）", "sim": "eSIM 推荐 Airalo（¥80/5GB）· 当地买卡约 $20", "currency": "¥1 RMB ≈ $0.15 当地币 · 推荐银联卡免手续费", "tipping": "餐厅 15 - 20%", "emergency": "911 报警/中国驻旧金山总领馆 +1-415-216-8525"}, "total_days": 3, "accent": "#3a6a32", "accent_bg": "rgba(122, 154, 77, 0.18)", "text_dark": "#1c2818", "text_mid": "#4a5a3a"};
+const META = {"title": "🌋 拉森火山国家公园 3 天自驾深度游", "title_short": "拉森火山深度游", "subtitle": "Lassen Volcanic National Park 3-Day Self-Driving Tour", "eyebrow": "拉森火山国家公园 · ITINERA · 2026", "header_emoji": "🌋", "color_scheme": "forest", "currency": "USD", "map_center": [40.49, -121.46], "map_zoom": 9, "where_summary": "圣何塞 SJC 机场进出，自驾往返", "all_tip": "🎯 主题定调：这是一场探索火山奇观的自驾之旅，穿越自然美景，感受火山的独特魅力。\n\n🎬 节奏递进：行程先通过自驾抵达公园，适应节奏；第二天深入公园核心，体验高潮；第三天从公园北段返回，节奏放缓。\n\n🗺️ 路线设计：选择自驾往返，避免折返。在公园附近住宿，减少路途时间。考虑到体能，合理安排每天行程。\n\n💡 实用建议：提前预订租车和酒店，夏季前往最佳，携带保暖衣物和徒步装备，提前购买公园门票。", "stats": [{"num": "3", "label": "天数", "hint": "DAYS"}, {"num": "12", "label": "景点", "hint": "POI"}, {"num": "¥3000 - 4000", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票当地交通。算法：住宿总和(每晚价×晚数，双人房按2人均摊)+餐饮(每天×天数)+门票总和+当地交通，再给上下浮区间"}, {"num": "租车", "label": "交通方式", "hint": "TRANSPORT", "tooltip": "推荐主要交通方式"}], "highlight_title": "🔥 拉森火山独门绝技", "highlight_items": ["<b>硫磺工厂</b>（感受刺鼻硫磺味，体验独特地热景观）", "<b>邦帕斯地狱</b>（欣赏沸腾泥浆池和蒸汽喷口）", "<b>火山渣锥</b>（攀登火山渣锥，俯瞰壮丽景色）", "<b>湖泊风光</b>（在宁静湖泊边享受自然之美）"], "warning_title": "⚠️ 安全/礼仪/避坑", "warning_text": "在公园内遵守规定，注意火山活动和野生动物。", "footer": "拉森火山国家公园 · 探索火山奇观 · 2026", "pretrip": {"visa": "需提前办签证（约 ¥1000 元，约 10 个工作日）", "voltage": "110V · A型插头（需转换头）", "sim": "eSIM 推荐 Airalo（¥80/5GB）· 当地买卡约 $20", "currency": "¥1 RMB ≈ $0.15 当地币 · 推荐银联卡免手续费", "tipping": "餐厅 15 - 20%", "emergency": "911 报警/中国驻旧金山总领馆 +1-415-216-8525"}, "total_days": 3, "accent": "#3a6a32", "accent_bg": "rgba(122, 154, 77, 0.18)", "text_dark": "#1c2818", "text_mid": "#4a5a3a"};
 const ALL_TIP = META.all_tip;
 const TOTAL_DAYS = META.total_days;
 const ORIG_CURRENCY = META.currency || 'USD';
@@ -1050,8 +1050,8 @@ function renderPretrip(p) {
 // GPX 导出：生成所有 POI + 每天路线
 window.exportGPX = function() {
   const sorted = [...POIs].sort((a, b) => a.day === b.day ? a.num - b.num : a.day - b.day);
-  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="LiveMap" xmlns="http://www.topografix.com/GPX/1/1">\n`;
-  gpx += `  <metadata>\n    <name>${META.title_short || 'LiveMap Trip'}</name>\n    <desc>Generated by LiveMap</desc>\n  </metadata>\n`;
+  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Itinera" xmlns="http://www.topografix.com/GPX/1/1">\n`;
+  gpx += `  <metadata>\n    <name>${META.title_short || 'Itinera Trip'}</name>\n    <desc>Generated by Itinera</desc>\n  </metadata>\n`;
   // 每个 POI 一个 waypoint
   sorted.forEach(p => {
     gpx += `  <wpt lat="${p.lat}" lon="${p.lng}">\n    <name>Day${p.day}.${p.num} ${p.icon} ${p.name}</name>\n    <desc>${(p.desc||'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'})[c])}</desc>\n    <type>${p.tags?.[0]||'POI'}</type>\n  </wpt>\n`;
@@ -1069,7 +1069,7 @@ window.exportGPX = function() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${(META.title_short || 'livemap').replace(/[^\w]/g, '_')}.gpx`;
+  a.download = `${(META.title_short || 'itinera').replace(/[^\w]/g, '_')}.gpx`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1254,7 +1254,7 @@ filterPOIs(); renderDayOverview();
     const np = POIs.find(p => /national park/i.test(p.en || '') || /国家公园/.test(p.name || ''));
     if (np) queries.push((np.en || np.search) + ' landscape');
     const place = String((typeof META !== 'undefined' && META.eyebrow) || '').split(/[·•・|]/)[0].trim();
-    if (/^[\x20-\x7e]+$/.test(place) && !/livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
+    if (/^[\x20-\x7e]+$/.test(place) && !/itinera|livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
     POIs.slice(0, 3).forEach(p => { const n = p.search || p.en; if (n) queries.push(n + ' landscape'); });
     (async () => {
       // 先用这张图自己的 AI 明信片当页头底图：一定切题，不看搜索脸色。
@@ -1426,7 +1426,7 @@ if (typeof renderDayOverview === 'function') {
       <button class="pm-btn pm-dl" onclick="downloadPoster(this)">⬇️ 下载海报</button>
       <button class="pm-btn pm-close" onclick="document.getElementById('posterModal').classList.remove('show')">关闭</button>
     </div>
-    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张活地图</div>
+    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张旅行地图</div>
   </div>
 </div>
 <script>
@@ -1477,7 +1477,7 @@ function _posterBgStyle(cb){
 function _posterShareURL(){
   var u=location.href.split('#')[0];
   if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==='file:'){
-    u='https://zxz19951104.github.io/livemap/maps/'+location.pathname.split('/').pop();
+    u='https://shixiann25.github.io/itinera/maps/'+location.pathname.split('/').pop();
   }
   return u;
 }
@@ -1487,12 +1487,12 @@ window.generatePoster=function(){
   _posterBgStyle(bg=>{
     stage.innerHTML=`<div class="ps-root"><div class="ps-bg" style="${bg}"></div><div class="ps-scrim"></div>
       <div class="ps-wrap">
-        <div class="ps-top"><div class="ps-kick"><span>LiveMap</span>活地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
+        <div class="ps-top"><div class="ps-kick"><span>Itinera</span>旅行地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
         <h1>${title}</h1>
         <div class="ps-chips"><div class="ps-chip">📅 <b>${Object.keys(DAYS).map(Number).filter(n=>!isNaN(n)).length}</b> 天</div><div class="ps-chip">📍 <b>${POIs.length}</b> 个精选点</div>${(window._lmVisitedCount&&window._lmVisitedCount()>0)?'<div class="ps-chip">✅ 已打卡 <b>'+window._lmVisitedCount()+'</b></div>':'<div class="ps-chip">🚗 自驾路线</div>'}${(window._lmCustom&&window._lmCustom.length)?'<div class="ps-chip">📍 我的点 <b>'+window._lmCustom.length+'</b></div>':''}</div>
         <div class="ps-map">${_posterSVG()}</div>
         <div class="ps-days">${_posterDays()}</div>
-        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互活地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
+        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互旅行地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
       </div></div>`;
     const qd=document.getElementById('posterQR'); qd.innerHTML='';
     try{ new QRCode(qd,{text:_posterShareURL(),width:170,height:170,colorDark:'#0e1a14',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
@@ -1508,7 +1508,7 @@ window.downloadPoster=function(btn){
     canvas.toBlob(b=>{
       const a=document.createElement('a');
       a.href=URL.createObjectURL(b);
-      a.download=((typeof META!=='undefined'&&META.title_short)||'livemap').replace(/[^一-龥\w]/g,'_')+'_海报.png';
+      a.download=((typeof META!=='undefined'&&META.title_short)||'itinera').replace(/[^一-龥\w]/g,'_')+'_海报.png';
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href);
       btn.textContent=old; btn.disabled=false;
     },'image/png');

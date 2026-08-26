@@ -38,7 +38,7 @@ TAG_MAP = {
 # ---------------------------------------------------------------- 英文
 EN_LITERAL = {
     # —— 导航 / 地图控件 ——
-    "🗺️ LiveMap 首页": "🗺️ LiveMap Home",
+    "🗺️ Itinera 首页": "🗺️ Itinera Home",
     "🗺️ 简洁": "🗺️ Clean",
     "🌄 地形": "🌄 Terrain",
     "🛰️ 实景": "🛰️ Satellite",
@@ -97,9 +97,9 @@ EN_LITERAL = {
     "生成失败：": "Failed: ",
     "关闭": "Close",
     "_海报.png": "_poster.png",
-    "扫码查看可交互活地图": "Scan for the interactive map",
-    "活地图 · 精准行程": "LiveMap · a trip you can see",
-    "保存后发小红书/朋友圈 · 扫码可回到这张活地图":
+    "扫码查看可交互旅行地图": "Scan for the interactive map",
+    "旅行地图 · 精准行程": "Itinera · a trip you can see",
+    "保存后发小红书/朋友圈 · 扫码可回到这张旅行地图":
         "Save and share — the QR code opens this map",
     "每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报":
         "Every stop has photos, hours, tips and routing — and you can export a poster like this",

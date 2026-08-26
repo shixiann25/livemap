@@ -1,13 +1,13 @@
-/* LiveMap · 可视化地图编辑器（仅在 server.py 后端在线时启用，保存写回地图文件）。
+/* Itinera · 可视化地图编辑器（仅在 server.py 后端在线时启用，保存写回地图文件）。
    依赖：POIs, DAYS, META, map, render（保存走 server.py /api/save → render_html）。*/
 (function () {
   if (typeof POIs === 'undefined' || typeof DAYS === 'undefined' || typeof map === 'undefined') return;
   const FILE = location.pathname.split('/').pop();
   let data = null, addMode = false, dirty = false;
 
-  // 静态站（GitHub Pages）没有后端，构建期注入 LIVEMAP_STATIC 直接跳过探测，
+  // 静态站（GitHub Pages）没有后端，构建期注入 ITINERA_STATIC 直接跳过探测，
   // 免得每张图都往控制台扔一个 404。
-  if (window.LIVEMAP_STATIC) return;
+  if (window.ITINERA_STATIC) return;
   // 仅当后端存在（server.py 提供 /api/list）才挂编辑器
   // 后端还要回一个 can_edit：公网部署默认关掉保存（否则任何访客都能覆盖地图文件），
   // 这时候不挂编辑器，省得用户改半天才发现存不了。

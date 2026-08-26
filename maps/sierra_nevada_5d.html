@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>内华达山脉 5 天自驾 · LiveMap</title>
+<title>内华达山脉 5 天自驾 · Itinera</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
@@ -384,13 +384,13 @@
 <style id="gesture-hint-style">.map-gesture-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:1200;background:rgba(0,0,0,0.62);color:#fff;font-size:11px;font-weight:600;padding:6px 13px;border-radius:16px;pointer-events:none;white-space:nowrap;transition:opacity 0.6s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);}</style>
 </head>
 <body>
-<!-- LIVEMAP-BACK-BTN -->
-<a href="../index.html" id="livemapBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ LiveMap 首页</a>
-<!-- /LIVEMAP-BACK-BTN -->
+<!-- ITINERA-BACK-BTN -->
+<a href="../index.html" id="itineraBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ Itinera 首页</a>
+<!-- /ITINERA-BACK-BTN -->
 
 <div class="app">
   <header>
-    <div class="eyebrow">SIERRA NEVADA · LIVEMAP · 2026</div>
+    <div class="eyebrow">SIERRA NEVADA · ITINERA · 2026</div>
     <h1>🌲 内华达山脉 5 天自驾</h1>
     <div class="sub">Sierra Nevada Road Trip · Yosemite + Sequoia</div>
   </header>
@@ -490,7 +490,7 @@
 <script>
 const POIs = [{"id": "sfo_pickup", "day": 1, "num": 1, "name": "旧金山国际机场（取车）", "en": "San Francisco International Airport", "lat": 37.6213, "lng": -122.379, "icon": "🚗", "color": "#4a5d52", "search": "San Francisco International Airport", "price": "租车约 $60-100/天", "hours": "24h", "desc": "行程起点，机场租车中心取车。建议租 SUV 应对山路，取车后沿 I-580 东行前往约塞米蒂。", "tags": ["交通", "起点"], "time": "上午", "photo_spots": ["📸 机场租车中心"], "foods": ["☕ 机场咖啡补给"]}, {"id": "tunnel_view", "day": 1, "num": 2, "name": "隧道观景点", "en": "Tunnel View", "lat": 37.7155, "lng": -119.6772, "icon": "📷", "color": "#b5651d", "search": "Tunnel View Yosemite", "price": "含园门票 $35/车", "hours": "全天", "desc": "约塞米蒂最经典的明信片机位，一眼框入酋长岩、半圆顶与新娘面纱瀑布。傍晚金色侧光最美，是抵达当天的完美接风点。", "tags": ["必拍", "全景"], "time": "傍晚", "photo_spots": ["📸 酋长岩+半圆顶同框", "📸 黄昏暖光"], "foods": []}, {"id": "yosemite_village", "day": 1, "num": 3, "name": "约塞米蒂山谷", "en": "Yosemite Valley", "lat": 37.8651, "lng": -119.5383, "icon": "🧗", "color": "#2e7d32", "search": "Yosemite Valley", "price": "含园门票 $35/车（7天）", "hours": "全年（Tioga Pass 冬季封闭）", "desc": "花岗岩巨壁环抱的冰川 U 型谷，约塞米蒂的核心区。入住后可在山谷地板散步，傍晚返回旅舍。旺季需预约入园。", "tags": ["必去", "核心区"], "time": "傍晚", "photo_spots": ["📸 山谷草甸", "📸 默塞德河倒影"], "foods": ["🍽️ Mountain Room 餐厅"]}, {"id": "el_capitan", "day": 2, "num": 1, "name": "酋长岩", "en": "El Capitan", "lat": 37.734, "lng": -119.6379, "icon": "🧗", "color": "#2e7d32", "search": "El Capitan Yosemite", "price": "含园门票", "hours": "全天", "desc": "高约 900m 的垂直花岗岩巨壁，世界大岩壁攀登圣地。清晨从 El Capitan Meadow 仰望，运气好可见攀岩者如蚂蚁悬于壁上。", "tags": ["必看", "花岗岩巨壁"], "time": "上午", "photo_spots": ["📸 El Capitan Meadow 仰拍", "📸 攀岩者头灯（夜）"], "foods": []}, {"id": "yosemite_falls", "day": 2, "num": 2, "name": "约塞米蒂瀑布", "en": "Yosemite Falls", "lat": 37.7566, "lng": -119.5969, "icon": "💦", "color": "#5a7a8a", "search": "Yosemite Falls", "search_note": "北美最高瀑布", "price": "含园门票", "hours": "全天", "desc": "北美落差最高的瀑布（739m），分上中下三段。春末融雪期（5-6 月）水量奔腾如雷，夏末可能干涸。谷底步道平缓可近观。", "tags": ["必看", "瀑布"], "time": "上午", "photo_spots": ["📸 Lower Falls 步道", "📸 月虹（满月夜）"], "foods": ["🥪 步道口野餐"]}, {"id": "half_dome", "day": 2, "num": 3, "name": "半圆顶", "en": "Half Dome", "lat": 37.7459, "lng": -119.5332, "icon": "⛰️", "color": "#2e7d32", "search": "Half Dome Yosemite", "price": "含园门票（登顶需抽签许可）", "hours": "全天（登顶季节性）", "desc": "约塞米蒂的标志性花岗岩穹顶，仿佛被劈去一半。登顶缆绳路线需提前抽签许可，一般游客在 Glacier Point 或谷底远观即可。", "tags": ["必看", "地标"], "time": "下午", "photo_spots": ["📸 Sentinel Bridge 倒影", "📸 日落染金"], "foods": []}, {"id": "glacier_point", "day": 2, "num": 4, "name": "冰川观景点", "en": "Glacier Point", "lat": 37.7274, "lng": -119.5732, "icon": "📷", "color": "#b5651d", "search": "Glacier Point Yosemite", "price": "含园门票", "hours": "Glacier Point Rd 通常 5 月-10 月开放", "desc": "海拔 2199m 的悬崖观景台，居高临下俯瞰整个约塞米蒂山谷、半圆顶与三连瀑。日落与星空摄影绝佳，距山谷约 1 小时车程。", "tags": ["必去", "俯瞰全景"], "time": "傍晚", "photo_spots": ["📸 半圆顶日落", "📸 山谷俯瞰全景"], "foods": ["🍫 自带零食看日落"]}, {"id": "fresno_transit", "day": 3, "num": 1, "name": "弗雷斯诺（中途补给）", "en": "Fresno", "lat": 36.7378, "lng": -119.7871, "icon": "⛽", "color": "#6b7a6e", "search": "Fresno California", "price": "—", "hours": "全天", "desc": "约塞米蒂转场红杉途中的最大城市，加油、超市补给、用餐的理想中途站。过此后进山，物价更高、选择更少。", "tags": ["补给", "中转"], "time": "中午", "photo_spots": [], "foods": ["🌮 Fresno 墨西哥菜", "🛒 超市采购山区补给"]}, {"id": "sequoia_entrance", "day": 3, "num": 2, "name": "红杉国家公园", "en": "Sequoia National Park", "lat": 36.4864, "lng": -118.5658, "icon": "🌲", "color": "#2e7d32", "search": "Sequoia National Park", "price": "$35/车（7天）", "hours": "全年", "desc": "地球上最大的生物——巨杉的家园。傍晚抵达后入住 Wuksachi Lodge，可在旅舍附近散步适应海拔，养精蓄锐迎接次日深度。", "tags": ["必去", "巨木"], "time": "傍晚", "photo_spots": ["📸 巨杉林暮色"], "foods": ["🍽️ Wuksachi Lodge 餐厅"]}, {"id": "general_sherman", "day": 4, "num": 1, "name": "谢尔曼将军树", "en": "General Sherman Tree", "lat": 36.5816, "lng": -118.7513, "icon": "🌲", "color": "#2e7d32", "search": "General Sherman Tree", "price": "含园门票", "hours": "全天", "desc": "按体积计地球上最大的单体生物，树高约 84m、基部周长 31m、年龄逾 2200 岁。从停车场下行步道即可抵达，记得抬头仰望它的庞大。", "tags": ["必看", "世界之最"], "time": "上午", "photo_spots": ["📸 树干仰拍（人作比例尺）", "📸 步道巨杉夹道"], "foods": []}, {"id": "moro_rock", "day": 4, "num": 2, "name": "莫罗岩", "en": "Moro Rock", "lat": 36.5469, "lng": -118.7656, "icon": "🪨", "color": "#5a7a8a", "search": "Moro Rock Sequoia", "price": "含园门票", "hours": "全天（雨雪湿滑慎登）", "desc": "一块拔地而起的花岗岩巨穹，350 级石阶凿于岩壁。登顶可 360° 俯瞰大西部分水岭与远处雪峰，是红杉最佳全景台。", "tags": ["必去", "登顶俯瞰"], "time": "上午", "photo_spots": ["📸 登顶 360° 山景", "📸 凿壁石阶"], "foods": []}, {"id": "giant_forest", "day": 4, "num": 3, "name": "巨树森林", "en": "Giant Forest", "lat": 36.5644, "lng": -118.746, "icon": "🌲", "color": "#2e7d32", "search": "Giant Forest Sequoia National Park", "price": "含园门票", "hours": "全天", "desc": "全球巨杉最密集的森林，包含 Congress Trail 等步道与可穿车的 Tunnel Log。漫步其间，仰望千年巨木遮天蔽日，渺小感油然而生。", "tags": ["必去", "巨木森林"], "time": "下午", "photo_spots": ["📸 Tunnel Log 穿车", "📸 Congress Trail 巨杉群"], "foods": ["🏛️ Giant Forest 博物馆"]}, {"id": "sf_return", "day": 5, "num": 1, "name": "返程旧金山（还车）", "en": "Return to San Francisco", "lat": 37.6213, "lng": -122.379, "icon": "🏁", "color": "#4a5d52", "search": "San Francisco International Airport", "price": "—", "hours": "—", "desc": "上午从红杉启程，经 Fresno 沿 CA-99/I-580 返回旧金山，车程约 4.5 小时，傍晚机场还车，结束 5 天内华达山脉之旅。", "tags": ["交通", "终点"], "time": "傍晚", "photo_spots": [], "foods": ["🍔 沿途快餐补给"]}];
 const DAYS = {"1": {"color": "#b5651d", "title": "Day 1 · 旧金山取车 → 约塞米蒂", "where": "📍 旧金山 SFO 取车 → 约塞米蒂山谷（车程约 4h）", "tip": "💡 上午机场取车，沿 I-580/CA-120 东行约 4 小时，傍晚抵达约塞米蒂，先上 Tunnel View 看全景接风。", "hotel": {"name_cn": "约塞米蒂山谷旅舍", "name_en": "Yosemite Valley Lodge", "address": "9006 Yosemite Lodge Dr, Yosemite Valley, CA 95389", "price": "$250-350/晚", "parking": "免费", "highlights": "园内唯一靠近约塞米蒂瀑布的酒店，步行可达山谷地标", "url": "https://www.travelyosemite.com/lodging/yosemite-valley-lodge/"}, "plan_b": "💧 旺季订不到园内住宿可退至 El Portal 或 Mariposa 镇"}, "2": {"color": "#2e7d32", "title": "Day 2 · 约塞米蒂山谷深度", "where": "📍 约塞米蒂山谷", "tip": "💡 清晨拍酋长岩与半圆顶，上午看瀑布，下午驱车上 Glacier Point 俯瞰山谷（约 1h 车程），日落最佳。", "hotel": {"name_cn": "约塞米蒂山谷旅舍", "name_en": "Yosemite Valley Lodge", "address": "9006 Yosemite Lodge Dr, Yosemite Valley, CA 95389", "price": "$250-350/晚", "parking": "免费", "highlights": "园内唯一靠近约塞米蒂瀑布的酒店，步行可达山谷地标", "url": "https://www.travelyosemite.com/lodging/yosemite-valley-lodge/"}, "plan_b": "💧 Glacier Point 路冬季封闭时改走 Sentinel Dome 或谷底环线"}, "3": {"color": "#5a7a8a", "title": "Day 3 · 约塞米蒂 → 红杉", "where": "📍 约塞米蒂 → 经 Fresno → 红杉国家公园（车程约 4h）", "tip": "💡 上午离开约塞米蒂，沿 CA-41 南下经 Fresno，约 4 小时抵达红杉，傍晚入住 Wuksachi Lodge。", "hotel": {"name_cn": "乌克萨奇旅舍", "name_en": "Wuksachi Lodge", "address": "64740 Wuksachi Way, Sequoia National Park, CA 93262", "price": "$200-300/晚", "parking": "免费", "highlights": "红杉国家公园内唯一全年开放酒店，海拔 2200m，近巨树森林", "url": "https://www.visitsequoia.com/lodging/wuksachi-lodge/"}, "plan_b": "💧 园内订不到可住 Three Rivers 镇，距南门约 30 分钟"}, "4": {"color": "#2e7d32", "title": "Day 4 · 红杉国家公园深度", "where": "📍 红杉国家公园 · 巨树森林 Giant Forest", "tip": "💡 上午看谢尔曼将军树，登 Moro Rock 俯瞰；下午漫步巨树森林（Congress Trail），穿越 Tunnel Log。", "hotel": {"name_cn": "乌克萨奇旅舍", "name_en": "Wuksachi Lodge", "address": "64740 Wuksachi Way, Sequoia National Park, CA 93262", "price": "$200-300/晚", "parking": "免费", "highlights": "红杉国家公园内唯一全年开放酒店，海拔 2200m，近巨树森林", "url": "https://www.visitsequoia.com/lodging/wuksachi-lodge/"}, "plan_b": "💧 Moro Rock 雨雪湿滑时改去 Crystal Cave 水晶洞（需预约）"}, "5": {"color": "#6b7a6e", "title": "Day 5 · 红杉 → 返程旧金山", "where": "📍 红杉国家公园 → 旧金山 SFO（车程约 4.5h）", "tip": "💡 上午补看遗漏景点，午前启程经 Fresno 返回旧金山，沿途可在 Fresno 用餐补给，傍晚还车。", "hotel": {"name_cn": "返程当日不住宿（旧金山还车）", "name_en": "Return to San Francisco", "address": "San Francisco International Airport (SFO), CA", "price": "—", "parking": "—", "highlights": "若需过夜建议预订 SFO 机场周边酒店", "url": "https://www.flysfo.com/"}, "plan_b": "💧 时间紧可不进园，直接从 Wuksachi 启程返程"}};
-const META = {"title": "🌲 内华达山脉 5 天自驾", "title_short": "内华达山脉自驾", "subtitle": "Sierra Nevada Road Trip · Yosemite + Sequoia", "eyebrow": "SIERRA NEVADA · LIVEMAP · 2026", "header_emoji": "🌲", "color_scheme": "forest", "currency": "USD", "map_center": [37.3, -119.3], "map_zoom": 8, "where_summary": "旧金山 SFO 出发自驾 · 约塞米蒂 + 红杉", "all_tip": "🎯 主题定调：一条从旧金山出发、贯穿加州内华达山脉的 5 天经典自驾环线，把两座最震撼的国家公园串成一线——约塞米蒂的花岗岩巨壁与季节性瀑布，红杉的地球最大生物。\n\n🗺️ 路线设计：Day1 旧金山取车直奔约塞米蒂（约 4h），傍晚 Tunnel View 接风；Day2 约塞米蒂山谷深度（酋长岩、半圆顶、瀑布、Glacier Point 俯瞰）；Day3 经 Fresno 转场红杉（约 4h）；Day4 红杉深度（谢尔曼将军树、Moro Rock、巨树森林）；Day5 返程旧金山。住宿前两晚 Yosemite Valley Lodge，中段两晚 Wuksachi Lodge。\n\n🎬 节奏：两段「转场日 + 深度日」结构，避免天天换酒店。山谷与巨木两种截然不同的景观形成强对比。\n\n💡 实用建议：① 强烈建议买 \"America the Beautiful\" 年票（$80/车）；② 旺季（5-9 月）约塞米蒂需提前数月抢 timed-entry 预约入园；③ 全程山路自驾，红杉 Generals Highway 弯多坡陡，建议白天行驶。", "stats": [{"num": "5", "label": "天数", "hint": "DAYS"}, {"num": "2", "label": "国家公园", "hint": "PARKS"}, {"num": "$1500-2000", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票租车油费"}, {"num": "自驾", "label": "出行方式", "hint": "TRANSPORT", "tooltip": "旧金山 SFO 机场取车，全程约 800 公里"}], "highlight_title": "🔥 内华达山脉镇图之宝", "highlight_items": ["<b>Tunnel View 全景</b>（约塞米蒂经典明信片机位，酋长岩+半圆顶+瀑布同框）", "<b>酋长岩 El Capitan</b>（世界花岗岩攀岩圣殿，900m 垂直巨壁）", "<b>Glacier Point 俯瞰</b>（居高临下俯视整个约塞米蒂山谷与半圆顶）", "<b>谢尔曼将军树</b>（按体积计地球上最大的单体生物，树高 84m）", "<b>Moro Rock 登顶</b>（350 级石阶登上花岗岩巨石，俯瞰大西部分水岭）"], "warning_title": "⚠️ 行前必看 / 避坑", "warning_text": "① 约塞米蒂 Tioga Pass 高山路 11 月-次年 5 月封闭，本线不依赖该路但需留意；② 旺季约塞米蒂需提前抢 timed-entry 预约入园，否则可能被拒；③ 瀑布为季节性，春末融雪期（5-6 月）水量最大，夏末可能干涸；④ 红杉 Generals Highway 弯急坡陡，超 6.7m 长车辆限行，谨慎驾驶；⑤ 山区夜间气温低、信号差，提前离线下载地图。", "footer": "SIERRA NEVADA · 花岗岩与巨木之旅 · 2026", "pretrip": {"visa": "美签 B1/B2 或 ESTA（视国籍），建议提前 1-2 月办理", "voltage": "110V · A/B 型插头", "sim": "eSIM 推荐 Airalo / T-Mobile 预付卡；园区内多无信号，提前离线下载地图", "currency": "$1 USD ≈ ¥7 RMB · 园区内多可刷卡，偏远处备现金", "tipping": "餐厅 15-20% · 国家公园内餐饮同样适用", "emergency": "911 报警急救 · 中国驻美使馆 +1-202-495-2266"}, "total_days": 5, "accent": "#3a6a32", "accent_bg": "rgba(122, 154, 77, 0.18)", "text_dark": "#1c2818", "text_mid": "#4a5a3a"};
+const META = {"title": "🌲 内华达山脉 5 天自驾", "title_short": "内华达山脉自驾", "subtitle": "Sierra Nevada Road Trip · Yosemite + Sequoia", "eyebrow": "SIERRA NEVADA · ITINERA · 2026", "header_emoji": "🌲", "color_scheme": "forest", "currency": "USD", "map_center": [37.3, -119.3], "map_zoom": 8, "where_summary": "旧金山 SFO 出发自驾 · 约塞米蒂 + 红杉", "all_tip": "🎯 主题定调：一条从旧金山出发、贯穿加州内华达山脉的 5 天经典自驾环线，把两座最震撼的国家公园串成一线——约塞米蒂的花岗岩巨壁与季节性瀑布，红杉的地球最大生物。\n\n🗺️ 路线设计：Day1 旧金山取车直奔约塞米蒂（约 4h），傍晚 Tunnel View 接风；Day2 约塞米蒂山谷深度（酋长岩、半圆顶、瀑布、Glacier Point 俯瞰）；Day3 经 Fresno 转场红杉（约 4h）；Day4 红杉深度（谢尔曼将军树、Moro Rock、巨树森林）；Day5 返程旧金山。住宿前两晚 Yosemite Valley Lodge，中段两晚 Wuksachi Lodge。\n\n🎬 节奏：两段「转场日 + 深度日」结构，避免天天换酒店。山谷与巨木两种截然不同的景观形成强对比。\n\n💡 实用建议：① 强烈建议买 \"America the Beautiful\" 年票（$80/车）；② 旺季（5-9 月）约塞米蒂需提前数月抢 timed-entry 预约入园；③ 全程山路自驾，红杉 Generals Highway 弯多坡陡，建议白天行驶。", "stats": [{"num": "5", "label": "天数", "hint": "DAYS"}, {"num": "2", "label": "国家公园", "hint": "PARKS"}, {"num": "$1500-2000", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票租车油费"}, {"num": "自驾", "label": "出行方式", "hint": "TRANSPORT", "tooltip": "旧金山 SFO 机场取车，全程约 800 公里"}], "highlight_title": "🔥 内华达山脉镇图之宝", "highlight_items": ["<b>Tunnel View 全景</b>（约塞米蒂经典明信片机位，酋长岩+半圆顶+瀑布同框）", "<b>酋长岩 El Capitan</b>（世界花岗岩攀岩圣殿，900m 垂直巨壁）", "<b>Glacier Point 俯瞰</b>（居高临下俯视整个约塞米蒂山谷与半圆顶）", "<b>谢尔曼将军树</b>（按体积计地球上最大的单体生物，树高 84m）", "<b>Moro Rock 登顶</b>（350 级石阶登上花岗岩巨石，俯瞰大西部分水岭）"], "warning_title": "⚠️ 行前必看 / 避坑", "warning_text": "① 约塞米蒂 Tioga Pass 高山路 11 月-次年 5 月封闭，本线不依赖该路但需留意；② 旺季约塞米蒂需提前抢 timed-entry 预约入园，否则可能被拒；③ 瀑布为季节性，春末融雪期（5-6 月）水量最大，夏末可能干涸；④ 红杉 Generals Highway 弯急坡陡，超 6.7m 长车辆限行，谨慎驾驶；⑤ 山区夜间气温低、信号差，提前离线下载地图。", "footer": "SIERRA NEVADA · 花岗岩与巨木之旅 · 2026", "pretrip": {"visa": "美签 B1/B2 或 ESTA（视国籍），建议提前 1-2 月办理", "voltage": "110V · A/B 型插头", "sim": "eSIM 推荐 Airalo / T-Mobile 预付卡；园区内多无信号，提前离线下载地图", "currency": "$1 USD ≈ ¥7 RMB · 园区内多可刷卡，偏远处备现金", "tipping": "餐厅 15-20% · 国家公园内餐饮同样适用", "emergency": "911 报警急救 · 中国驻美使馆 +1-202-495-2266"}, "total_days": 5, "accent": "#3a6a32", "accent_bg": "rgba(122, 154, 77, 0.18)", "text_dark": "#1c2818", "text_mid": "#4a5a3a"};
 const ALL_TIP = META.all_tip;
 const TOTAL_DAYS = META.total_days;
 const ORIG_CURRENCY = META.currency || 'USD';
@@ -1047,8 +1047,8 @@ function renderPretrip(p) {
 // GPX 导出：生成所有 POI + 每天路线
 window.exportGPX = function() {
   const sorted = [...POIs].sort((a, b) => a.day === b.day ? a.num - b.num : a.day - b.day);
-  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="LiveMap" xmlns="http://www.topografix.com/GPX/1/1">\n`;
-  gpx += `  <metadata>\n    <name>${META.title_short || 'LiveMap Trip'}</name>\n    <desc>Generated by LiveMap</desc>\n  </metadata>\n`;
+  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Itinera" xmlns="http://www.topografix.com/GPX/1/1">\n`;
+  gpx += `  <metadata>\n    <name>${META.title_short || 'Itinera Trip'}</name>\n    <desc>Generated by Itinera</desc>\n  </metadata>\n`;
   // 每个 POI 一个 waypoint
   sorted.forEach(p => {
     gpx += `  <wpt lat="${p.lat}" lon="${p.lng}">\n    <name>Day${p.day}.${p.num} ${p.icon} ${p.name}</name>\n    <desc>${(p.desc||'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'})[c])}</desc>\n    <type>${p.tags?.[0]||'POI'}</type>\n  </wpt>\n`;
@@ -1066,7 +1066,7 @@ window.exportGPX = function() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${(META.title_short || 'livemap').replace(/[^\w]/g, '_')}.gpx`;
+  a.download = `${(META.title_short || 'itinera').replace(/[^\w]/g, '_')}.gpx`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1253,7 +1253,7 @@ filterPOIs(); renderDayOverview();
     const np = POIs.find(p => /national park/i.test(p.en || '') || /国家公园/.test(p.name || ''));
     if (np) queries.push((np.en || np.search) + ' landscape');
     const place = String((typeof META !== 'undefined' && META.eyebrow) || '').split(/[·•・|]/)[0].trim();
-    if (/^[\x20-\x7e]+$/.test(place) && !/livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
+    if (/^[\x20-\x7e]+$/.test(place) && !/itinera|livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
     POIs.slice(0, 3).forEach(p => { const n = p.search || p.en; if (n) queries.push(n + ' landscape'); });
     (async () => {
       // 先用这张图自己的 AI 明信片当页头底图：一定切题，不看搜索脸色。
@@ -1425,7 +1425,7 @@ if (typeof renderDayOverview === 'function') {
       <button class="pm-btn pm-dl" onclick="downloadPoster(this)">⬇️ 下载海报</button>
       <button class="pm-btn pm-close" onclick="document.getElementById('posterModal').classList.remove('show')">关闭</button>
     </div>
-    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张活地图</div>
+    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张旅行地图</div>
   </div>
 </div>
 <script>
@@ -1476,7 +1476,7 @@ function _posterBgStyle(cb){
 function _posterShareURL(){
   var u=location.href.split('#')[0];
   if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==='file:'){
-    u='https://zxz19951104.github.io/livemap/maps/'+location.pathname.split('/').pop();
+    u='https://shixiann25.github.io/itinera/maps/'+location.pathname.split('/').pop();
   }
   return u;
 }
@@ -1486,12 +1486,12 @@ window.generatePoster=function(){
   _posterBgStyle(bg=>{
     stage.innerHTML=`<div class="ps-root"><div class="ps-bg" style="${bg}"></div><div class="ps-scrim"></div>
       <div class="ps-wrap">
-        <div class="ps-top"><div class="ps-kick"><span>LiveMap</span>活地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
+        <div class="ps-top"><div class="ps-kick"><span>Itinera</span>旅行地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
         <h1>${title}</h1>
         <div class="ps-chips"><div class="ps-chip">📅 <b>${Object.keys(DAYS).map(Number).filter(n=>!isNaN(n)).length}</b> 天</div><div class="ps-chip">📍 <b>${POIs.length}</b> 个精选点</div>${(window._lmVisitedCount&&window._lmVisitedCount()>0)?'<div class="ps-chip">✅ 已打卡 <b>'+window._lmVisitedCount()+'</b></div>':'<div class="ps-chip">🚗 自驾路线</div>'}${(window._lmCustom&&window._lmCustom.length)?'<div class="ps-chip">📍 我的点 <b>'+window._lmCustom.length+'</b></div>':''}</div>
         <div class="ps-map">${_posterSVG()}</div>
         <div class="ps-days">${_posterDays()}</div>
-        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互活地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
+        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互旅行地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
       </div></div>`;
     const qd=document.getElementById('posterQR'); qd.innerHTML='';
     try{ new QRCode(qd,{text:_posterShareURL(),width:170,height:170,colorDark:'#0e1a14',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
@@ -1507,7 +1507,7 @@ window.downloadPoster=function(btn){
     canvas.toBlob(b=>{
       const a=document.createElement('a');
       a.href=URL.createObjectURL(b);
-      a.download=((typeof META!=='undefined'&&META.title_short)||'livemap').replace(/[^一-龥\w]/g,'_')+'_海报.png';
+      a.download=((typeof META!=='undefined'&&META.title_short)||'itinera').replace(/[^一-龥\w]/g,'_')+'_海报.png';
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href);
       btn.textContent=old; btn.disabled=false;
     },'image/png');

@@ -1,6 +1,6 @@
-# LiveMap · 换机继续开发指南
+# Itinera · 换机继续开发指南
 
-旅行活地图项目：把目的地 → POI → 渲染成单文件交互式 Leaflet HTML 地图，静态部署到 GitHub Pages。
+旅行地图项目：把目的地 → POI → 渲染成单文件交互式 Leaflet HTML 地图，静态部署到 GitHub Pages。
 
 ## 0. 最快的方式（推荐）：直接 clone
 代码已在 GitHub，新电脑上：
@@ -46,7 +46,7 @@ python3 gen_all_postcards.py
 python3 add_name_cn.py --all
 ```
 
-## 5. QA（改完地图 UI 必跑 —— 见 ~/.claude/skills/livemap-qa）
+## 5. QA（改完地图 UI 必跑 —— 见 ~/.claude/skills/itinera-qa）
 从仓库根目录运行（ESM 依赖相对路径）：
 ```bash
 node tools/audit_maps.mjs    # 真实渲染审计：验收标准 重叠=0 超界=0 错误=0
@@ -64,8 +64,8 @@ node tools/test_poster.mjs   # 海报功能 E2E
 | `assets/postcards/*.png` | 每张图的 AI 卡通明信片底（海报背景） |
 | `assets/lm_checkin.js` | 打卡 checklist + 自定义点（localStorage） |
 | `index.html` | Hub 落地页（自助生成 + 地图卡片） |
-| `PROJECT_STATE.md` / `PRD_LiveMap.md` / `DEPLOY.md` | 项目状态 / 需求 / 部署 |
+| `PROJECT_STATE.md` / `PRD_Itinera.md` / `DEPLOY.md` | 项目状态 / 需求 / 部署 |
 
 ## 7. 部署
 push 到 `main` → GitHub Actions 自动 build dist 并发布 GitHub Pages。
-线上：https://zxz19951104.github.io/livemap/
+线上：https://shixiann25.github.io/itinera/

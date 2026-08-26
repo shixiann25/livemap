@@ -1,6 +1,6 @@
-# LiveMap 部署指南（静态分享版）
+# Itinera 部署指南（静态分享版）
 
-把 LiveMap 打包成纯静态站点，分享给任何人浏览。**画廊 + 所有已生成地图都能看**；实时 AI 生成会优雅降级为「请本地运行」提示（静态站点没有后端、不暴露 API key）。
+把 Itinera 打包成纯静态站点，分享给任何人浏览。**画廊 + 所有已生成地图都能看**；实时 AI 生成会优雅降级为「请本地运行」提示（静态站点没有后端、不暴露 API key）。
 
 ---
 
@@ -68,7 +68,7 @@ python3 -m http.server 8000      # 浏览器开 http://localhost:8000
 | `DAILY_GENERATE_LIMIT` | `40` | 全站每天最多生成多少张 |
 | `DAILY_GENERATE_LIMIT_PER_IP` | `5` | 单 IP 每天最多几张 |
 | `VOLC_API_KEY` | （手填） | 你的火山 key，`sync:false` 不进仓库 |
-| `LIVEMAP_EDIT_TOKEN` | （可选） | 不设＝公网关闭编辑保存；设了则需带 `X-LiveMap-Token` 头才能存 |
+| `ITINERA_EDIT_TOKEN` | （可选） | 不设＝公网关闭编辑保存；设了则需带 `X-Itinera-Token` 头才能存 |
 
 ### 公网模式下自动打开的三道保险
 

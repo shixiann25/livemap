@@ -15,7 +15,7 @@
     "title": "中文长标题（含 emoji），如 '⛩️ 京都 6 天古都深度'",
     "title_short": "短标题，如 '京都古都深度环游'",
     "subtitle": "ENGLISH SUBTITLE",
-    "eyebrow": "DESTINATION · LIVEMAP · 2026 格式",
+    "eyebrow": "DESTINATION · ITINERA · 2026 格式",
     "header_emoji": "单个代表 emoji",
     "lang": "输出语言：zh（默认，可省略）| en。填 en 时【所有】文案都要用英文写：标题、景点名、desc、tip、酒店、pretrip 全部",
     "color_scheme": "warm|sakura|ocean|snow|forest 五选一（依目的地气质）",

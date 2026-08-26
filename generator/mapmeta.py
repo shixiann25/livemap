@@ -85,7 +85,7 @@ def title_fallback(html_path):
     except Exception:
         return {}
     t = re.search(r"<title>(.*?)</title>", html, re.S)
-    raw = (t.group(1) if t else html_path.stem).replace("· LiveMap", "").strip()
+    raw = (t.group(1) if t else html_path.stem).replace("· Itinera", "").strip()
     raw = re.split(r"\s*[·|]\s*", raw)[0]
     raw = re.sub(r"\s*(精准)?攻略地图\s*$", "", raw).strip()
     poi, days = _counts(html, {}, html_path.stem)

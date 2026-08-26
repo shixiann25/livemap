@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>京都 5 天经典穷游之旅 · LiveMap</title>
+<title>京都 5 天经典穷游之旅 · Itinera</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
@@ -384,13 +384,13 @@
 <style id="gesture-hint-style">.map-gesture-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:1200;background:rgba(0,0,0,0.62);color:#fff;font-size:11px;font-weight:600;padding:6px 13px;border-radius:16px;pointer-events:none;white-space:nowrap;transition:opacity 0.6s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);}</style>
 </head>
 <body>
-<!-- LIVEMAP-BACK-BTN -->
-<a href="../index.html" id="livemapBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ LiveMap 首页</a>
-<!-- /LIVEMAP-BACK-BTN -->
+<!-- ITINERA-BACK-BTN -->
+<a href="../index.html" id="itineraBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ Itinera 首页</a>
+<!-- /ITINERA-BACK-BTN -->
 
 <div class="app">
   <header>
-    <div class="eyebrow">Kyoto · LIVEMAP · 2026</div>
+    <div class="eyebrow">Kyoto · ITINERA · 2026</div>
     <h1>⛩️ 京都 5 天经典穷游之旅</h1>
     <div class="sub">Classical Budget Tour in Kyoto</div>
   </header>
@@ -491,7 +491,7 @@
 <script>
 const POIs = [{"id": "kyoto_station", "day": 1, "num": 1, "name": "京都站", "en": "Kyoto Station", "lat": 34.9867, "lng": 135.7595, "icon": "🚉", "color": "#4a5d52", "search": "Kyoto Station", "price": "免费", "hours": "24h", "duration": "— 抵达/离港", "desc": "京都交通枢纽，可在此换乘公交、地铁。省钱 tip：购买京都巴士一日券。", "tags": ["必去", "交通"], "time": "上午", "photo_spots": ["📸 站在二楼平台拍全景"], "foods": []}, {"id": "kawaramachi_street", "day": 1, "num": 2, "name": "河原町", "en": "Kawaramachi Street", "lat": 35.007, "lng": 135.7699, "icon": "🛍️", "color": "#c97b5a", "search": "Kawaramachi Street", "price": "免费", "hours": "10:00-22:00", "duration": "1-1.5 小时", "desc": "繁华商业街，有众多商店和餐厅。省钱 tip：部分店铺有折扣活动。", "tags": ["必去", "美食", "购物"], "time": "下午", "photo_spots": ["📸 街道入口处拍照"], "foods": ["🍜 拉面（¥800）", "🍡 团子（¥300）"]}, {"id": "nishiki_market", "day": 1, "num": 3, "name": "锦市场", "en": "Nishiki Market", "lat": 35.0067, "lng": 135.7588, "icon": "🍱", "color": "#c97b5a", "search": "Nishiki Market", "price": "免费", "hours": "09:00-18:00", "duration": "1-1.5 小时", "desc": "美食一条街，可品尝各种小吃。省钱 tip：多对比价格，选择性价比高的摊位。", "tags": ["必去", "美食"], "time": "傍晚", "photo_spots": ["📸 市场入口处的招牌"], "foods": ["🍣 生鱼片（¥1000）", "🍢 烤串（¥500）"]}, {"id": "kamo_river", "day": 1, "num": 4, "name": "鸭川", "en": "Kamo River", "lat": 35.0073, "lng": 135.7723, "icon": "🌊", "color": "#4a8db5", "search": "Kamo River", "price": "免费", "hours": "24h", "duration": "30 分钟", "desc": "京都的母亲河，可散步欣赏夜景。省钱 tip：晚上散步免费。", "tags": ["免费", "观景"], "time": "晚上", "photo_spots": ["📸 桥上拍河景"], "foods": []}, {"id": "kiyomizu_temple", "day": 2, "num": 1, "name": "清水寺", "en": "Kiyomizu-dera", "lat": 34.9981, "lng": 135.7854, "icon": "⛩️", "color": "#6b4a7e", "search": "Kiyomizu-dera", "price": "¥400", "hours": "06:00-18:00", "duration": "1-1.5 小时", "desc": "京都著名寺庙，景色优美。省钱 tip：提前网上订票，淡季有优惠。", "tags": ["必看", "寺庙"], "time": "上午", "photo_spots": ["📸 清水舞台拍全景", "📸 地主神社前拍照"], "foods": []}, {"id": "yasaka_shrine", "day": 2, "num": 2, "name": "八坂神社", "en": "Yasaka Shrine", "lat": 34.9963, "lng": 135.7887, "icon": "🏯", "color": "#b04060", "search": "Yasaka Shrine", "price": "免费", "hours": "24h", "duration": "30 分钟", "desc": "京都重要神社，有独特建筑。省钱 tip：免费参观。", "tags": ["必去", "神社"], "time": "上午", "photo_spots": ["📸 鸟居前拍照"], "foods": []}, {"id": "gion_district", "day": 2, "num": 3, "name": "祇园", "en": "Gion District", "lat": 34.9975, "lng": 135.7848, "icon": "👘", "color": "#c97b5a", "search": "Gion District", "price": "免费", "hours": "24h", "duration": "1-1.5 小时", "desc": "传统街区，可邂逅艺伎。省钱 tip：晚上散步免费。", "tags": ["必去", "传统"], "time": "下午", "photo_spots": ["📸 花见小路拍照"], "foods": ["🍵 抹茶冰淇淋（¥500）"]}, {"id": "kodaiji_temple", "day": 2, "num": 4, "name": "高台寺", "en": "Kodai-ji", "lat": 34.9961, "lng": 135.781, "icon": "⛩️", "color": "#6b4a7e", "search": "Kodai-ji", "price": "¥600", "hours": "08:30-17:00", "duration": "1-1.5 小时", "desc": "历史悠久寺庙，庭园精美。省钱 tip：学生证半价。", "tags": ["必看", "寺庙"], "time": "下午", "photo_spots": ["📸 庭园景色"], "foods": []}, {"id": "arashiyama_bamboo_grove", "day": 3, "num": 1, "name": "岚山竹林", "en": "Arashiyama Bamboo Grove", "lat": 35.0282, "lng": 135.7263, "icon": "🌳", "color": "#5a7a4a", "search": "Arashiyama Bamboo Grove", "price": "免费", "hours": "24h", "duration": "1-1.5 小时", "desc": "宁静竹林，拍照美。省钱 tip：早去避开人流。", "tags": ["必看", "自然"], "time": "上午", "photo_spots": ["📸 竹林小径"], "foods": []}, {"id": "tenryuji_temple", "day": 3, "num": 2, "name": "天龙寺", "en": "Tenryu-ji", "lat": 35.0288, "lng": 135.7236, "icon": "⛩️", "color": "#6b4a7e", "search": "Tenryu-ji", "price": "¥500", "hours": "08:30-17:30", "duration": "1-1.5 小时", "desc": "著名寺庙，庭园壮观。省钱 tip：淡季门票有优惠。", "tags": ["必看", "寺庙"], "time": "上午", "photo_spots": ["📸 庭园湖景"], "foods": []}, {"id": "sagano_scenic_railway", "day": 3, "num": 3, "name": "嵯峨野观光小火车", "en": "Sagano Scenic Railway", "lat": 35.0294, "lng": 135.719, "icon": "🚂", "color": "#4a5d52", "search": "Sagano Scenic Railway", "price": "¥620", "hours": "09:00-16:30", "duration": "30 分钟", "desc": "欣赏沿途风景。省钱 tip：提前网上订票。", "tags": ["体验", "交通"], "time": "下午", "photo_spots": ["📸 火车内拍窗外风景"], "foods": []}, {"id": "bamboo_forest_cafe", "day": 3, "num": 4, "name": "竹林咖啡馆", "en": "Bamboo Forest Cafe", "lat": 35.0284, "lng": 135.7265, "icon": "☕", "color": "#c97b5a", "search": "Bamboo Forest Cafe", "price": "¥800", "hours": "09:00-18:00", "duration": "1 小时", "desc": "可边喝咖啡边赏竹林。省钱 tip：点套餐更划算。", "tags": ["美食", "体验"], "time": "下午", "photo_spots": ["📸 窗边拍竹林"], "foods": ["☕ 咖啡（¥300）", "🍰 蛋糕（¥500）"]}, {"id": "fushimi_inari_shrine", "day": 4, "num": 1, "name": "伏见稻荷大社", "en": "Fushimi Inari Taisha", "lat": 34.9694, "lng": 135.7747, "icon": "🏯", "color": "#b04060", "search": "Fushimi Inari Taisha", "price": "免费", "hours": "24h", "duration": "1-2 小时", "desc": "千本鸟居壮观。省钱 tip：免费参观。", "tags": ["必看", "神社"], "time": "上午", "photo_spots": ["📸 鸟居隧道"], "foods": []}, {"id": "nishiki_food_street", "day": 4, "num": 2, "name": "锦小路美食街", "en": "Nishiki Food Street", "lat": 35.0066, "lng": 135.7587, "icon": "🍱", "color": "#c97b5a", "search": "Nishiki Food Street", "price": "免费", "hours": "09:00-18:00", "duration": "1-1.5 小时", "desc": "品尝各种美食。省钱 tip：多尝几家，选性价比高的。", "tags": ["必去", "美食"], "time": "中午", "photo_spots": ["📸 美食摊位前"], "foods": ["🍙 饭团（¥200）", "🍡 烤年糕（¥300）"]}, {"id": "kyoto_imperial_palace", "day": 4, "num": 3, "name": "京都御所", "en": "Kyoto Imperial Palace", "lat": 35.021, "lng": 135.7564, "icon": "🏰", "color": "#6b4a7e", "search": "Kyoto Imperial Palace", "price": "免费", "hours": "09:00-16:00", "duration": "1-1.5 小时", "desc": "历史宫殿，可了解皇室文化。省钱 tip：免费参观。", "tags": ["必去", "历史"], "time": "下午", "photo_spots": ["📸 宫殿建筑"], "foods": []}, {"id": "nijo_castle", "day": 4, "num": 4, "name": "二条城", "en": "Nijo Castle", "lat": 35.0236, "lng": 135.7424, "icon": "🏯", "color": "#b04060", "search": "Nijo Castle", "price": "¥600", "hours": "08:45-17:00", "duration": "1-1.5 小时", "desc": "著名城堡，建筑精美。省钱 tip：学生证半价。", "tags": ["必看", "历史"], "time": "下午", "photo_spots": ["📸 天守阁"], "foods": []}, {"id": "kyoto_station_shopping", "day": 5, "num": 1, "name": "京都站购物", "en": "Shopping at Kyoto Station", "lat": 34.9867, "lng": 135.7595, "icon": "🛍️", "color": "#c97b5a", "search": "Shopping at Kyoto Station", "price": "免费", "hours": "10:00-22:00", "duration": "1-1.5 小时", "desc": "可购买纪念品。省钱 tip：部分商品有折扣。", "tags": ["购物"], "time": "上午", "photo_spots": ["📸 商场内特色店铺"], "foods": []}, {"id": "kyoto_tower", "day": 5, "num": 2, "name": "京都塔", "en": "Kyoto Tower", "lat": 34.9863, "lng": 135.7597, "icon": "🗼", "color": "#6b7a6e", "search": "Kyoto Tower", "price": "¥800", "hours": "09:00-22:00", "duration": "30 分钟", "desc": "俯瞰京都全景。省钱 tip：提前网上订票有优惠。", "tags": ["观景"], "time": "上午", "photo_spots": ["📸 塔顶观景台"], "foods": []}, {"id": "kyoto_station_food", "day": 5, "num": 3, "name": "京都站美食", "en": "Food at Kyoto Station", "lat": 34.9867, "lng": 135.7595, "icon": "🍱", "color": "#c97b5a", "search": "Food at Kyoto Station", "price": "免费", "hours": "10:00-22:00", "duration": "1 小时", "desc": "品尝各种美食。省钱 tip：选择平价餐厅。", "tags": ["美食"], "time": "中午", "photo_spots": ["📸 美食店铺前"], "foods": ["🍜 拉面（¥800）", "🍱 便当（¥1000）"]}, {"id": "kyoto_station_departure", "day": 5, "num": 4, "name": "京都站离港", "en": "Departure from Kyoto Station", "lat": 34.9867, "lng": 135.7595, "icon": "🚉", "color": "#4a5d52", "search": "Departure from Kyoto Station", "price": "免费", "hours": "24h", "duration": "— 抵达/离港", "desc": "前往机场，结束旅程。", "tags": ["交通"], "time": "下午", "photo_spots": [], "foods": []}];
 const DAYS = {"1": {"color": "#6b4a7e", "title": "Day 1 · 初入京都", "where": "📍 京都站附近", "tip": "💡 抵达后可购买京都巴士一日券，方便出行。", "hotel": {"name_cn": "京都站前青年旅社", "name_en": "Kyoto Station Youth Hostel", "address": "京都府京都市下京区东塩小路町337", "price": "¥200/晚", "parking": "不提供", "highlights": "步行 10 分钟到京都站", "url": "https://www.booking.com/hotel/jp/kyoto-station-youth-hostel.zh-cn.html"}, "plan_b": "💧 雨天/旺季备选：改去京都站伊势丹商场 + 京都塔展望台"}, "2": {"color": "#b04060", "title": "Day 2 · 经典打卡", "where": "📍 京都站附近", "tip": "💡 可提前在网上预订清水寺门票，避免排队。", "hotel": {"name_cn": "京都站前青年旅社", "name_en": "Kyoto Station Youth Hostel", "address": "京都府京都市下京区东塩小路町337", "price": "¥200/晚", "parking": "不提供", "highlights": "步行 10 分钟到京都站", "url": "https://www.booking.com/hotel/jp/kyoto-station-youth-hostel.zh-cn.html"}, "plan_b": "💧 雨天/旺季备选：改去京都国立博物馆 + 二条城"}, "3": {"color": "#5a7a4a", "title": "Day 3 · 小众慢游", "where": "📍 京都站附近", "tip": "💡 岚山竹林人多，可早去避开人流。", "hotel": {"name_cn": "京都站前青年旅社", "name_en": "Kyoto Station Youth Hostel", "address": "京都府京都市下京区东塩小路町337", "price": "¥200/晚", "parking": "不提供", "highlights": "步行 10 分钟到京都站", "url": "https://www.booking.com/hotel/jp/kyoto-station-youth-hostel.zh-cn.html"}, "plan_b": "💧 雨天/旺季备选：改去北野天满宫 + 金阁寺"}, "4": {"color": "#c97b5a", "title": "Day 4 · 美食体验", "where": "📍 京都站附近", "tip": "💡 先去锦市场品尝小吃，再去伏见稻荷大社游玩。", "hotel": {"name_cn": "京都站前青年旅社", "name_en": "Kyoto Station Youth Hostel", "address": "京都府京都市下京区东塩小路町337", "price": "¥200/晚", "parking": "不提供", "highlights": "步行 10 分钟到京都站", "url": "https://www.booking.com/hotel/jp/kyoto-station-youth-hostel.zh-cn.html"}, "plan_b": "💧 雨天/旺季备选：改去新京极商业街 + 八坂神社"}, "5": {"color": "#6b7a6e", "title": "Day 5 · 告别京都", "where": "📍 京都站附近", "tip": "💡 提前收拾好行李，预留足够时间去机场。", "hotel": {"name_cn": "京都站前青年旅社", "name_en": "Kyoto Station Youth Hostel", "address": "京都府京都市下京区东塩小路町337", "price": "¥200/晚", "parking": "不提供", "highlights": "步行 10 分钟到京都站", "url": "https://www.booking.com/hotel/jp/kyoto-station-youth-hostel.zh-cn.html"}, "plan_b": "💧 雨天/旺季备选：改去京都站购物 + 休息"}};
-const META = {"title": "⛩️ 京都 5 天经典穷游之旅", "title_short": "京都经典穷游", "subtitle": "Classical Budget Tour in Kyoto", "eyebrow": "Kyoto · LIVEMAP · 2026", "header_emoji": "⛩️", "color_scheme": "sakura", "currency": "JPY", "map_center": [35.0116, 135.7681], "map_zoom": 11, "where_summary": "关西机场进/出", "all_tip": "🎯 主题定调：这是一趟深入体验京都古韵的穷游之旅，避开高价景点，专注经典与平价体验，感受古都的独特魅力。\n\n🎬 节奏递进：采用浅入深的节奏，前两日熟悉城市，打卡经典景点；中间一日慢游小众之地；后两日深度体验京都文化。每天角色分明，逐步深入。\n\n🗺️ 路线设计：以京都站附近为基地，减少换酒店的麻烦。按地理顺序安排景点，避免来回折返，节省时间和交通费用。\n\n💡 实用建议：提前在国内换好日元，推荐购买京都巴士一日券。避开樱花季和红叶季，提前预订青旅或民宿。", "stats": [{"num": "5", "label": "天数", "hint": "DAYS"}, {"num": "20", "label": "景点", "hint": "POI"}, {"num": "¥3K-6K", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票当地交通"}, {"num": "公交", "label": "交通方式", "hint": "TRANSPORT", "tooltip": "推荐主要交通方式"}], "highlight_title": "🔥 京都穷游独门绝技", "highlight_items": ["<b>逛平价夜市</b>（品尝地道美食，价格实惠）", "<b>打卡免费神社</b>（感受京都传统氛围）", "<b>选择青旅住宿</b>（节省住宿费用）", "<b>购买巴士一日券</b>（无限次乘坐公交，省钱又方便）"], "warning_title": "⚠️ 安全/礼仪/避坑", "warning_text": "注意遵守当地礼仪，不要大声喧哗。购物时注意价格和质量。", "footer": "Kyoto · 感受京都古韵 · 2026", "pretrip": {"visa": "需提前办签证（¥300 元，5 个工作日）", "voltage": "100V · A型插头（需转换头）", "sim": "eSIM 推荐 Airalo（¥80/5GB）· 当地买卡 ¥200", "currency": "¥1 RMB ≈ ¥18 JPY · 推荐银联卡免手续费", "tipping": "不需小费", "emergency": "110 报警/119 消防急救/中国大使馆 +81-3-3403-3388"}, "mode": "budget", "total_days": 5, "accent": "#b04060", "accent_bg": "rgba(232, 168, 184, 0.18)", "text_dark": "#3a2828", "text_mid": "#7a5a5a"};
+const META = {"title": "⛩️ 京都 5 天经典穷游之旅", "title_short": "京都经典穷游", "subtitle": "Classical Budget Tour in Kyoto", "eyebrow": "Kyoto · ITINERA · 2026", "header_emoji": "⛩️", "color_scheme": "sakura", "currency": "JPY", "map_center": [35.0116, 135.7681], "map_zoom": 11, "where_summary": "关西机场进/出", "all_tip": "🎯 主题定调：这是一趟深入体验京都古韵的穷游之旅，避开高价景点，专注经典与平价体验，感受古都的独特魅力。\n\n🎬 节奏递进：采用浅入深的节奏，前两日熟悉城市，打卡经典景点；中间一日慢游小众之地；后两日深度体验京都文化。每天角色分明，逐步深入。\n\n🗺️ 路线设计：以京都站附近为基地，减少换酒店的麻烦。按地理顺序安排景点，避免来回折返，节省时间和交通费用。\n\n💡 实用建议：提前在国内换好日元，推荐购买京都巴士一日券。避开樱花季和红叶季，提前预订青旅或民宿。", "stats": [{"num": "5", "label": "天数", "hint": "DAYS"}, {"num": "20", "label": "景点", "hint": "POI"}, {"num": "¥3K-6K", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票当地交通"}, {"num": "公交", "label": "交通方式", "hint": "TRANSPORT", "tooltip": "推荐主要交通方式"}], "highlight_title": "🔥 京都穷游独门绝技", "highlight_items": ["<b>逛平价夜市</b>（品尝地道美食，价格实惠）", "<b>打卡免费神社</b>（感受京都传统氛围）", "<b>选择青旅住宿</b>（节省住宿费用）", "<b>购买巴士一日券</b>（无限次乘坐公交，省钱又方便）"], "warning_title": "⚠️ 安全/礼仪/避坑", "warning_text": "注意遵守当地礼仪，不要大声喧哗。购物时注意价格和质量。", "footer": "Kyoto · 感受京都古韵 · 2026", "pretrip": {"visa": "需提前办签证（¥300 元，5 个工作日）", "voltage": "100V · A型插头（需转换头）", "sim": "eSIM 推荐 Airalo（¥80/5GB）· 当地买卡 ¥200", "currency": "¥1 RMB ≈ ¥18 JPY · 推荐银联卡免手续费", "tipping": "不需小费", "emergency": "110 报警/119 消防急救/中国大使馆 +81-3-3403-3388"}, "mode": "budget", "total_days": 5, "accent": "#b04060", "accent_bg": "rgba(232, 168, 184, 0.18)", "text_dark": "#3a2828", "text_mid": "#7a5a5a"};
 const ALL_TIP = META.all_tip;
 const TOTAL_DAYS = META.total_days;
 const ORIG_CURRENCY = META.currency || 'USD';
@@ -1048,8 +1048,8 @@ function renderPretrip(p) {
 // GPX 导出：生成所有 POI + 每天路线
 window.exportGPX = function() {
   const sorted = [...POIs].sort((a, b) => a.day === b.day ? a.num - b.num : a.day - b.day);
-  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="LiveMap" xmlns="http://www.topografix.com/GPX/1/1">\n`;
-  gpx += `  <metadata>\n    <name>${META.title_short || 'LiveMap Trip'}</name>\n    <desc>Generated by LiveMap</desc>\n  </metadata>\n`;
+  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Itinera" xmlns="http://www.topografix.com/GPX/1/1">\n`;
+  gpx += `  <metadata>\n    <name>${META.title_short || 'Itinera Trip'}</name>\n    <desc>Generated by Itinera</desc>\n  </metadata>\n`;
   // 每个 POI 一个 waypoint
   sorted.forEach(p => {
     gpx += `  <wpt lat="${p.lat}" lon="${p.lng}">\n    <name>Day${p.day}.${p.num} ${p.icon} ${p.name}</name>\n    <desc>${(p.desc||'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'})[c])}</desc>\n    <type>${p.tags?.[0]||'POI'}</type>\n  </wpt>\n`;
@@ -1067,7 +1067,7 @@ window.exportGPX = function() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${(META.title_short || 'livemap').replace(/[^\w]/g, '_')}.gpx`;
+  a.download = `${(META.title_short || 'itinera').replace(/[^\w]/g, '_')}.gpx`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1254,7 +1254,7 @@ filterPOIs(); renderDayOverview();
     const np = POIs.find(p => /national park/i.test(p.en || '') || /国家公园/.test(p.name || ''));
     if (np) queries.push((np.en || np.search) + ' landscape');
     const place = String((typeof META !== 'undefined' && META.eyebrow) || '').split(/[·•・|]/)[0].trim();
-    if (/^[\x20-\x7e]+$/.test(place) && !/livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
+    if (/^[\x20-\x7e]+$/.test(place) && !/itinera|livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
     POIs.slice(0, 3).forEach(p => { const n = p.search || p.en; if (n) queries.push(n + ' landscape'); });
     (async () => {
       // 先用这张图自己的 AI 明信片当页头底图：一定切题，不看搜索脸色。
@@ -1426,7 +1426,7 @@ if (typeof renderDayOverview === 'function') {
       <button class="pm-btn pm-dl" onclick="downloadPoster(this)">⬇️ 下载海报</button>
       <button class="pm-btn pm-close" onclick="document.getElementById('posterModal').classList.remove('show')">关闭</button>
     </div>
-    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张活地图</div>
+    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张旅行地图</div>
   </div>
 </div>
 <script>
@@ -1477,7 +1477,7 @@ function _posterBgStyle(cb){
 function _posterShareURL(){
   var u=location.href.split('#')[0];
   if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==='file:'){
-    u='https://zxz19951104.github.io/livemap/maps/'+location.pathname.split('/').pop();
+    u='https://shixiann25.github.io/itinera/maps/'+location.pathname.split('/').pop();
   }
   return u;
 }
@@ -1487,12 +1487,12 @@ window.generatePoster=function(){
   _posterBgStyle(bg=>{
     stage.innerHTML=`<div class="ps-root"><div class="ps-bg" style="${bg}"></div><div class="ps-scrim"></div>
       <div class="ps-wrap">
-        <div class="ps-top"><div class="ps-kick"><span>LiveMap</span>活地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
+        <div class="ps-top"><div class="ps-kick"><span>Itinera</span>旅行地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
         <h1>${title}</h1>
         <div class="ps-chips"><div class="ps-chip">📅 <b>${Object.keys(DAYS).map(Number).filter(n=>!isNaN(n)).length}</b> 天</div><div class="ps-chip">📍 <b>${POIs.length}</b> 个精选点</div>${(window._lmVisitedCount&&window._lmVisitedCount()>0)?'<div class="ps-chip">✅ 已打卡 <b>'+window._lmVisitedCount()+'</b></div>':'<div class="ps-chip">🚗 自驾路线</div>'}${(window._lmCustom&&window._lmCustom.length)?'<div class="ps-chip">📍 我的点 <b>'+window._lmCustom.length+'</b></div>':''}</div>
         <div class="ps-map">${_posterSVG()}</div>
         <div class="ps-days">${_posterDays()}</div>
-        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互活地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
+        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互旅行地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
       </div></div>`;
     const qd=document.getElementById('posterQR'); qd.innerHTML='';
     try{ new QRCode(qd,{text:_posterShareURL(),width:170,height:170,colorDark:'#0e1a14',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
@@ -1508,7 +1508,7 @@ window.downloadPoster=function(btn){
     canvas.toBlob(b=>{
       const a=document.createElement('a');
       a.href=URL.createObjectURL(b);
-      a.download=((typeof META!=='undefined'&&META.title_short)||'livemap').replace(/[^一-龥\w]/g,'_')+'_海报.png';
+      a.download=((typeof META!=='undefined'&&META.title_short)||'itinera').replace(/[^一-龥\w]/g,'_')+'_海报.png';
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href);
       btn.textContent=old; btn.disabled=false;
     },'image/png');

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>加州荒漠 4 日合并自驾图 · LiveMap</title>
+<title>加州荒漠 4 日合并自驾图 · Itinera</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
@@ -384,13 +384,13 @@
 <style id="gesture-hint-style">.map-gesture-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:1200;background:rgba(0,0,0,0.62);color:#fff;font-size:11px;font-weight:600;padding:6px 13px;border-radius:16px;pointer-events:none;white-space:nowrap;transition:opacity 0.6s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);}</style>
 </head>
 <body>
-<!-- LIVEMAP-BACK-BTN -->
-<a href="../index.html" id="livemapBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ LiveMap 首页</a>
-<!-- /LIVEMAP-BACK-BTN -->
+<!-- ITINERA-BACK-BTN -->
+<a href="../index.html" id="itineraBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ Itinera 首页</a>
+<!-- /ITINERA-BACK-BTN -->
 
 <div class="app">
   <header>
-    <div class="eyebrow">CA DESERT · LIVEMAP · 2026</div>
+    <div class="eyebrow">CA DESERT · ITINERA · 2026</div>
     <h1>🏜️ 加州荒漠 4 日合并自驾图</h1>
     <div class="sub">California Desert Road Trip · Death Valley + Joshua Tree</div>
   </header>
@@ -488,7 +488,7 @@
 <script>
 const POIs = [{"id": "vegas_pickup", "day": 1, "num": 1, "name": "拉斯维加斯机场取车", "en": "Las Vegas (Harry Reid Intl Airport)", "lat": 36.084, "lng": -115.1537, "icon": "✈️", "color": "#4a5d52", "search": "Harry Reid International Airport Las Vegas", "price": "租车按日计", "hours": "24h", "desc": "环线起点，机场取车后先在市区超市补足饮用水、防晒与零食，再向西北直插死亡谷（约 2 小时车程）。", "tags": ["交通", "起点"], "time": "上午", "photo_spots": ["📸 取车出发合影"], "foods": ["🍔 出城前快餐补给"]}, {"id": "zabriskie_point", "day": 1, "num": 2, "name": "Zabriskie 观景台", "name_cn": "扎布里斯基观景台", "en": "Zabriskie Point", "lat": 36.42, "lng": -116.812, "icon": "🌅", "color": "#c1440e", "search": "Zabriskie Point Death Valley", "price": "含园票 $30/车", "hours": "24h", "desc": "死亡谷最经典的日出机位，金色晨光铺满波浪状的褶皱土丘，背后是 Manly Beacon 尖峰。停车场到观景台仅几分钟步行。", "tags": ["必看", "日出机位"], "time": "日出", "photo_spots": ["📸 晨光褶皱土丘", "📸 Manly Beacon 尖峰"], "foods": ["🥪 自带早餐"]}, {"id": "badwater_basin", "day": 1, "num": 3, "name": "Badwater 盐滩", "name_cn": "恶水盐滩", "en": "Badwater Basin", "lat": 36.23, "lng": -116.768, "icon": "🏜️", "color": "#c1440e", "search": "Badwater Basin Death Valley", "price": "含园票 $30/车", "hours": "24h", "desc": "北美海拔最低点 -86m，洁白的六边形盐壳一望无际。傍晚光线柔和、温度回落最宜步行，切勿正午前往。", "tags": ["必看", "极端荒漠"], "time": "傍晚", "photo_spots": ["📸 六边形盐壳", "📸 崖壁海平面标记"], "foods": []}, {"id": "mesquite_dunes", "day": 2, "num": 1, "name": "Mesquite 沙丘", "name_cn": "豆科灌木沙丘", "en": "Mesquite Flat Sand Dunes", "lat": 36.608, "lng": -117.113, "icon": "🏜️", "color": "#c1440e", "search": "Mesquite Flat Sand Dunes Death Valley", "price": "含园票 $30/车", "hours": "24h", "desc": "死亡谷最易到达的金色沙丘群，清晨低角度光线勾勒出锋利的沙脊与风纹，趁早晚凉爽且无杂乱脚印时拍摄最佳。", "tags": ["必看", "沙丘"], "time": "清晨", "photo_spots": ["📸 晨光沙脊风纹", "📸 沙丘剪影"], "foods": ["🥪 自带早餐"]}, {"id": "artists_palette", "day": 2, "num": 2, "name": "Artist's Palette 彩色岩", "name_cn": "艺术家调色板彩岩", "en": "Artist's Palette", "lat": 36.364, "lng": -116.796, "icon": "🎨", "color": "#c1440e", "search": "Artists Palette Death Valley", "price": "含园票 $30/车", "hours": "9.4 公里单行环线", "desc": "火山矿物氧化染出的粉、绿、黄、紫岩壁，沿 Artist's Drive 单行环线驱车即可抵达。午后到日落前色彩最饱和。", "tags": ["必看", "彩色岩"], "time": "午后", "photo_spots": ["📸 粉绿黄彩壁", "📸 Artist's Drive 蜿蜒路"], "foods": []}, {"id": "dantes_view", "day": 2, "num": 3, "name": "Dante's View 俯瞰台", "name_cn": "但丁观景台", "en": "Dante's View", "lat": 36.2206, "lng": -116.727, "icon": "🏔️", "color": "#c1440e", "search": "Dantes View Death Valley", "price": "含园票 $30/车", "hours": "24h", "desc": "海拔 1669m 的高点，一眼俯瞰脚下整条死亡谷与 Badwater 盐滩白线，气温比谷底凉爽十余度。日落与夜间观星都极佳。", "tags": ["必看", "俯瞰"], "time": "傍晚", "photo_spots": ["📸 俯瞰盐滩白线", "📸 谷地日落"], "foods": []}, {"id": "furnace_creek", "day": 2, "num": 4, "name": "火炉溪补给站", "en": "Furnace Creek", "lat": 36.4593, "lng": -116.8665, "icon": "🏨", "color": "#b5651d", "search": "Furnace Creek Death Valley", "price": "餐饮另计", "hours": "全天", "desc": "死亡谷唯一的综合补给点，含度假村、餐厅、加油站与游客中心。转场前务必在此加满油、补足饮水。", "tags": ["补给", "住宿"], "time": "全天", "photo_spots": ["📸 绿洲棕榈树"], "foods": ["🍴 度假村餐厅", "☕ 游客中心咖啡"]}, {"id": "transfer_drive", "day": 3, "num": 1, "name": "长途转场（Baker 歇脚）", "name_cn": "长途转场（贝克歇脚）", "en": "Transfer via Baker", "lat": 35.2655, "lng": -116.0717, "icon": "🚗", "color": "#b5651d", "search": "Baker California", "price": "油费按里程", "hours": "途经小镇", "desc": "死亡谷南下约书亚树约 4 小时车程的中途节点，Baker 小镇有加油站与餐馆（世界最高温度计地标），可歇脚补给。", "tags": ["交通", "转场"], "time": "白天", "photo_spots": ["📸 Baker 世界最高温度计"], "foods": ["🌮 Baker 小镇路边餐馆"]}, {"id": "cholla_garden", "day": 3, "num": 2, "name": "Cholla 仙人掌花园", "name_cn": "乔拉仙人掌花园", "en": "Cholla Cactus Garden", "lat": 33.929, "lng": -115.927, "icon": "🌵", "color": "#2e7d32", "search": "Cholla Cactus Garden Joshua Tree", "price": "含园票 $30/车", "hours": "24h", "desc": "约书亚树园内密集的「跳跃仙人掌」群落，傍晚逆光时毛茸茸的针刺被染成金色绒光，是公认的日落机位。小心带倒刺的断节。", "tags": ["必看", "日落机位"], "time": "日落", "photo_spots": ["📸 逆光金色仙人掌", "📸 仙人掌剪影日落"], "foods": []}, {"id": "hidden_valley", "day": 4, "num": 1, "name": "Hidden Valley 环线", "name_cn": "隐谷环线", "en": "Hidden Valley", "lat": 34.0114, "lng": -116.1683, "icon": "🧗", "color": "#2e7d32", "search": "Hidden Valley Joshua Tree", "price": "含园票 $30/车", "hours": "24h", "desc": "约书亚树最经典的 1.6 公里环形步道，穿行于巨型花岗岩堆围成的隐秘谷地，是攀岩者天堂，清晨光线最柔和。", "tags": ["必看", "巨石徒步"], "time": "上午", "photo_spots": ["📸 巨石与约书亚树", "📸 攀岩者剪影"], "foods": ["🥪 自带午餐"]}, {"id": "keys_view", "day": 4, "num": 2, "name": "Keys View 远眺台", "name_cn": "凯斯观景台", "en": "Keys View", "lat": 33.927, "lng": -116.188, "icon": "🏔️", "color": "#2e7d32", "search": "Keys View Joshua Tree", "price": "含园票 $30/车", "hours": "24h", "desc": "园内海拔 1581m 的西端观景台，可远眺科切拉谷、圣安德烈亚斯断层与索尔顿湖，天气好时能看到墨西哥方向群山。", "tags": ["观景", "俯瞰"], "time": "上午", "photo_spots": ["📸 俯瞰科切拉谷", "📸 圣安德烈亚斯断层"], "foods": []}, {"id": "arch_rock", "day": 4, "num": 3, "name": "Arch Rock 拱石观星", "name_cn": "拱石观星点", "en": "Arch Rock", "lat": 33.992, "lng": -115.907, "icon": "🌌", "color": "#2e7d32", "search": "Arch Rock Joshua Tree", "price": "含园票 $30/车", "hours": "24h", "desc": "约书亚树是国际暗夜公园，这座天然花岗岩拱门是银河同框的招牌机位。短步道即达，备头灯与保暖衣，注意查月相。", "tags": ["必看", "观星"], "time": "夜间", "photo_spots": ["📸 银河与拱石", "📸 星轨长曝"], "foods": []}, {"id": "twentynine_palms", "day": 4, "num": 4, "name": "二十九棕榈镇", "en": "Twentynine Palms", "lat": 34.1356, "lng": -116.0542, "icon": "🏨", "color": "#b5651d", "search": "Twentynine Palms California", "price": "餐饮另计", "hours": "全天", "desc": "约书亚树北门小镇，含住宿、餐饮、加油站与园区游客中心，是观星归来与返程前的补给与休整点。", "tags": ["补给", "住宿"], "time": "夜间", "photo_spots": ["📸 沙漠小镇壁画"], "foods": ["🌮 镇上墨西哥菜", "☕ 当地咖啡馆"]}, {"id": "vegas_return", "day": 4, "num": 5, "name": "返程还车（拉斯维加斯）", "en": "Return to Las Vegas", "lat": 36.084, "lng": -115.1537, "icon": "✈️", "color": "#4a5d52", "search": "Harry Reid International Airport Las Vegas", "price": "租车结算", "hours": "24h", "desc": "环线终点，自约书亚树返回拉斯维加斯约 3-3.5 小时车程，机场还车结束 4 日荒漠自驾。", "tags": ["交通", "终点"], "time": "白天", "photo_spots": ["📸 返程公路"], "foods": ["🍔 返程途中补给"]}];
 const DAYS = {"1": {"color": "#c1440e", "title": "Day 1 · 拉斯维加斯 → 死亡谷", "where": "📍 拉斯维加斯取车 → 死亡谷（车程约 2 小时）", "tip": "💡 上午拉斯维加斯机场取车补给饮水，傍晚抵死亡谷，赶 Zabriskie Point 日落或次晨日出，Badwater 盐滩避开正午。", "hotel": {"name_cn": "火炉溪牧场度假村", "name_en": "The Ranch at Death Valley", "address": "Furnace Creek, CA 92328", "price": "$200-280/晚", "parking": "免费", "highlights": "死亡谷核心补给点，含餐厅、加油站与泳池", "url": "https://www.oasisatdeathvalley.com/"}, "plan_b": "💧 夏季高温备选：仅清晨与傍晚出行，正午在度假村泳池避暑"}, "2": {"color": "#c1440e", "title": "Day 2 · 死亡谷深度", "where": "📍 死亡谷国家公园内", "tip": "💡 清晨 Mesquite 沙丘趁凉拍光影，午后 Artist's Palette 彩岩驱车环线，傍晚登 Dante's View 俯瞰整条谷地。", "hotel": {"name_cn": "火炉溪牧场度假村", "name_en": "The Ranch at Death Valley", "address": "Furnace Creek, CA 92328", "price": "$200-280/晚", "parking": "免费", "highlights": "死亡谷核心补给点，含餐厅、加油站与泳池", "url": "https://www.oasisatdeathvalley.com/"}, "plan_b": "💧 高温备选：彩岩环线改清晨，Dante's View 海拔 1669m 较凉爽可午后前往"}, "3": {"color": "#b5651d", "title": "Day 3 · 死亡谷 → 约书亚树（长途转场）", "where": "📍 死亡谷 → 约书亚树（车程约 4 小时）", "tip": "💡 全天主要在路上，建议出发前在 Furnace Creek 加满油与补给。傍晚抵约书亚树，赶 Cholla 仙人掌花园逆光日落。", "hotel": {"name_cn": "二十九棕榈泉旅馆", "name_en": "29 Palms Inn", "address": "73950 Inn Ave, Twentynine Palms, CA 92277", "price": "$150-230/晚", "parking": "免费", "highlights": "约书亚树北门附近绿洲旅馆，暗夜观星近便", "url": "https://29palmsinn.com/"}, "plan_b": "💧 转场太累备选：中途 Baker / Barstow 小镇歇脚补给，次日再深度游"}, "4": {"color": "#2e7d32", "title": "Day 4 · 约书亚树深度 → 返程", "where": "📍 约书亚树国家公园 → 拉斯维加斯返程", "tip": "💡 上午 Hidden Valley 环线穿巨石，登 Keys View 远眺科切拉谷；夜宿前可在 Arch Rock 观星，次日驱车返程还车。", "hotel": {"name_cn": "二十九棕榈泉旅馆", "name_en": "29 Palms Inn", "address": "73950 Inn Ave, Twentynine Palms, CA 92277", "price": "$150-230/晚", "parking": "免费", "highlights": "约书亚树北门附近绿洲旅馆，暗夜观星近便", "url": "https://29palmsinn.com/"}, "plan_b": "💧 时间紧备选：跳过 Keys View，直接 Arch Rock 观星后返程"}};
-const META = {"title": "🏜️ 加州荒漠 4 日合并自驾图", "title_short": "加州荒漠自驾", "subtitle": "California Desert Road Trip · Death Valley + Joshua Tree", "eyebrow": "CA DESERT · LIVEMAP · 2026", "header_emoji": "🏜️", "color_scheme": "warm", "currency": "USD", "map_center": [35.2, -116.5], "map_zoom": 7, "where_summary": "拉斯维加斯进/出 · 死亡谷 + 约书亚树合并环线", "all_tip": "🎯 主题定调：这是一张从拉斯维加斯出发、串起加州两大极端荒漠的 4 天自驾全景图——北边的死亡谷（地球上最热最低之地）与南边的约书亚树（暗夜观星圣地）。两园相距约 4 小时车程，靠 Day3 一段长途转场缝合成完整环线。\n\n🗺️ 路线设计：Day1 拉斯维加斯取车直插死亡谷，赶 Zabriskie Point 日出与 Badwater 盐滩；Day2 死亡谷深度（沙丘、彩岩、俯瞰）；Day3 长途转场南下约书亚树，傍晚 Cholla 仙人掌花园看日落；Day4 约书亚树深度后返程。\n\n🎬 节奏递进：把强度最高的死亡谷放在体能最好的前两天，约书亚树相对轻松、以观星收尾。Furnace Creek 是死亡谷唯一的食宿补给点，务必提前订房。\n\n💡 实用建议：① 强烈建议秋冬前往（10-4 月），死亡谷夏季可达 50°C，正午户外极度危险；② 车内常备 4L 以上饮用水/人、防晒、太阳镜；③ 园内基本无手机信号，提前离线下载地图；④ America the Beautiful 年票 $80/车可覆盖两园门票。", "stats": [{"num": "4", "label": "天数", "hint": "DAYS"}, {"num": "14", "label": "景点", "hint": "POI"}, {"num": "$80", "label": "年票/车", "hint": "ANNUAL PASS", "tooltip": "America the Beautiful 年票，覆盖两园门票"}, {"num": "自驾", "label": "出行方式", "hint": "TRANSPORT", "tooltip": "拉斯维加斯机场取车，全程自驾环线"}], "highlight_title": "🔥 加州荒漠 · 镇图之宝", "highlight_items": ["<b>Zabriskie Point 日出</b>（金光铺满褶皱土丘的经典机位）", "<b>Badwater Basin 盐滩</b>（北美最低点 -86m 的六边形盐壳）", "<b>Artist's Palette 彩色岩</b>（火山矿物染出的粉绿黄岩壁）", "<b>Cholla 仙人掌花园日落</b>（逆光中毛茸茸的金色仙人掌海）", "<b>Arch Rock 暗夜观星</b>（约书亚树银河与拱石同框）"], "warning_title": "⚠️ 行前必看 / 避坑", "warning_text": "① 死亡谷夏季地表可达 50°C，6-9 月正午切勿户外徒步，强烈建议秋冬（10-4 月）前往；② 两园内手机基本无信号，务必离线下载地图并告知行程；③ 车内常备充足饮用水（4L+/人）、防晒与遮阳；④ 约书亚树是暗夜公园，观星请提前查月相、备头灯与保暖衣（沙漠昼夜温差极大）。", "footer": "CALIFORNIA DESERT · 死亡谷 + 约书亚树 · 2026", "pretrip": {"visa": "美签 B1/B2 或 ESTA（视国籍），建议提前 1-2 月办理", "voltage": "110V · A/B 型插头", "sim": "eSIM 推荐 Airalo / T-Mobile 预付卡；园内多无信号，提前离线下载地图", "currency": "$1 USD ≈ ¥7 RMB · 园区内多可刷卡，偏远加油站备现金", "tipping": "餐厅 15-20% · 度假村餐饮同样适用", "emergency": "911 报警急救 · 中国驻洛杉矶总领馆 +1-213-807-8088"}, "total_days": 4, "accent": "#c2542e", "accent_bg": "rgba(232, 168, 94, 0.18)", "text_dark": "#3a2818", "text_mid": "#7a5a3a"};
+const META = {"title": "🏜️ 加州荒漠 4 日合并自驾图", "title_short": "加州荒漠自驾", "subtitle": "California Desert Road Trip · Death Valley + Joshua Tree", "eyebrow": "CA DESERT · ITINERA · 2026", "header_emoji": "🏜️", "color_scheme": "warm", "currency": "USD", "map_center": [35.2, -116.5], "map_zoom": 7, "where_summary": "拉斯维加斯进/出 · 死亡谷 + 约书亚树合并环线", "all_tip": "🎯 主题定调：这是一张从拉斯维加斯出发、串起加州两大极端荒漠的 4 天自驾全景图——北边的死亡谷（地球上最热最低之地）与南边的约书亚树（暗夜观星圣地）。两园相距约 4 小时车程，靠 Day3 一段长途转场缝合成完整环线。\n\n🗺️ 路线设计：Day1 拉斯维加斯取车直插死亡谷，赶 Zabriskie Point 日出与 Badwater 盐滩；Day2 死亡谷深度（沙丘、彩岩、俯瞰）；Day3 长途转场南下约书亚树，傍晚 Cholla 仙人掌花园看日落；Day4 约书亚树深度后返程。\n\n🎬 节奏递进：把强度最高的死亡谷放在体能最好的前两天，约书亚树相对轻松、以观星收尾。Furnace Creek 是死亡谷唯一的食宿补给点，务必提前订房。\n\n💡 实用建议：① 强烈建议秋冬前往（10-4 月），死亡谷夏季可达 50°C，正午户外极度危险；② 车内常备 4L 以上饮用水/人、防晒、太阳镜；③ 园内基本无手机信号，提前离线下载地图；④ America the Beautiful 年票 $80/车可覆盖两园门票。", "stats": [{"num": "4", "label": "天数", "hint": "DAYS"}, {"num": "14", "label": "景点", "hint": "POI"}, {"num": "$80", "label": "年票/车", "hint": "ANNUAL PASS", "tooltip": "America the Beautiful 年票，覆盖两园门票"}, {"num": "自驾", "label": "出行方式", "hint": "TRANSPORT", "tooltip": "拉斯维加斯机场取车，全程自驾环线"}], "highlight_title": "🔥 加州荒漠 · 镇图之宝", "highlight_items": ["<b>Zabriskie Point 日出</b>（金光铺满褶皱土丘的经典机位）", "<b>Badwater Basin 盐滩</b>（北美最低点 -86m 的六边形盐壳）", "<b>Artist's Palette 彩色岩</b>（火山矿物染出的粉绿黄岩壁）", "<b>Cholla 仙人掌花园日落</b>（逆光中毛茸茸的金色仙人掌海）", "<b>Arch Rock 暗夜观星</b>（约书亚树银河与拱石同框）"], "warning_title": "⚠️ 行前必看 / 避坑", "warning_text": "① 死亡谷夏季地表可达 50°C，6-9 月正午切勿户外徒步，强烈建议秋冬（10-4 月）前往；② 两园内手机基本无信号，务必离线下载地图并告知行程；③ 车内常备充足饮用水（4L+/人）、防晒与遮阳；④ 约书亚树是暗夜公园，观星请提前查月相、备头灯与保暖衣（沙漠昼夜温差极大）。", "footer": "CALIFORNIA DESERT · 死亡谷 + 约书亚树 · 2026", "pretrip": {"visa": "美签 B1/B2 或 ESTA（视国籍），建议提前 1-2 月办理", "voltage": "110V · A/B 型插头", "sim": "eSIM 推荐 Airalo / T-Mobile 预付卡；园内多无信号，提前离线下载地图", "currency": "$1 USD ≈ ¥7 RMB · 园区内多可刷卡，偏远加油站备现金", "tipping": "餐厅 15-20% · 度假村餐饮同样适用", "emergency": "911 报警急救 · 中国驻洛杉矶总领馆 +1-213-807-8088"}, "total_days": 4, "accent": "#c2542e", "accent_bg": "rgba(232, 168, 94, 0.18)", "text_dark": "#3a2818", "text_mid": "#7a5a3a"};
 const ALL_TIP = META.all_tip;
 const TOTAL_DAYS = META.total_days;
 const ORIG_CURRENCY = META.currency || 'USD';
@@ -1045,8 +1045,8 @@ function renderPretrip(p) {
 // GPX 导出：生成所有 POI + 每天路线
 window.exportGPX = function() {
   const sorted = [...POIs].sort((a, b) => a.day === b.day ? a.num - b.num : a.day - b.day);
-  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="LiveMap" xmlns="http://www.topografix.com/GPX/1/1">\n`;
-  gpx += `  <metadata>\n    <name>${META.title_short || 'LiveMap Trip'}</name>\n    <desc>Generated by LiveMap</desc>\n  </metadata>\n`;
+  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Itinera" xmlns="http://www.topografix.com/GPX/1/1">\n`;
+  gpx += `  <metadata>\n    <name>${META.title_short || 'Itinera Trip'}</name>\n    <desc>Generated by Itinera</desc>\n  </metadata>\n`;
   // 每个 POI 一个 waypoint
   sorted.forEach(p => {
     gpx += `  <wpt lat="${p.lat}" lon="${p.lng}">\n    <name>Day${p.day}.${p.num} ${p.icon} ${p.name}</name>\n    <desc>${(p.desc||'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'})[c])}</desc>\n    <type>${p.tags?.[0]||'POI'}</type>\n  </wpt>\n`;
@@ -1064,7 +1064,7 @@ window.exportGPX = function() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${(META.title_short || 'livemap').replace(/[^\w]/g, '_')}.gpx`;
+  a.download = `${(META.title_short || 'itinera').replace(/[^\w]/g, '_')}.gpx`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1251,7 +1251,7 @@ filterPOIs(); renderDayOverview();
     const np = POIs.find(p => /national park/i.test(p.en || '') || /国家公园/.test(p.name || ''));
     if (np) queries.push((np.en || np.search) + ' landscape');
     const place = String((typeof META !== 'undefined' && META.eyebrow) || '').split(/[·•・|]/)[0].trim();
-    if (/^[\x20-\x7e]+$/.test(place) && !/livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
+    if (/^[\x20-\x7e]+$/.test(place) && !/itinera|livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
     POIs.slice(0, 3).forEach(p => { const n = p.search || p.en; if (n) queries.push(n + ' landscape'); });
     (async () => {
       // 先用这张图自己的 AI 明信片当页头底图：一定切题，不看搜索脸色。
@@ -1423,7 +1423,7 @@ if (typeof renderDayOverview === 'function') {
       <button class="pm-btn pm-dl" onclick="downloadPoster(this)">⬇️ 下载海报</button>
       <button class="pm-btn pm-close" onclick="document.getElementById('posterModal').classList.remove('show')">关闭</button>
     </div>
-    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张活地图</div>
+    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张旅行地图</div>
   </div>
 </div>
 <script>
@@ -1474,7 +1474,7 @@ function _posterBgStyle(cb){
 function _posterShareURL(){
   var u=location.href.split('#')[0];
   if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==='file:'){
-    u='https://zxz19951104.github.io/livemap/maps/'+location.pathname.split('/').pop();
+    u='https://shixiann25.github.io/itinera/maps/'+location.pathname.split('/').pop();
   }
   return u;
 }
@@ -1484,12 +1484,12 @@ window.generatePoster=function(){
   _posterBgStyle(bg=>{
     stage.innerHTML=`<div class="ps-root"><div class="ps-bg" style="${bg}"></div><div class="ps-scrim"></div>
       <div class="ps-wrap">
-        <div class="ps-top"><div class="ps-kick"><span>LiveMap</span>活地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
+        <div class="ps-top"><div class="ps-kick"><span>Itinera</span>旅行地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
         <h1>${title}</h1>
         <div class="ps-chips"><div class="ps-chip">📅 <b>${Object.keys(DAYS).map(Number).filter(n=>!isNaN(n)).length}</b> 天</div><div class="ps-chip">📍 <b>${POIs.length}</b> 个精选点</div>${(window._lmVisitedCount&&window._lmVisitedCount()>0)?'<div class="ps-chip">✅ 已打卡 <b>'+window._lmVisitedCount()+'</b></div>':'<div class="ps-chip">🚗 自驾路线</div>'}${(window._lmCustom&&window._lmCustom.length)?'<div class="ps-chip">📍 我的点 <b>'+window._lmCustom.length+'</b></div>':''}</div>
         <div class="ps-map">${_posterSVG()}</div>
         <div class="ps-days">${_posterDays()}</div>
-        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互活地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
+        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互旅行地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
       </div></div>`;
     const qd=document.getElementById('posterQR'); qd.innerHTML='';
     try{ new QRCode(qd,{text:_posterShareURL(),width:170,height:170,colorDark:'#0e1a14',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
@@ -1505,7 +1505,7 @@ window.downloadPoster=function(btn){
     canvas.toBlob(b=>{
       const a=document.createElement('a');
       a.href=URL.createObjectURL(b);
-      a.download=((typeof META!=='undefined'&&META.title_short)||'livemap').replace(/[^一-龥\w]/g,'_')+'_海报.png';
+      a.download=((typeof META!=='undefined'&&META.title_short)||'itinera').replace(/[^一-龥\w]/g,'_')+'_海报.png';
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href);
       btn.textContent=old; btn.disabled=false;
     },'image/png');

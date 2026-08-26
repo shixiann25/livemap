@@ -57,7 +57,7 @@ _HERO_OLD_TMPL = (
     "    const np = POIs.find(p => /national park/i.test(p.en || '') || /国家公园/.test(p.name || ''));\n"
     "    if (np) queries.push((np.en || np.search) + ' landscape');\n"
     "    (META.subtitle || '').split(/[{sep}]/).map(s => s.trim())"
-    ".filter(s => s && !/livemap|\\d{{4}}/i.test(s)).forEach(s => queries.push(s + ' landscape'));\n"
+    ".filter(s => s && !/itinera|livemap|\\d{{4}}/i.test(s)).forEach(s => queries.push(s + ' landscape'));\n"
     "    if (POIs[0]) queries.push((POIs[0].search || POIs[0].en || POIs[0].name) + ' landscape');"
 )
 HERO_OLDS = [
@@ -71,7 +71,7 @@ _HERO_BODY = (
     "    const np = POIs.find(p => /national park/i.test(p.en || '') || /国家公园/.test(p.name || ''));\n"
     "    if (np) queries.push((np.en || np.search) + ' landscape');\n"
     "    const place = {place_expr}.split(/[·•・|]/)[0].trim();\n"
-    "    if (/^[\\x20-\\x7e]+$/.test(place) && !/livemap|\\d{{4}}/i.test(place)) "
+    "    if (/^[\\x20-\\x7e]+$/.test(place) && !/itinera|livemap|\\d{{4}}/i.test(place)) "
     "queries.push(place + ' landscape');\n"
     "    POIs.slice(0, 3).forEach(p => {{ const n = p.search || p.en; if (n) queries.push(n + ' landscape'); }});"
 )

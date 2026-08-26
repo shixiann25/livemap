@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>黄石公园 5 天经典探秘 · LiveMap</title>
+<title>黄石公园 5 天经典探秘 · Itinera</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
@@ -384,13 +384,13 @@
 <style id="gesture-hint-style">.map-gesture-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:1200;background:rgba(0,0,0,0.62);color:#fff;font-size:11px;font-weight:600;padding:6px 13px;border-radius:16px;pointer-events:none;white-space:nowrap;transition:opacity 0.6s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);}</style>
 </head>
 <body>
-<!-- LIVEMAP-BACK-BTN -->
-<a href="../index.html" id="livemapBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ LiveMap 首页</a>
-<!-- /LIVEMAP-BACK-BTN -->
+<!-- ITINERA-BACK-BTN -->
+<a href="../index.html" id="itineraBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ Itinera 首页</a>
+<!-- /ITINERA-BACK-BTN -->
 
 <div class="app">
   <header>
-    <div class="eyebrow">Yellowstone National Park · LIVEMAP · 2026</div>
+    <div class="eyebrow">Yellowstone National Park · ITINERA · 2026</div>
     <h1>🌋 黄石公园 5 天经典探秘</h1>
     <div class="sub">Yellowstone National Park Classic Tour</div>
   </header>
@@ -491,7 +491,7 @@
 <script>
 const POIs = [{"id": "mammoth_hot_springs", "day": 1, "num": 1, "name": "猛犸热泉", "en": "Mammoth Hot Springs", "lat": 44.9558, "lng": -110.7368, "icon": "♨️", "color": "#d4854e", "search": "Mammoth Hot Springs", "price": "免费", "hours": "24h", "duration": "1 - 1.5 小时", "desc": "09:30 - 11:00 独特的台阶式地热景观，最佳观赏时间是上午。注意不要踩踏温泉边缘。", "tags": ["必看", "地热"], "time": "上午", "photo_spots": ["📸 在观景台拍摄全景", "📸 近拍温泉的色彩"], "foods": ["🍔 附近餐厅的汉堡（$10 - 15）"]}, {"id": "grand_prismatic_spring", "day": 2, "num": 1, "name": "大棱镜温泉", "en": "Grand Prismatic Spring", "lat": 44.5246, "lng": -110.8381, "icon": "💧", "color": "#d4854e", "search": "Grand Prismatic Spring", "price": "免费", "hours": "24h", "duration": "1 - 1.5 小时", "desc": "09:00 - 10:30 色彩斑斓的温泉，最佳观赏时间是中午阳光充足时。可走栈道近距离观赏。", "tags": ["必看", "地热"], "time": "上午", "photo_spots": ["📸 从观景台俯瞰全景", "📸 近拍温泉的细节"], "foods": ["🍕 附近餐厅的披萨（$12 - 18）"]}, {"id": "old_faithful", "day": 2, "num": 2, "name": "老忠实喷泉", "en": "Old Faithful", "lat": 44.4628, "lng": -110.8281, "icon": "🌡️", "color": "#d4854e", "search": "Old Faithful", "price": "免费", "hours": "24h", "duration": "1 - 1.5 小时", "desc": "11:00 - 12:30 准时喷发的喷泉，可提前查询喷发时间。建议提前占位。", "tags": ["必看", "喷泉"], "time": "上午", "photo_spots": ["📸 在最佳观赏区拍摄喷发瞬间", "📸 拍摄周边的地热景观"], "foods": ["🥪 附近商店的三明治（$8 - 12）"]}, {"id": "yellowstone_canyon", "day": 3, "num": 1, "name": "黄石大峡谷", "en": "Yellowstone Canyon", "lat": 44.7275, "lng": -110.4548, "icon": "🗻", "color": "#c2542e", "search": "Yellowstone Canyon", "price": "免费", "hours": "24h", "duration": "1.5 - 2 小时", "desc": "09:00 - 11:00 雄伟的峡谷景观，最佳观赏点是艺术家点。注意安全，不要靠近边缘。", "tags": ["必看", "峡谷"], "time": "上午", "photo_spots": ["📸 在艺术家点拍摄峡谷全景", "📸 拍摄瀑布"], "foods": ["🍖 附近餐厅的牛排（$20 - 30）"]}, {"id": "yellowstone_lake", "day": 4, "num": 1, "name": "黄石湖", "en": "Yellowstone Lake", "lat": 44.358, "lng": -110.4227, "icon": "🌊", "color": "#4a8db5", "search": "Yellowstone Lake", "price": "免费", "hours": "24h", "duration": "1 - 1.5 小时", "desc": "09:30 - 11:00 宁静的湖泊，可在湖边散步。最佳时间是上午光线好。", "tags": ["必看", "湖泊"], "time": "上午", "photo_spots": ["📸 在湖边拍摄湖景", "📸 拍摄湖中的倒影"], "foods": ["🍟 附近小吃摊的薯条（$5 - 8）"]}, {"id": "norris_geyser_basin", "day": 2, "num": 3, "name": "诺里斯间歇泉盆地", "en": "Norris Geyser Basin", "lat": 44.6047, "lng": -110.8376, "icon": "♨️", "color": "#d4854e", "search": "Norris Geyser Basin", "price": "免费", "hours": "24h", "duration": "1 - 1.5 小时", "desc": "13:00 - 14:30 活跃的间歇泉区，有很多独特的地热景观。注意不要偏离栈道。", "tags": ["必看", "地热"], "time": "下午", "photo_spots": ["📸 拍摄间歇泉喷发", "📸 近拍温泉的颜色"], "foods": ["🌭 附近小吃摊的热狗（$6 - 10）"]}, {"id": "lower_falls", "day": 3, "num": 2, "name": "下瀑布", "en": "Lower Falls", "lat": 44.7275, "lng": -110.4548, "icon": "🌊", "color": "#c2542e", "search": "Lower Falls", "price": "免费", "hours": "24h", "duration": "30 分钟", "desc": "13:00 - 13:30 黄石大峡谷的壮观瀑布，可在观景台观赏。注意安全。", "tags": ["必看", "瀑布"], "time": "下午", "photo_spots": ["📸 在观景台拍摄瀑布全景", "📸 拍摄瀑布的水流"], "foods": ["🍦 附近商店的冰淇淋（$4 - 6）"]}, {"id": "west_thumb_geyser_basin", "day": 4, "num": 2, "name": "西拇指间歇泉盆地", "en": "West Thumb Geyser Basin", "lat": 44.2886, "lng": -110.4914, "icon": "♨️", "color": "#d4854e", "search": "West Thumb Geyser Basin", "price": "免费", "hours": "24h", "duration": "1 - 1.5 小时", "desc": "13:00 - 14:30 位于黄石湖边的间歇泉区，有独特的湖景和地热景观。", "tags": ["必看", "地热"], "time": "下午", "photo_spots": ["📸 拍摄湖景和间歇泉", "📸 近拍温泉的颜色"], "foods": ["🍜 附近餐厅的汤面（$10 - 15）"]}, {"id": "madison_river", "day": 1, "num": 2, "name": "麦迪逊河", "en": "Madison River", "lat": 44.6773, "lng": -110.8987, "icon": "🌊", "color": "#4a8db5", "search": "Madison River", "price": "免费", "hours": "24h", "duration": "30 分钟", "desc": "14:00 - 14:30 风景优美的河流，可在河边散步。最佳时间是傍晚。", "tags": ["观景", "自然"], "time": "下午", "photo_spots": ["📸 拍摄河流全景", "📸 拍摄河边的树木"], "foods": ["🍪 附近商店的饼干（$3 - 5）"]}, {"id": "hayden_valley", "day": 3, "num": 3, "name": "海登谷", "en": "Hayden Valley", "lat": 44.5874, "lng": -110.3608, "icon": "🌳", "color": "#5a7a4a", "search": "Hayden Valley", "price": "免费", "hours": "24h", "duration": "1 - 1.5 小时", "desc": "14:30 - 16:00 野生动物的栖息地，可看到野牛等动物。最佳时间是清晨或傍晚。", "tags": ["必看", "野生动物"], "time": "下午", "photo_spots": ["📸 拍摄野牛群", "📸 拍摄草原风光"], "foods": ["🥗 附近餐厅的沙拉（$10 - 15）"]}, {"id": "fairy_falls", "day": 2, "num": 4, "name": "仙女瀑布", "en": "Fairy Falls", "lat": 44.5183, "lng": -110.8362, "icon": "🌊", "color": "#c2542e", "search": "Fairy Falls", "price": "免费", "hours": "24h", "duration": "1 - 1.5 小时", "desc": "14:30 - 16:00 美丽的瀑布，可徒步前往观赏。注意徒步安全。", "tags": ["必看", "瀑布"], "time": "下午", "photo_spots": ["📸 在瀑布前拍照", "📸 拍摄周边的森林"], "foods": ["🍩 附近小吃摊的甜甜圈（$3 - 5）"]}, {"id": "artist_point", "day": 3, "num": 4, "name": "艺术家点", "en": "Artist Point", "lat": 44.7275, "lng": -110.4548, "icon": "🖼️", "color": "#6b7a6e", "search": "Artist Point", "price": "免费", "hours": "24h", "duration": "30 分钟", "desc": "16:00 - 16:30 观赏黄石大峡谷的最佳点，景色壮观。最佳时间是下午光线好。", "tags": ["必看", "观景"], "time": "下午", "photo_spots": ["📸 拍摄峡谷全景", "📸 拍摄峡谷的色彩"], "foods": ["🍫 附近商店的巧克力（$5 - 8）"]}, {"id": "lake_overlook", "day": 4, "num": 3, "name": "湖泊观景台", "en": "Lake Overlook", "lat": 44.358, "lng": -110.4227, "icon": "🖼️", "color": "#6b7a6e", "search": "Lake Overlook", "price": "免费", "hours": "24h", "duration": "30 分钟", "desc": "16:00 - 16:30 俯瞰黄石湖的好地方，景色优美。最佳时间是傍晚。", "tags": ["观景", "湖泊"], "time": "下午", "photo_spots": ["📸 拍摄湖景全景", "📸 拍摄湖中的船只"], "foods": ["🍷 附近餐厅的葡萄酒（$15 - 25）"]}, {"id": "mammoth_lookout", "day": 1, "num": 3, "name": "猛犸观景台", "en": "Mammoth Lookout", "lat": 44.9558, "lng": -110.7368, "icon": "🖼️", "color": "#6b7a6e", "search": "Mammoth Lookout", "price": "免费", "hours": "24h", "duration": "30 分钟", "desc": "16:30 - 17:00 观赏猛犸热泉全景的好地方。最佳时间是傍晚。", "tags": ["观景", "地热"], "time": "下午", "photo_spots": ["📸 拍摄热泉全景", "📸 拍摄周边的山脉"], "foods": ["🍿 附近小吃摊的爆米花（$3 - 5）"]}, {"id": "yellowstone_visitor_center", "day": 1, "num": 4, "name": "黄石游客中心", "en": "Yellowstone Visitor Center", "lat": 44.9558, "lng": -110.7368, "icon": "🏢", "color": "#4a5d52", "search": "Yellowstone Visitor Center", "price": "免费", "hours": "9:00 - 17:00", "duration": "1 - 1.5 小时", "desc": "17:00 - 18:30 了解黄石公园历史和文化的好地方。可提前规划行程。", "tags": ["必看", "文化"], "time": "下午", "photo_spots": ["📸 在中心前拍照留念"], "foods": ["☕ 中心内的咖啡（$3 - 5）"]}, {"id": "old_faithful_inn", "day": 2, "num": 5, "name": "老忠实客栈", "en": "Old Faithful Inn", "lat": 44.4628, "lng": -110.8281, "icon": "🏨", "color": "#4a5d52", "search": "Old Faithful Inn", "price": "免费", "hours": "24h", "duration": "30 分钟", "desc": "18:30 - 19:00 历史悠久的客栈，建筑风格独特。可在里面休息。", "tags": ["传统", "建筑"], "time": "傍晚", "photo_spots": ["📸 拍摄客栈外观", "📸 拍摄客栈内部的装饰"], "foods": ["🍰 客栈内的蛋糕（$6 - 10）"]}, {"id": "canyon_village", "day": 3, "num": 5, "name": "峡谷村", "en": "Canyon Village", "lat": 44.7275, "lng": -110.4548, "icon": "🏘️", "color": "#4a5d52", "search": "Canyon Village", "price": "免费", "hours": "24h", "duration": "30 分钟", "desc": "18:30 - 19:00 休息和购物的地方。可购买纪念品。", "tags": ["小镇", "购物"], "time": "傍晚", "photo_spots": ["📸 拍摄村庄的建筑", "📸 拍摄村庄的街道"], "foods": ["🍟🍔 村庄餐厅的快餐（$10 - 15）"]}, {"id": "lake_village", "day": 4, "num": 4, "name": "湖村", "en": "Lake Village", "lat": 44.358, "lng": -110.4227, "icon": "🏘️", "color": "#4a5d52", "search": "Lake Village", "price": "免费", "hours": "24h", "duration": "30 分钟", "desc": "18:30 - 19:00 湖边的村庄，可欣赏湖景。可在湖边散步。", "tags": ["小镇", "观景"], "time": "傍晚", "photo_spots": ["📸 拍摄湖景和村庄", "📸 拍摄湖边的船只"], "foods": ["🍤 村庄餐厅的海鲜（$15 - 25）"]}, {"id": "yellowstone_airport", "day": 5, "num": 1, "name": "黄石机场", "en": "Yellowstone Airport", "lat": 44.428, "lng": -110.5885, "icon": "✈️", "color": "#4a5d52", "search": "Yellowstone Airport", "price": "—", "hours": "24h", "duration": "— 抵达/离港", "desc": "09:00 - 11:00 办理登机手续，准备返程。", "tags": ["交通"], "time": "上午", "photo_spots": [], "foods": ["🍜 机场餐厅的拉面（$10 - 15）"]}];
 const DAYS = {"1": {"color": "#5a7a4a", "title": "Day 1 · 初入黄石", "where": "📍 黄石公园西门附近", "tip": "💡 当日关键 tip：当天最优交通顺序是从黄石机场租车后直接前往酒店，稍作休息后前往猛犸热泉。预留 1 小时 buffer 时间用于办理入住和吃饭。", "hotel": {"name_cn": "黄石西门酒店", "name_en": "Yellowstone West Gate Hotel", "address": "123 West Gate Road, Yellowstone, USA", "price": "$150 - 170/晚", "parking": "免费", "highlights": "步行 10 分钟到公园西门", "url": "https://www.booking.com/hotel/us/yellowstone-west-gate.en-gb.html"}, "plan_b": "💧 雨天/旺季备选：如果原计划景点关闭/暴雨/人爆满，今天换成去公园游客中心了解公园历史文化 + 酒店内休闲"}, "2": {"color": "#d4854e", "title": "Day 2 · 地热奇观", "where": "📍 黄石公园西门附近", "tip": "💡 当日关键 tip：当天最优交通顺序是从酒店出发，依次前往大棱镜温泉、老忠实喷泉。预留 1.5 小时 buffer 时间用于排队和吃饭。", "hotel": {"name_cn": "黄石西门酒店", "name_en": "Yellowstone West Gate Hotel", "address": "123 West Gate Road, Yellowstone, USA", "price": "$150 - 170/晚", "parking": "免费", "highlights": "步行 10 分钟到公园西门", "url": "https://www.booking.com/hotel/us/yellowstone-west-gate.en-gb.html"}, "plan_b": "💧 雨天/旺季备选：如果原计划景点关闭/暴雨/人爆满，今天换成去公园内的室内博物馆 + 酒店内休闲"}, "3": {"color": "#c2542e", "title": "Day 3 · 峡谷之美", "where": "📍 黄石公园西门附近", "tip": "💡 当日关键 tip：当天最优交通顺序是从酒店出发，前往黄石大峡谷。预留 1 小时 buffer 时间用于吃饭。", "hotel": {"name_cn": "黄石西门酒店", "name_en": "Yellowstone West Gate Hotel", "address": "123 West Gate Road, Yellowstone, USA", "price": "$150 - 170/晚", "parking": "免费", "highlights": "步行 10 分钟到公园西门", "url": "https://www.booking.com/hotel/us/yellowstone-west-gate.en-gb.html"}, "plan_b": "💧 雨天/旺季备选：如果原计划景点关闭/暴雨/人爆满，今天换成去公园附近小镇的室内咖啡馆 + 手工艺品店"}, "4": {"color": "#4a8db5", "title": "Day 4 · 湖泊风光", "where": "📍 黄石公园西门附近", "tip": "💡 当日关键 tip：当天最优交通顺序是从酒店出发，前往黄石湖。预留 1 小时 buffer 时间用于吃饭。", "hotel": {"name_cn": "黄石西门酒店", "name_en": "Yellowstone West Gate Hotel", "address": "123 West Gate Road, Yellowstone, USA", "price": "$150 - 170/晚", "parking": "免费", "highlights": "步行 10 分钟到公园西门", "url": "https://www.booking.com/hotel/us/yellowstone-west-gate.en-gb.html"}, "plan_b": "💧 雨天/旺季备选：如果原计划景点关闭/暴雨/人爆满，今天换成去公园内的室内电影院 + 餐厅"}, "5": {"color": "#4a5d52", "title": "Day 5 · 返程准备", "where": "📍 黄石公园西门附近", "tip": "💡 当日关键 tip：当天最优交通顺序是从酒店出发前往黄石机场。预留 2 小时 buffer 时间用于退房、办理登机手续。", "hotel": {"name_cn": "黄石西门酒店", "name_en": "Yellowstone West Gate Hotel", "address": "123 West Gate Road, Yellowstone, USA", "price": "$150 - 170/晚", "parking": "免费", "highlights": "步行 10 分钟到公园西门", "url": "https://www.booking.com/hotel/us/yellowstone-west-gate.en-gb.html"}, "plan_b": "💧 雨天/旺季备选：如果原计划景点关闭/暴雨/人爆满，今天提前前往机场候机"}};
-const META = {"title": "🌋 黄石公园 5 天经典探秘", "title_short": "黄石公园经典游", "subtitle": "Yellowstone National Park Classic Tour", "eyebrow": "Yellowstone National Park · LIVEMAP · 2026", "header_emoji": "🌋", "color_scheme": "forest", "currency": "USD", "map_center": [44.428, -110.5885], "map_zoom": 9, "where_summary": "黄石机场进/出", "all_tip": "🎯 主题定调：这是一场深入黄石公园自然奇观的旅行，不是走马观花，而是沉浸式体验自然的魅力。\n\n🎬 节奏递进：行程从浅入深，前几天熟悉公园环境，中间达到高潮观赏核心景点，最后慢节奏告别。Day1 适应环境，Day2 - 4 是游玩高潮，Day5 轻松返程。\n\n🗺️ 路线设计：按地理最短路径安排，避免折返，减少时间浪费。全程住同一酒店，减少换酒店的麻烦，符合预算和体能曲线。\n\n💡 实用建议：建议提前预订门票和住宿，夏季是旺季需提前规划。必带防晒、保暖衣物。可租车自驾方便游玩。", "stats": [{"num": "5", "label": "天数", "hint": "DAYS"}, {"num": "20", "label": "景点", "hint": "POI"}, {"num": "¥3K - 4K", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票当地交通"}, {"num": "租车", "label": "交通方式", "hint": "TRANSPORT", "tooltip": "推荐主要交通方式"}], "highlight_title": "🔥 黄石独家绝技", "highlight_items": ["<b>老忠实喷泉</b>（准时喷发的壮观喷泉）", "<b>大棱镜温泉</b>（色彩斑斓的温泉）", "<b>黄石大峡谷</b>（雄伟的峡谷景观）", "<b>猛犸热泉</b>（独特的地热景观）"], "warning_title": "⚠️ 安全/礼仪/避坑", "warning_text": "不要靠近野生动物，遵守公园规定。", "footer": "Yellowstone National Park · 探索自然奇迹 · 2026", "pretrip": {"visa": "需提前办签证（$160，约 3 - 5 个工作日）", "voltage": "110V · A型插头（需转换头）", "sim": "eSIM 推荐 Airalo（$15/5GB）· 当地买卡 $20", "currency": "¥1 RMB ≈ $0.14 · 推荐银联卡免手续费", "tipping": "餐厅 15 - 20%", "emergency": "911 报警/中国驻美大使馆 +1 - 202 - 495 - 2216"}, "mode": "j", "total_days": 5, "accent": "#3a6a32", "accent_bg": "rgba(122, 154, 77, 0.18)", "text_dark": "#1c2818", "text_mid": "#4a5a3a"};
+const META = {"title": "🌋 黄石公园 5 天经典探秘", "title_short": "黄石公园经典游", "subtitle": "Yellowstone National Park Classic Tour", "eyebrow": "Yellowstone National Park · ITINERA · 2026", "header_emoji": "🌋", "color_scheme": "forest", "currency": "USD", "map_center": [44.428, -110.5885], "map_zoom": 9, "where_summary": "黄石机场进/出", "all_tip": "🎯 主题定调：这是一场深入黄石公园自然奇观的旅行，不是走马观花，而是沉浸式体验自然的魅力。\n\n🎬 节奏递进：行程从浅入深，前几天熟悉公园环境，中间达到高潮观赏核心景点，最后慢节奏告别。Day1 适应环境，Day2 - 4 是游玩高潮，Day5 轻松返程。\n\n🗺️ 路线设计：按地理最短路径安排，避免折返，减少时间浪费。全程住同一酒店，减少换酒店的麻烦，符合预算和体能曲线。\n\n💡 实用建议：建议提前预订门票和住宿，夏季是旺季需提前规划。必带防晒、保暖衣物。可租车自驾方便游玩。", "stats": [{"num": "5", "label": "天数", "hint": "DAYS"}, {"num": "20", "label": "景点", "hint": "POI"}, {"num": "¥3K - 4K", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票当地交通"}, {"num": "租车", "label": "交通方式", "hint": "TRANSPORT", "tooltip": "推荐主要交通方式"}], "highlight_title": "🔥 黄石独家绝技", "highlight_items": ["<b>老忠实喷泉</b>（准时喷发的壮观喷泉）", "<b>大棱镜温泉</b>（色彩斑斓的温泉）", "<b>黄石大峡谷</b>（雄伟的峡谷景观）", "<b>猛犸热泉</b>（独特的地热景观）"], "warning_title": "⚠️ 安全/礼仪/避坑", "warning_text": "不要靠近野生动物，遵守公园规定。", "footer": "Yellowstone National Park · 探索自然奇迹 · 2026", "pretrip": {"visa": "需提前办签证（$160，约 3 - 5 个工作日）", "voltage": "110V · A型插头（需转换头）", "sim": "eSIM 推荐 Airalo（$15/5GB）· 当地买卡 $20", "currency": "¥1 RMB ≈ $0.14 · 推荐银联卡免手续费", "tipping": "餐厅 15 - 20%", "emergency": "911 报警/中国驻美大使馆 +1 - 202 - 495 - 2216"}, "mode": "j", "total_days": 5, "accent": "#3a6a32", "accent_bg": "rgba(122, 154, 77, 0.18)", "text_dark": "#1c2818", "text_mid": "#4a5a3a"};
 const ALL_TIP = META.all_tip;
 const TOTAL_DAYS = META.total_days;
 const ORIG_CURRENCY = META.currency || 'USD';
@@ -1048,8 +1048,8 @@ function renderPretrip(p) {
 // GPX 导出：生成所有 POI + 每天路线
 window.exportGPX = function() {
   const sorted = [...POIs].sort((a, b) => a.day === b.day ? a.num - b.num : a.day - b.day);
-  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="LiveMap" xmlns="http://www.topografix.com/GPX/1/1">\n`;
-  gpx += `  <metadata>\n    <name>${META.title_short || 'LiveMap Trip'}</name>\n    <desc>Generated by LiveMap</desc>\n  </metadata>\n`;
+  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Itinera" xmlns="http://www.topografix.com/GPX/1/1">\n`;
+  gpx += `  <metadata>\n    <name>${META.title_short || 'Itinera Trip'}</name>\n    <desc>Generated by Itinera</desc>\n  </metadata>\n`;
   // 每个 POI 一个 waypoint
   sorted.forEach(p => {
     gpx += `  <wpt lat="${p.lat}" lon="${p.lng}">\n    <name>Day${p.day}.${p.num} ${p.icon} ${p.name}</name>\n    <desc>${(p.desc||'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'})[c])}</desc>\n    <type>${p.tags?.[0]||'POI'}</type>\n  </wpt>\n`;
@@ -1067,7 +1067,7 @@ window.exportGPX = function() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${(META.title_short || 'livemap').replace(/[^\w]/g, '_')}.gpx`;
+  a.download = `${(META.title_short || 'itinera').replace(/[^\w]/g, '_')}.gpx`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1254,7 +1254,7 @@ filterPOIs(); renderDayOverview();
     const np = POIs.find(p => /national park/i.test(p.en || '') || /国家公园/.test(p.name || ''));
     if (np) queries.push((np.en || np.search) + ' landscape');
     const place = String((typeof META !== 'undefined' && META.eyebrow) || '').split(/[·•・|]/)[0].trim();
-    if (/^[\x20-\x7e]+$/.test(place) && !/livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
+    if (/^[\x20-\x7e]+$/.test(place) && !/itinera|livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
     POIs.slice(0, 3).forEach(p => { const n = p.search || p.en; if (n) queries.push(n + ' landscape'); });
     (async () => {
       // 先用这张图自己的 AI 明信片当页头底图：一定切题，不看搜索脸色。
@@ -1426,7 +1426,7 @@ if (typeof renderDayOverview === 'function') {
       <button class="pm-btn pm-dl" onclick="downloadPoster(this)">⬇️ 下载海报</button>
       <button class="pm-btn pm-close" onclick="document.getElementById('posterModal').classList.remove('show')">关闭</button>
     </div>
-    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张活地图</div>
+    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张旅行地图</div>
   </div>
 </div>
 <script>
@@ -1477,7 +1477,7 @@ function _posterBgStyle(cb){
 function _posterShareURL(){
   var u=location.href.split('#')[0];
   if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==='file:'){
-    u='https://zxz19951104.github.io/livemap/maps/'+location.pathname.split('/').pop();
+    u='https://shixiann25.github.io/itinera/maps/'+location.pathname.split('/').pop();
   }
   return u;
 }
@@ -1487,12 +1487,12 @@ window.generatePoster=function(){
   _posterBgStyle(bg=>{
     stage.innerHTML=`<div class="ps-root"><div class="ps-bg" style="${bg}"></div><div class="ps-scrim"></div>
       <div class="ps-wrap">
-        <div class="ps-top"><div class="ps-kick"><span>LiveMap</span>活地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
+        <div class="ps-top"><div class="ps-kick"><span>Itinera</span>旅行地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
         <h1>${title}</h1>
         <div class="ps-chips"><div class="ps-chip">📅 <b>${Object.keys(DAYS).map(Number).filter(n=>!isNaN(n)).length}</b> 天</div><div class="ps-chip">📍 <b>${POIs.length}</b> 个精选点</div>${(window._lmVisitedCount&&window._lmVisitedCount()>0)?'<div class="ps-chip">✅ 已打卡 <b>'+window._lmVisitedCount()+'</b></div>':'<div class="ps-chip">🚗 自驾路线</div>'}${(window._lmCustom&&window._lmCustom.length)?'<div class="ps-chip">📍 我的点 <b>'+window._lmCustom.length+'</b></div>':''}</div>
         <div class="ps-map">${_posterSVG()}</div>
         <div class="ps-days">${_posterDays()}</div>
-        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互活地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
+        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互旅行地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
       </div></div>`;
     const qd=document.getElementById('posterQR'); qd.innerHTML='';
     try{ new QRCode(qd,{text:_posterShareURL(),width:170,height:170,colorDark:'#0e1a14',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
@@ -1508,7 +1508,7 @@ window.downloadPoster=function(btn){
     canvas.toBlob(b=>{
       const a=document.createElement('a');
       a.href=URL.createObjectURL(b);
-      a.download=((typeof META!=='undefined'&&META.title_short)||'livemap').replace(/[^一-龥\w]/g,'_')+'_海报.png';
+      a.download=((typeof META!=='undefined'&&META.title_short)||'itinera').replace(/[^一-龥\w]/g,'_')+'_海报.png';
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href);
       btn.textContent=old; btn.disabled=false;
     },'image/png');

@@ -1,6 +1,6 @@
 ---
-name: livemap
-description: Turn a destination + number of days + preferences into an interactive travel map — real basemap, colour-coded daily routes, ticket prices and opening hours, photo spots and food picks — output as a single self-contained ~110KB HTML file you can double-click or send to a friend. Also edits existing maps: add stops, split a day, switch travel mode. Works in English or Chinese. Use when the user asks to plan a trip, build an itinerary, make a travel map, or turn a guide into a map. 中文触发：把「目的地 + 天数 + 偏好」变成一张可交互的旅行活地图，输出单文件 HTML，双击就能看、发微信就能分享。当用户说「帮我规划 XX N 天」「做个 XX 的行程」「生成一张旅行地图」「把这个攻略变成地图」，或提到活地图 / LiveMap 时使用。也能改已有地图：加景点、删一天、换模式。
+name: itinera
+description: Turn a destination + number of days + preferences into an interactive travel map — real basemap, colour-coded daily routes, ticket prices and opening hours, photo spots and food picks — output as a single self-contained ~110KB HTML file you can double-click or send to a friend. Also edits existing maps: add stops, split a day, switch travel mode. Works in English or Chinese. Use when the user asks to plan a trip, build an itinerary, make a travel map, or turn a guide into a map. 中文触发：把「目的地 + 天数 + 偏好」变成一张可交互的旅行地图，输出单文件 HTML，双击就能看、发微信就能分享。当用户说「帮我规划 XX N 天」「做个 XX 的行程」「生成一张旅行地图」「把这个攻略变成地图」，或提到旅行地图 / Itinera 时使用。也能改已有地图：加景点、删一天、换模式。
 metadata:
   openclaw:
     requires:
@@ -8,7 +8,7 @@ metadata:
         - python3
 ---
 
-# LiveMap · 旅行活地图
+# Itinera · 旅行地图
 
 把行程变成一张**能看**的地图，而不是又一堵文字墙。
 
@@ -125,7 +125,7 @@ python3 scripts/extract.py 旧地图.html > /tmp/livemap/trip.json
 - **明信片底图缺失**是正常的。主仓库那 32 张有专门用 AI 画的插画底图，
   skill 生成的没有，页头会退回到维基搜图或主题渐变。不影响任何功能。
 - **不要手改 `scripts/` 里的文件**。它们由主仓库
-  [shixiann25/livemap](https://github.com/shixiann25/livemap) 的
+  [shixiann25/itinera](https://github.com/shixiann25/itinera) 的
   `skill/build_skill.py` 自动生成，改了下次构建就没了。
 
 ## 文件

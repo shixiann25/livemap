@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>落基山国家公园 3 天 · LiveMap</title>
+<title>落基山国家公园 3 天 · Itinera</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
@@ -384,13 +384,13 @@
 <style id="gesture-hint-style">.map-gesture-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:1200;background:rgba(0,0,0,0.62);color:#fff;font-size:11px;font-weight:600;padding:6px 13px;border-radius:16px;pointer-events:none;white-space:nowrap;transition:opacity 0.6s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);}</style>
 </head>
 <body>
-<!-- LIVEMAP-BACK-BTN -->
-<a href="../index.html" id="livemapBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ LiveMap 首页</a>
-<!-- /LIVEMAP-BACK-BTN -->
+<!-- ITINERA-BACK-BTN -->
+<a href="../index.html" id="itineraBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ Itinera 首页</a>
+<!-- /ITINERA-BACK-BTN -->
 
 <div class="app">
   <header>
-    <div class="eyebrow">ROCKY MOUNTAIN · LIVEMAP · 2026</div>
+    <div class="eyebrow">ROCKY MOUNTAIN · ITINERA · 2026</div>
     <h1>⛰️ 落基山国家公园 3 天</h1>
     <div class="sub">Rocky Mountain National Park · Colorado</div>
   </header>
@@ -489,7 +489,7 @@
 <script>
 const POIs = [{"id": "denver_airport", "day": 1, "num": 1, "name": "丹佛国际机场", "en": "Denver International Airport (DEN)", "lat": 39.8561, "lng": -104.6737, "icon": "✈️", "color": "#4a5d52", "search": "Denver International Airport", "price": "免费", "hours": "24h", "desc": "落基山门户机场，取车后向西北约 1.5 小时即达 Estes Park 东入口。", "tags": ["交通", "门户"], "time": "上午", "photo_spots": [], "foods": []}, {"id": "estes_park", "day": 1, "num": 2, "name": "埃斯蒂斯公园小镇", "en": "Estes Park", "lat": 40.3772, "lng": -105.5217, "icon": "🏘️", "color": "#6b7a6e", "search": "Estes Park Colorado", "price": "免费", "hours": "全年", "desc": "公园东侧门户小镇，餐厅、商店与酒店云集。秋季落基山麋鹿常踱步街头与高尔夫球场。", "tags": ["小镇", "美食"], "time": "傍晚", "photo_spots": ["📸 主街山景", "📸 麋鹿街拍"], "foods": ["🍔 小镇汉堡店", "☕ 河畔咖啡馆"]}, {"id": "beaver_meadows_vc", "day": 1, "num": 3, "name": "海狸草甸游客中心", "en": "Beaver Meadows Visitor Center", "lat": 40.365, "lng": -105.556, "icon": "🏛️", "color": "#6b4a7e", "search": "Beaver Meadows Visitor Center", "price": "免费", "hours": "9:00-17:00", "desc": "东入口主游客中心，建筑由赖特学派设计。盖章打卡、领取地图与了解步道路况的第一站。", "tags": ["服务", "传统"], "time": "下午", "photo_spots": ["📸 游客中心远眺群峰"], "foods": []}, {"id": "bear_lake", "day": 1, "num": 4, "name": "熊湖（镜湖）", "en": "Bear Lake", "lat": 40.3119, "lng": -105.646, "icon": "🏞️", "color": "#1f7a5a", "search": "Bear Lake Rocky Mountain National Park", "price": "免费", "hours": "全年", "desc": "海拔 2900m 的高山湖，平静湖面倒映 Hallett Peak 雪峰。0.8km 平缓环湖步道老少咸宜，是多条经典步道总起点。", "tags": ["必看", "湖泊"], "time": "下午", "photo_spots": ["📸 Hallett Peak 倒影", "📸 环湖步道"], "foods": ["🥪 湖边野餐"]}, {"id": "trail_ridge_road", "day": 2, "num": 1, "name": "脊岭天路", "en": "Trail Ridge Road", "lat": 40.412, "lng": -105.756, "icon": "🛣️", "color": "#3a6a2e", "search": "Trail Ridge Road Rocky Mountain National Park", "price": "免费（含园票）", "hours": "夏秋限定（约5月底-10月）", "desc": "全美海拔最高的连续铺装公路，最高点 3713m，约 1/3 路段在树线之上的高山苔原。沿途观景台一站接一站。", "tags": ["必去", "自驾"], "time": "上午", "photo_spots": ["📸 Many Parks Curve 回望", "📸 Forest Canyon Overlook"], "foods": ["🥪 观景台自带补给"]}, {"id": "alpine_visitor_center", "day": 2, "num": 2, "name": "高山游客中心", "en": "Alpine Visitor Center", "lat": 40.4419, "lng": -105.753, "icon": "🏛️", "color": "#3a6a2e", "search": "Alpine Visitor Center Rocky Mountain", "price": "免费", "hours": "夏季限定", "desc": "海拔 3595m，北美最高的国家公园游客中心。门外即高山苔原，台阶步道可登上 Alpine Ridge 眺望连绵雪峰。", "tags": ["必去", "苔原"], "time": "上午", "photo_spots": ["📸 Alpine Ridge 苔原台阶", "📸 苔原野花与雪斑"], "foods": ["🍲 中心旁 Cafe 热汤"]}, {"id": "forest_canyon_overlook", "day": 2, "num": 3, "name": "森林峡谷观景台", "en": "Forest Canyon Overlook", "lat": 40.387, "lng": -105.708, "icon": "⛰️", "color": "#3a6a2e", "search": "Forest Canyon Overlook Trail Ridge Road", "price": "免费", "hours": "夏秋限定", "desc": "Trail Ridge Road 上的苔原观景台，俯瞰冰川凿出的森林深谷与远处冰斗湖群，短栈道穿越脆弱苔原。", "tags": ["观景", "苔原"], "time": "上午", "photo_spots": ["📸 森林峡谷全景", "📸 苔原栈道"], "foods": []}, {"id": "milner_pass", "day": 2, "num": 4, "name": "米尔纳垭口（分水岭）", "en": "Milner Pass", "lat": 40.422, "lng": -105.812, "icon": "🌲", "color": "#2e7d32", "search": "Milner Pass Continental Divide Rocky Mountain", "price": "免费", "hours": "夏秋限定", "desc": "Trail Ridge Road 跨越大陆分水岭处，旁有 Poudre Lake。下山方向通往西侧 Grand Lake，是天路西段标志点。", "tags": ["观景", "分水岭"], "time": "下午", "photo_spots": ["📸 Continental Divide 标牌", "📸 Poudre Lake"], "foods": []}, {"id": "sprague_lake", "day": 3, "num": 1, "name": "斯普拉格湖", "en": "Sprague Lake", "lat": 40.321, "lng": -105.61, "icon": "🏞️", "color": "#1f7a5a", "search": "Sprague Lake Rocky Mountain National Park", "price": "免费", "hours": "全年", "desc": "平缓无障碍的 1.3km 环湖步道，清晨湖面如镜倒映连绵雪峰，是日出摄影与轮椅友好的人气湖。", "tags": ["观景", "湖泊"], "time": "上午", "photo_spots": ["📸 日出雪峰倒影"], "foods": []}, {"id": "emerald_lake", "day": 3, "num": 2, "name": "翡翠湖", "en": "Emerald Lake", "lat": 40.309, "lng": -105.658, "icon": "🏞️", "color": "#1f7a5a", "search": "Emerald Lake Trail Rocky Mountain National Park", "price": "免费", "hours": "全年（冬季雪鞋）", "desc": "从 Bear Lake 出发约 5.6km 往返，沿途串起 Nymph、Dream、Emerald 三座冰川湖，终点翡翠湖被 Hallett Peak 环抱。", "tags": ["必看", "徒步"], "time": "上午", "photo_spots": ["📸 Dream Lake 雪峰", "📸 翡翠湖谷地"], "foods": ["🥪 步道补给"]}, {"id": "alberta_falls", "day": 3, "num": 3, "name": "阿尔伯塔瀑布", "en": "Alberta Falls", "lat": 40.305, "lng": -105.64, "icon": "💧", "color": "#3a6a2e", "search": "Alberta Falls Rocky Mountain National Park", "price": "免费", "hours": "全年", "desc": "Glacier Gorge 步道口出发约 2.5km 往返即达的瀑布，水量充沛、坡度平缓，适合作为短途暖身徒步。", "tags": ["徒步", "瀑布"], "time": "中午", "photo_spots": ["📸 阿尔伯塔瀑布"], "foods": []}, {"id": "estes_park_downtown", "day": 3, "num": 4, "name": "埃斯蒂斯主街", "en": "Downtown Estes Park", "lat": 40.3756, "lng": -105.5253, "icon": "🛍️", "color": "#6b7a6e", "search": "Downtown Estes Park", "price": "免费", "hours": "全年", "desc": "返程前在主街逛纪念品店、太妃糖铺与河畔餐厅，是落基山之行的休闲收尾。", "tags": ["小镇", "购物"], "time": "下午", "photo_spots": ["📸 主街河畔"], "foods": ["🍬 老牌太妃糖店", "🍺 当地精酿"]}];
 const DAYS = {"1": {"color": "#2e7d32", "title": "Day 1 · 丹佛取车·熊湖走廊", "where": "📍 丹佛 DEN → Estes Park → Bear Lake 区", "tip": "💡 落地取车进山，先在 Bear Lake 一带低强度适应高原，傍晚回 Estes Park。", "hotel": {"name_cn": "埃斯蒂斯公园河石度假酒店", "name_en": "The Stanley Hotel / Estes Park Resort", "address": "1700 Big Thompson Ave, Estes Park, CO 80517", "price": "$160-220/晚", "parking": "免费", "highlights": "湖畔位置，离东入口约 10 分钟车程", "url": "https://www.theestesparkresort.com/"}, "plan_b": "💧 预约未抢到备选：先逛 Estes Park 小镇，次日清晨入园"}, "2": {"color": "#1f7a5a", "title": "Day 2 · 小径岭路苔原天路", "where": "📍 Trail Ridge Road 全线 · Alpine Visitor Center", "tip": "💡 上午赶早开 Trail Ridge Road 直冲苔原，沿途观景台逐站停，午前抵达 Alpine Visitor Center。", "hotel": {"name_cn": "埃斯蒂斯公园河石度假酒店", "name_en": "Estes Park Resort", "address": "1700 Big Thompson Ave, Estes Park, CO 80517", "price": "$160-220/晚", "parking": "免费", "highlights": "湖畔位置，离东入口约 10 分钟车程", "url": "https://www.theestesparkresort.com/"}, "plan_b": "💧 天路封闭/雷雨备选：改走东侧 Old Fall River Road 或低海拔步道"}, "3": {"color": "#3a6a2e", "title": "Day 3 · 翡翠湖步道·埃斯蒂斯收尾", "where": "📍 Emerald Lake 步道 → Estes Park 小镇 → 返丹佛", "tip": "💡 上午走 Bear Lake-Emerald Lake 经典短途，下午逛 Estes Park 小镇后返程。", "hotel": {"name_cn": "埃斯蒂斯公园河石度假酒店", "name_en": "Estes Park Resort", "address": "1700 Big Thompson Ave, Estes Park, CO 80517", "price": "$160-220/晚", "parking": "免费", "highlights": "湖畔位置，离东入口约 10 分钟车程", "url": "https://www.theestesparkresort.com/"}, "plan_b": "💧 体力有限备选：只走 Bear Lake 环湖，多留时间逛小镇"}};
-const META = {"title": "⛰️ 落基山国家公园 3 天", "title_short": "落基山国家公园 3 天", "subtitle": "Rocky Mountain National Park · Colorado", "eyebrow": "ROCKY MOUNTAIN · LIVEMAP · 2026", "header_emoji": "⛰️", "color_scheme": "forest", "currency": "USD", "map_center": [40.34, -105.68], "map_zoom": 10, "where_summary": "科罗拉多 · 离丹佛 DEN 约 1.5 小时车程", "all_tip": "🎯 主题定调：落基山国家公园是离大城市最近的高山秘境，从丹佛开车 1.5 小时就能站上全美海拔最高的连续公路。这趟 3 天以 Estes Park 小镇为基地，从镜湖到苔原，把高山三种海拔带一次走全。\n\n🎬 节奏递进：Day1 从丹佛 DEN 取车进山，先在低海拔 Bear Lake 一带适应高原；Day2 是高潮，开 Trail Ridge Road 直冲 3700m 苔原，到 Alpine Visitor Center；Day3 慢节奏走经典短途步道并逛 Estes Park 收尾。\n\n🗺️ 路线设计：全程以东侧 Estes Park 为住宿基地，不换酒店减少奔波。Bear Lake 走廊与 Trail Ridge Road 是两条主轴，前者短途步道密集、后者一路观景台直达苔原。\n\n💡 实用建议：① 旺季（5 月底-10 月）需提前抢 timed-entry 入园预约，分「含 Bear Lake」与「不含」两种；② 海拔高，进山先放慢节奏防高原反应、多补水；③ Trail Ridge Road 仅夏秋通车（约 5 月底-10 月），冬季封闭；④ 山顶气温骤降、午后常雷雨，备保暖层并赶在中午前登顶。", "stats": [{"num": "3", "label": "天数", "hint": "DAYS"}, {"num": "12", "label": "景点", "hint": "POI"}, {"num": "$800-1100", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票当地交通"}, {"num": "自驾", "label": "交通方式", "hint": "TRANSPORT", "tooltip": "丹佛 DEN 取车，全程自驾"}], "highlight_title": "🔥 落基山独门绝技", "highlight_items": ["<b>Trail Ridge Road 苔原天路</b>（全美海拔最高的连续铺装公路，最高 3713m）", "<b>Bear Lake 镜湖</b>（雪峰倒映的明镜，多条经典步道起点）", "<b>Alpine Visitor Center 苔原</b>（北美最高的游客中心，高山苔原近在脚边）", "<b>Estes Park 小镇</b>（公园门户，落基山麋鹿常踱步街头）", "<b>Emerald Lake 翡翠湖</b>（Bear Lake 走廊串起三座冰川湖的招牌步道）"], "warning_title": "⚠️ 安全/礼仪/避坑", "warning_text": "① 旺季强制 timed-entry 预约，未抢到只能特定时段外入园；② 海拔高易高反，首日勿剧烈运动、多喝水；③ Trail Ridge Road 午后常雷雨闪电，苔原无遮蔽，赶早登顶；④ 麋鹿、黑熊出没，保持距离勿投喂。", "footer": "ROCKY MOUNTAIN NATIONAL PARK · 高山天路 · 2026", "pretrip": {"visa": "美签 B1/B2 或 ESTA（视国籍），建议提前 1-2 月办理", "voltage": "110V · A/B 型插头", "sim": "eSIM 推荐 Airalo / T-Mobile 预付卡；高山段无信号，提前离线下载地图", "currency": "$1 USD ≈ ¥7 RMB · 园区内多可刷卡，备少量现金", "tipping": "餐厅 15-20%", "emergency": "911 报警急救 · 中国驻美使馆 +1-202-495-2266"}, "total_days": 3, "accent": "#3a6a32", "accent_bg": "rgba(122, 154, 77, 0.18)", "text_dark": "#1c2818", "text_mid": "#4a5a3a"};
+const META = {"title": "⛰️ 落基山国家公园 3 天", "title_short": "落基山国家公园 3 天", "subtitle": "Rocky Mountain National Park · Colorado", "eyebrow": "ROCKY MOUNTAIN · ITINERA · 2026", "header_emoji": "⛰️", "color_scheme": "forest", "currency": "USD", "map_center": [40.34, -105.68], "map_zoom": 10, "where_summary": "科罗拉多 · 离丹佛 DEN 约 1.5 小时车程", "all_tip": "🎯 主题定调：落基山国家公园是离大城市最近的高山秘境，从丹佛开车 1.5 小时就能站上全美海拔最高的连续公路。这趟 3 天以 Estes Park 小镇为基地，从镜湖到苔原，把高山三种海拔带一次走全。\n\n🎬 节奏递进：Day1 从丹佛 DEN 取车进山，先在低海拔 Bear Lake 一带适应高原；Day2 是高潮，开 Trail Ridge Road 直冲 3700m 苔原，到 Alpine Visitor Center；Day3 慢节奏走经典短途步道并逛 Estes Park 收尾。\n\n🗺️ 路线设计：全程以东侧 Estes Park 为住宿基地，不换酒店减少奔波。Bear Lake 走廊与 Trail Ridge Road 是两条主轴，前者短途步道密集、后者一路观景台直达苔原。\n\n💡 实用建议：① 旺季（5 月底-10 月）需提前抢 timed-entry 入园预约，分「含 Bear Lake」与「不含」两种；② 海拔高，进山先放慢节奏防高原反应、多补水；③ Trail Ridge Road 仅夏秋通车（约 5 月底-10 月），冬季封闭；④ 山顶气温骤降、午后常雷雨，备保暖层并赶在中午前登顶。", "stats": [{"num": "3", "label": "天数", "hint": "DAYS"}, {"num": "12", "label": "景点", "hint": "POI"}, {"num": "$800-1100", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票当地交通"}, {"num": "自驾", "label": "交通方式", "hint": "TRANSPORT", "tooltip": "丹佛 DEN 取车，全程自驾"}], "highlight_title": "🔥 落基山独门绝技", "highlight_items": ["<b>Trail Ridge Road 苔原天路</b>（全美海拔最高的连续铺装公路，最高 3713m）", "<b>Bear Lake 镜湖</b>（雪峰倒映的明镜，多条经典步道起点）", "<b>Alpine Visitor Center 苔原</b>（北美最高的游客中心，高山苔原近在脚边）", "<b>Estes Park 小镇</b>（公园门户，落基山麋鹿常踱步街头）", "<b>Emerald Lake 翡翠湖</b>（Bear Lake 走廊串起三座冰川湖的招牌步道）"], "warning_title": "⚠️ 安全/礼仪/避坑", "warning_text": "① 旺季强制 timed-entry 预约，未抢到只能特定时段外入园；② 海拔高易高反，首日勿剧烈运动、多喝水；③ Trail Ridge Road 午后常雷雨闪电，苔原无遮蔽，赶早登顶；④ 麋鹿、黑熊出没，保持距离勿投喂。", "footer": "ROCKY MOUNTAIN NATIONAL PARK · 高山天路 · 2026", "pretrip": {"visa": "美签 B1/B2 或 ESTA（视国籍），建议提前 1-2 月办理", "voltage": "110V · A/B 型插头", "sim": "eSIM 推荐 Airalo / T-Mobile 预付卡；高山段无信号，提前离线下载地图", "currency": "$1 USD ≈ ¥7 RMB · 园区内多可刷卡，备少量现金", "tipping": "餐厅 15-20%", "emergency": "911 报警急救 · 中国驻美使馆 +1-202-495-2266"}, "total_days": 3, "accent": "#3a6a32", "accent_bg": "rgba(122, 154, 77, 0.18)", "text_dark": "#1c2818", "text_mid": "#4a5a3a"};
 const ALL_TIP = META.all_tip;
 const TOTAL_DAYS = META.total_days;
 const ORIG_CURRENCY = META.currency || 'USD';
@@ -1046,8 +1046,8 @@ function renderPretrip(p) {
 // GPX 导出：生成所有 POI + 每天路线
 window.exportGPX = function() {
   const sorted = [...POIs].sort((a, b) => a.day === b.day ? a.num - b.num : a.day - b.day);
-  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="LiveMap" xmlns="http://www.topografix.com/GPX/1/1">\n`;
-  gpx += `  <metadata>\n    <name>${META.title_short || 'LiveMap Trip'}</name>\n    <desc>Generated by LiveMap</desc>\n  </metadata>\n`;
+  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Itinera" xmlns="http://www.topografix.com/GPX/1/1">\n`;
+  gpx += `  <metadata>\n    <name>${META.title_short || 'Itinera Trip'}</name>\n    <desc>Generated by Itinera</desc>\n  </metadata>\n`;
   // 每个 POI 一个 waypoint
   sorted.forEach(p => {
     gpx += `  <wpt lat="${p.lat}" lon="${p.lng}">\n    <name>Day${p.day}.${p.num} ${p.icon} ${p.name}</name>\n    <desc>${(p.desc||'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'})[c])}</desc>\n    <type>${p.tags?.[0]||'POI'}</type>\n  </wpt>\n`;
@@ -1065,7 +1065,7 @@ window.exportGPX = function() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${(META.title_short || 'livemap').replace(/[^\w]/g, '_')}.gpx`;
+  a.download = `${(META.title_short || 'itinera').replace(/[^\w]/g, '_')}.gpx`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1252,7 +1252,7 @@ filterPOIs(); renderDayOverview();
     const np = POIs.find(p => /national park/i.test(p.en || '') || /国家公园/.test(p.name || ''));
     if (np) queries.push((np.en || np.search) + ' landscape');
     const place = String((typeof META !== 'undefined' && META.eyebrow) || '').split(/[·•・|]/)[0].trim();
-    if (/^[\x20-\x7e]+$/.test(place) && !/livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
+    if (/^[\x20-\x7e]+$/.test(place) && !/itinera|livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
     POIs.slice(0, 3).forEach(p => { const n = p.search || p.en; if (n) queries.push(n + ' landscape'); });
     (async () => {
       // 先用这张图自己的 AI 明信片当页头底图：一定切题，不看搜索脸色。
@@ -1424,7 +1424,7 @@ if (typeof renderDayOverview === 'function') {
       <button class="pm-btn pm-dl" onclick="downloadPoster(this)">⬇️ 下载海报</button>
       <button class="pm-btn pm-close" onclick="document.getElementById('posterModal').classList.remove('show')">关闭</button>
     </div>
-    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张活地图</div>
+    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张旅行地图</div>
   </div>
 </div>
 <script>
@@ -1475,7 +1475,7 @@ function _posterBgStyle(cb){
 function _posterShareURL(){
   var u=location.href.split('#')[0];
   if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==='file:'){
-    u='https://zxz19951104.github.io/livemap/maps/'+location.pathname.split('/').pop();
+    u='https://shixiann25.github.io/itinera/maps/'+location.pathname.split('/').pop();
   }
   return u;
 }
@@ -1485,12 +1485,12 @@ window.generatePoster=function(){
   _posterBgStyle(bg=>{
     stage.innerHTML=`<div class="ps-root"><div class="ps-bg" style="${bg}"></div><div class="ps-scrim"></div>
       <div class="ps-wrap">
-        <div class="ps-top"><div class="ps-kick"><span>LiveMap</span>活地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
+        <div class="ps-top"><div class="ps-kick"><span>Itinera</span>旅行地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
         <h1>${title}</h1>
         <div class="ps-chips"><div class="ps-chip">📅 <b>${Object.keys(DAYS).map(Number).filter(n=>!isNaN(n)).length}</b> 天</div><div class="ps-chip">📍 <b>${POIs.length}</b> 个精选点</div>${(window._lmVisitedCount&&window._lmVisitedCount()>0)?'<div class="ps-chip">✅ 已打卡 <b>'+window._lmVisitedCount()+'</b></div>':'<div class="ps-chip">🚗 自驾路线</div>'}${(window._lmCustom&&window._lmCustom.length)?'<div class="ps-chip">📍 我的点 <b>'+window._lmCustom.length+'</b></div>':''}</div>
         <div class="ps-map">${_posterSVG()}</div>
         <div class="ps-days">${_posterDays()}</div>
-        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互活地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
+        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互旅行地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
       </div></div>`;
     const qd=document.getElementById('posterQR'); qd.innerHTML='';
     try{ new QRCode(qd,{text:_posterShareURL(),width:170,height:170,colorDark:'#0e1a14',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
@@ -1506,7 +1506,7 @@ window.downloadPoster=function(btn){
     canvas.toBlob(b=>{
       const a=document.createElement('a');
       a.href=URL.createObjectURL(b);
-      a.download=((typeof META!=='undefined'&&META.title_short)||'livemap').replace(/[^一-龥\w]/g,'_')+'_海报.png';
+      a.download=((typeof META!=='undefined'&&META.title_short)||'itinera').replace(/[^一-龥\w]/g,'_')+'_海报.png';
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href);
       btn.textContent=old; btn.disabled=false;
     },'image/png');

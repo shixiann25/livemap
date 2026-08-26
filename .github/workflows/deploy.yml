@@ -75,7 +75,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: livemap-qa-screenshots
+          name: itinera-qa-screenshots
           path: /tmp/livemap_qa/
           if-no-files-found: ignore
 
@@ -97,7 +97,7 @@ jobs:
       - name: 构建静态站
         # og:image / og:url 要绝对地址，用仓库实际的 Pages 域名，换仓库不用改代码
         env:
-          LIVEMAP_SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+          ITINERA_SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
         run: python3 generator/build_static.py --out dist
 
       - uses: actions/configure-pages@v5

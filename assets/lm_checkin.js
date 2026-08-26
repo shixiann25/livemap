@@ -1,4 +1,4 @@
-/* LiveMap · 打卡 checklist + 自定义点（本地 localStorage，按地图 slug 隔离）
+/* Itinera · 打卡 checklist + 自定义点（本地 localStorage，按地图 slug 隔离）
    依赖页面全局：POIs, DAYS, map, markers, showDetail。数据也喂给海报（window._lmCustom / _lmVisitedCount）。*/
 (function () {
   if (typeof POIs === 'undefined' || typeof map === 'undefined' || !map) return;

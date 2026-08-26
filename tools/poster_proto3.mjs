@@ -92,7 +92,7 @@ const html=`<!doctype html><html><head><meta charset="utf-8"><style>
 </style></head><body>
  <div class="bg"></div><div class="scrim"></div>
  <div class="wrap">
-  <div class="top"><div class="kicker"><span>LiveMap</span>活地图 · 精准行程</div>
+  <div class="top"><div class="kicker"><span>Itinera</span>旅行地图 · 精准行程</div>
     <div class="seal">甄选<small>CURATED</small></div></div>
   <h1>${data.title}</h1>
   <div class="chips"><div class="chip">📅 <b>${data.days.length}</b> 天</div>
@@ -101,7 +101,7 @@ const html=`<!doctype html><html><head><meta charset="utf-8"><style>
     <defs><filter id="bl"><feGaussianBlur stdDeviation="6"/></filter></defs>${glow}${segs}${dots}${badges}</svg></div>
   <div class="days">${dayRows}</div>
   <div class="footer"><div class="qr"><div></div></div>
-    <div class="fcta"><b>扫码查看可交互活地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
+    <div class="fcta"><b>扫码查看可交互旅行地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
  </div></body></html>`;
 
 await p.setContent(html,{waitUntil:'networkidle'});

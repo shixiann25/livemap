@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-LiveMap Generator · v0.3
+Itinera Generator · v0.3
 ========================
-把目的地 → POI JSON → 渲染成交互式 HTML 活地图。
+把目的地 → POI JSON → 渲染成交互式 HTML 旅行地图。
 
 3 种使用模式：
 
@@ -131,7 +131,7 @@ CLAUDE_PROMPT = """你是资深旅行规划师。为以下需求生成完整的 
     "title": "中文长标题（含 emoji），如 '⛩️ 京都 6 天古都深度'",
     "title_short": "短标题，如 '京都古都深度环游'",
     "subtitle": "ENGLISH SUBTITLE",
-    "eyebrow": "DESTINATION · LIVEMAP · 2026 格式",
+    "eyebrow": "DESTINATION · ITINERA · 2026 格式",
     "header_emoji": "单个代表 emoji",
     "lang": "输出语言：zh（默认，可省略）| en。填 en 时【所有】文案都要用英文写：标题、景点名、desc、tip、酒店、pretrip 全部",
     "color_scheme": "warm|sakura|ocean|snow|forest 五选一（依目的地气质）",
@@ -481,7 +481,7 @@ def render_html(data: dict) -> str:
         "{{TOTAL_DAYS}}": str(len(days)),
         "{{DAY_TABS}}": day_tabs,
         "{{LEGEND_ITEMS}}": legend_html,
-        "{{FOOTER}}": meta.get("footer", "LIVEMAP · 2026"),
+        "{{FOOTER}}": meta.get("footer", "ITINERA · 2026"),
         "{{CURRENCY_LABEL}}": cur_label,
         "{{FX_NOTE}}": fx_note,
         "{{POIS_JSON}}": json.dumps(pois, ensure_ascii=False),
@@ -540,7 +540,7 @@ def slugify(text: str, fallback_meta: dict = None) -> str:
     for zh, en in map_zh_to_en.items():
         if zh in text:
             return en
-    # 兜底 1：尝试从 meta.eyebrow 提取英文（"DESTINATION · LIVEMAP · 2026"）
+    # 兜底 1：尝试从 meta.eyebrow 提取英文（"DESTINATION · ITINERA · 2026"）
     if fallback_meta:
         eb = fallback_meta.get("eyebrow", "")
         first = eb.split("·")[0].strip().lower()
@@ -561,7 +561,7 @@ def load_mock_data():
 
 
 def main():
-    parser = argparse.ArgumentParser(description="LiveMap Generator · v0.3")
+    parser = argparse.ArgumentParser(description="Itinera Generator · v0.3")
     parser.add_argument("destination", nargs="?", help="目的地，如 '京都' 或 'Kyoto'")
     parser.add_argument("days", nargs="?", type=int, help="天数")
     parser.add_argument("--pref", default="", help="偏好（逗号分隔）")

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LiveMap · 活地图 · 把旅行变成一张能"看"的地图</title>
+<title>Itinera · 旅行地图 · 把旅行变成一张能"看"的地图</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { height: 100%; scroll-behavior: smooth; }
@@ -453,10 +453,10 @@
 
   <!-- ===== HERO ===== -->
   <section class="hero">
-    <div class="brand-badge">⚡ LIVEMAP · v0.5</div>
+    <div class="brand-badge">⚡ ITINERA · v0.5</div>
     <h1>把旅行攻略<br>变成一张能"看"的地图</h1>
     <p class="tagline">
-      告别 5000 字文档。输入目的地 → <b>10 秒生成可交互活地图</b> → 发给同伴一眼秒懂。
+      告别 5000 字文档。输入目的地 → <b>10 秒生成可交互旅行地图</b> → 发给同伴一眼秒懂。
     </p>
     <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;font-size:11px;">
       <span style="padding:4px 10px;background:rgba(244,192,101,0.15);color:#f4c065;border-radius:12px;border:1px solid rgba(244,192,101,0.3);">🎨 复古水彩地图</span>
@@ -489,7 +489,7 @@
         <span class="chip mode-chip" data-mode="middle">💎 中产舒适</span>
         <span class="chip mode-chip" data-mode="budget">💸 穷游省钱</span>
       </div>
-      <button class="gen-btn" id="genBtn" onclick="generateMap()">✨ 生成我的活地图</button>
+      <button class="gen-btn" id="genBtn" onclick="generateMap()">✨ 生成我的旅行地图</button>
       <div class="gen-hint" id="genHint">💡 单文件 HTML · 生成后可直接发微信 / AirDrop</div>
     </div>
 
@@ -505,7 +505,7 @@
 
   <!-- ===== GALLERY ===== -->
   <h2 class="section-title">🗺️ 已生成地图</h2>
-  <p class="section-sub">点击卡片 → 进入交互式活地图。每张都是单文件 HTML，可微信/AirDrop 直接分享。</p>
+  <p class="section-sub">点击卡片 → 进入交互式旅行地图。每张都是单文件 HTML，可微信/AirDrop 直接分享。</p>
 
   <div class="gallery">
 
@@ -659,7 +659,7 @@
   <!-- ===== HOW IT WORKS ===== -->
   <section class="how-it-works" id="how">
     <h2 class="section-title">💡 工作原理</h2>
-    <p class="section-sub">4 步从攻略到活地图，秒级生成，单文件可分享。</p>
+    <p class="section-sub">4 步从攻略到旅行地图，秒级生成，单文件可分享。</p>
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
@@ -685,7 +685,7 @@
   </section>
 
   <footer>
-    <span class="version">LIVEMAP v0.5 · 32 条行程 · 560+ 景点</span> · 2026 · 🌍 · <a href="PRD_LiveMap.md" style="color:#6a7a8a;">PRD</a>
+    <span class="version">ITINERA v0.5 · 32 条行程 · 560+ 景点</span> · 2026 · 🌍 · <a href="PRD_Itinera.md" style="color:#6a7a8a;">PRD</a>
   </footer>
 </div>
 
@@ -749,8 +749,8 @@
     // 静态分享版：没有后端，AI 生成不可用，引导浏览存量 / 本地运行
     if (STATIC_DEPLOY) {
       showModal(`
-        <h2>✨ 这是 LiveMap 分享版</h2>
-        <p style="text-align:left;">你正在浏览的是<b>静态分享站点</b>，可以自由查看下方<b>所有已生成的活地图</b> 🗺️</p>
+        <h2>✨ 这是 Itinera 分享版</h2>
+        <p style="text-align:left;">你正在浏览的是<b>静态分享站点</b>，可以自由查看下方<b>所有已生成的旅行地图</b> 🗺️</p>
         <p style="text-align:left;font-size:13px;color:#8a9aaa;">实时 AI 生成（输入任意目的地秒出新图）需要后端和 API key，请在本地运行完整版：</p>
         <div class="code-snippet" style="text-align:left;">
 <span style="color:#8a9aaa;"># 下载项目后</span><br>
@@ -767,7 +767,7 @@ $ open http://localhost:5005
     // 没启动 server.py：显示指引
     if (!IS_SERVER_MODE) {
       showModal(`
-        <h2>🚀 启动 LiveMap 服务即可自助生成</h2>
+        <h2>🚀 启动 Itinera 服务即可自助生成</h2>
         <p style="text-align:left;">你现在是 <code style="background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:4px;">file://</code> 打开的，所以无法直接调 AI。<b>启动本地服务后</b>，输入框会真正能用：</p>
         <div class="code-snippet" style="text-align:left;">
 <span style="color:#8a9aaa;"># 1. 终端跑这行</span><br>
@@ -861,10 +861,10 @@ $ open http://localhost:5005
 
   // 启动时：服务模式 or 静态分享版都加载画廊
   if (IS_SERVER_MODE) {
-    console.log('🚀 LiveMap 服务模式已激活，输入框可真生成');
+    console.log('🚀 Itinera 服务模式已激活，输入框可真生成');
     loadMoreMaps();
   } else if (STATIC_DEPLOY) {
-    console.log('✨ LiveMap 静态分享版，加载存量画廊');
+    console.log('✨ Itinera 静态分享版，加载存量画廊');
     loadMoreMaps();
   }
 

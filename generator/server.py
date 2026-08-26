@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LiveMap 本地服务 · v0.5
+Itinera 本地服务 · v0.5
 ========================
 让 Hub 真正能"输入目的地 → 点生成 → 浏览器自动出图"。
 
@@ -86,7 +86,7 @@ def quota_commit(ip):
         _quota["by_ip"][ip] = _quota["by_ip"].get(ip, 0) + 1
 
 
-class LiveMapHandler(http.server.SimpleHTTPRequestHandler):
+class ItineraHandler(http.server.SimpleHTTPRequestHandler):
     """同时提供静态文件 + API 端点。"""
 
     def __init__(self, *args, **kwargs):
@@ -128,13 +128,13 @@ class LiveMapHandler(http.server.SimpleHTTPRequestHandler):
         """可视化编辑器保存：收完整 data(meta/days/pois/legend) → render_html → 写回地图文件 + JSON 备份。
 
         注意：这个端点会覆盖 maps/ 下的文件。公网部署默认关闭——否则任何访客
-        都能改掉你的地图。要在公网开编辑，设 LIVEMAP_EDIT_TOKEN，
-        并让客户端带 X-LiveMap-Token 头。
+        都能改掉你的地图。要在公网开编辑，设 ITINERA_EDIT_TOKEN，
+        并让客户端带 X-Itinera-Token 头。
         """
-        token = os.getenv("LIVEMAP_EDIT_TOKEN")
+        token = os.getenv("ITINERA_EDIT_TOKEN")
         if is_public() and not token:
-            return self._json(403, {"error": "公网部署已关闭编辑保存（设 LIVEMAP_EDIT_TOKEN 可开启）"})
-        if token and self.headers.get("X-LiveMap-Token") != token:
+            return self._json(403, {"error": "公网部署已关闭编辑保存（设 ITINERA_EDIT_TOKEN 可开启）"})
+        if token and self.headers.get("X-Itinera-Token") != token:
             return self._json(403, {"error": "编辑令牌不正确"})
         try:
             length = int(self.headers.get("Content-Length", 0))
@@ -262,7 +262,7 @@ class LiveMapHandler(http.server.SimpleHTTPRequestHandler):
                 maps.append(entry)
         # can_edit 让 lm_editor.js 知道该不该挂载，省得用户改半天才发现存不了；
         # can_generate 让 Hub 的提示语说实话（没配 key 时别写「约 10 秒出图」）
-        can_edit = (not is_public()) or bool(os.getenv("LIVEMAP_EDIT_TOKEN"))
+        can_edit = (not is_public()) or bool(os.getenv("ITINERA_EDIT_TOKEN"))
         return self._json(200, {"maps": maps, "can_edit": can_edit, "can_generate": has_llm_key()})
 
     def _json(self, code, data):
@@ -311,7 +311,7 @@ def main():
     if public and has_llm_key():
         print(f"  🛡  防刷：每天 {os.getenv('DAILY_GENERATE_LIMIT', '40')} 张 · "
               f"单 IP {os.getenv('DAILY_GENERATE_LIMIT_PER_IP', '5')} 张（命中存量不占额度）")
-        print(f"  ✏️  编辑保存：{'开（需 X-LiveMap-Token）' if os.getenv('LIVEMAP_EDIT_TOKEN') else '关'}")
+        print(f"  ✏️  编辑保存：{'开（需 X-Itinera-Token）' if os.getenv('ITINERA_EDIT_TOKEN') else '关'}")
 
     # 托管平台（Render/Railway/Fly）通过 $PORT 指定端口，并需绑定 0.0.0.0
     host = "0.0.0.0" if (public or os.getenv("PORT")) else "localhost"
@@ -319,10 +319,10 @@ def main():
 
     # 多线程：LLM 生成耗时 ~10s，避免阻塞画廊浏览
     http.server.ThreadingHTTPServer.allow_reuse_address = True
-    with http.server.ThreadingHTTPServer((host, port), LiveMapHandler) as httpd:
+    with http.server.ThreadingHTTPServer((host, port), ItineraHandler) as httpd:
         url = f"http://{host}:{port}/"
         print("=" * 60)
-        print(f"  🚀 LiveMap 服务已启动")
+        print(f"  🚀 Itinera 服务已启动")
         print(f"  📍 监听：{url}")
         print(f"  📡 API： POST /api/generate · GET /api/list")
         print(f"  ⏹  停止：Ctrl+C")

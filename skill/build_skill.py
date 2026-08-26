@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""从主仓库构建 livemap skill 包。
+"""从主仓库构建 Itinera skill 包。
 
 为什么要有构建步骤，而不是手写一份
 ----------------------------------
@@ -14,9 +14,9 @@ skill 要发给别人用，产物必须是**真·单文件 HTML**——不能像
   - 明信片/海报二维码 → 去掉指向作者仓库的硬编码兜底
 
 用法：
-    python3 skill/build_skill.py            # 构建到 skill/livemap/
+    python3 skill/build_skill.py            # 构建到 skill/itinera/
     python3 skill/build_skill.py --check    # 只校验已构建的产物是否跟上主仓库（CI 用）
-    python3 skill/build_skill.py --install  # 构建并安装到 ~/.claude/skills/livemap/
+    python3 skill/build_skill.py --install  # 构建并安装到 ~/.claude/skills/itinera/
 """
 import argparse
 import json
@@ -26,7 +26,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SKILL_DIR = ROOT / "skill" / "livemap"
+SKILL_DIR = ROOT / "skill" / "itinera"
 SCRIPTS = SKILL_DIR / "scripts"
 
 CHECKIN_TAG = '<script src="../assets/lm_checkin.js" defer></script>'
@@ -34,10 +34,10 @@ EDITOR_TAG = '<script src="../assets/lm_editor.js" defer></script>'
 
 # 海报二维码在 file:// 下原本兜底到作者的 GitHub Pages。
 # 别人用这个 skill 生成的地图不该指向作者的站点，改成指向项目本身（既诚实又算署名）。
-OLD_QR_FALLBACK = "    u='https://zxz19951104.github.io/livemap/maps/'+location.pathname.split('/').pop();"
+OLD_QR_FALLBACK = "    u='https://shixiann25.github.io/itinera/maps/'+location.pathname.split('/').pop();"
 NEW_QR_FALLBACK = (
     "    // 本地文件没有公网地址可扫，二维码退化成指向项目主页（顺带署名）\n"
-    "    u='https://github.com/shixiann25/livemap';"
+    "    u='https://github.com/shixiann25/itinera';"
 )
 
 
@@ -152,16 +152,16 @@ def build(check_only=False) -> bool:
     return True
 
 
-DEFAULT_PUBLISH_DIR = Path.home() / "livemap-skill"
+DEFAULT_PUBLISH_DIR = Path.home() / "itinera-skill"
 
 # 这些文件只属于独立仓库（面向人的 README、插件/市场清单），构建时不要覆盖它们。
 PUBLISH_KEEP = {"README.md", ".git", ".gitignore", ".claude-plugin"}
 
 
 def sync_to_repo(repo: Path) -> bool:
-    """把 skill/livemap/ 的内容同步进独立的 skill 仓库。
+    """把 skill/itinera/ 的内容同步进独立的 skill 仓库。
 
-    为什么要有这一步：独立仓库 shixiann25/livemap-skill 是**构建产物**，
+    为什么要有这一步：独立仓库 shixiann25/itinera-skill 是**构建产物**，
     真正的源在主仓库（template.html / generate.py / CLAUDE_PROMPT）。
     手工拷来拷去必然某次忘记，别人装到的就是旧版。
 
@@ -169,7 +169,7 @@ def sync_to_repo(repo: Path) -> bool:
     """
     if not (repo / ".git").exists():
         print(f"❌ {repo} 不像是个 git 仓库。先 clone：\n"
-              f"   git clone https://github.com/shixiann25/livemap-skill.git {repo}")
+              f"   git clone https://github.com/shixiann25/itinera-skill.git {repo}")
         return False
 
     changed = []
@@ -198,11 +198,11 @@ def sync_to_repo(repo: Path) -> bool:
 
 
 def main():
-    ap = argparse.ArgumentParser(description="构建 livemap skill 包")
+    ap = argparse.ArgumentParser(description="构建 Itinera skill 包")
     ap.add_argument("--check", action="store_true", help="只校验是否跟上主仓库；不同步则退出码 1")
-    ap.add_argument("--install", action="store_true", help="构建后安装到 ~/.claude/skills/livemap/")
+    ap.add_argument("--install", action="store_true", help="构建后安装到 ~/.claude/skills/itinera/")
     ap.add_argument("--publish", metavar="REPO_DIR", nargs="?", const=str(DEFAULT_PUBLISH_DIR),
-                    help="把构建产物同步进独立的 skill 仓库（默认 ../livemap-skill），只写不提交")
+                    help="把构建产物同步进独立的 skill 仓库（默认 ../itinera-skill），只写不提交")
     args = ap.parse_args()
 
     ok = build(check_only=args.check)
@@ -214,7 +214,7 @@ def main():
             return 1
 
     if args.install:
-        dest = Path.home() / ".claude" / "skills" / "livemap"
+        dest = Path.home() / ".claude" / "skills" / "itinera"
         if dest.exists():
             shutil.rmtree(dest)
         shutil.copytree(SKILL_DIR, dest)

@@ -44,7 +44,7 @@ def main():
         else:
             out[key] = got
     if missing:
-        sys.exit(f"❌ 抠不出 {'/'.join(missing)} —— 这个 HTML 可能不是 LiveMap 生成的，"
+        sys.exit(f"❌ 抠不出 {'/'.join(missing)} —— 这个 HTML 可能不是 Itinera 生成的，"
                  f"或者版本太老。只能重新写一份 JSON 了。")
 
     # legend 是从 DOM 里渲染的，不是 JS 常量，单独用正则捞

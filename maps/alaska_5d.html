@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>阿拉斯加 5 天经典之旅 · LiveMap</title>
+<title>阿拉斯加 5 天经典之旅 · Itinera</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
@@ -427,13 +427,13 @@
 <style id="gesture-hint-style">.map-gesture-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:1200;background:rgba(0,0,0,0.62);color:#fff;font-size:11px;font-weight:600;padding:6px 13px;border-radius:16px;pointer-events:none;white-space:nowrap;transition:opacity 0.6s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);}</style>
 </head>
 <body>
-<!-- LIVEMAP-BACK-BTN -->
-<a href="../index.html" id="livemapBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ LiveMap 首页</a>
-<!-- /LIVEMAP-BACK-BTN -->
+<!-- ITINERA-BACK-BTN -->
+<a href="../index.html" id="itineraBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ Itinera 首页</a>
+<!-- /ITINERA-BACK-BTN -->
 
 <div class="app">
   <header>
-    <div class="eyebrow">ALASKA · LIVEMAP · 2026</div>
+    <div class="eyebrow">ALASKA · ITINERA · 2026</div>
     <h1>❄️ 阿拉斯加 5 天经典之旅</h1>
     <div class="sub">Alaska Classic Tour</div>
   </header>
@@ -531,7 +531,7 @@
 <script>
 const POIs = [{"id": "anchorage_museum", "day": 1, "num": 1, "name": "安克雷奇博物馆", "en": "Anchorage Museum", "lat": 61.2173, "lng": -149.8957, "icon": "🏛️", "color": "#6b4a7e", "search": "Anchorage Museum", "price": "$20", "hours": "10:00-17:00", "desc": "了解阿拉斯加历史文化的好去处，建议提前在官网订票，避开周末高峰。", "tags": ["必看", "传统"], "time": "上午", "photo_spots": ["📸 博物馆外观"], "foods": ["🍔 博物馆餐厅汉堡（$15）"]}, {"id": "earthquake_park", "day": 1, "num": 2, "name": "地震公园", "en": "Earthquake Park", "lat": 61.1992, "lng": -149.9037, "icon": "🌏", "color": "#6b7a6e", "search": "Earthquake Park Anchorage", "price": "免费", "hours": "24h", "desc": "纪念 1964 年地震的公园，可俯瞰库克湾，傍晚景色很美。", "tags": ["观景", "免费"], "time": "傍晚", "photo_spots": ["📸 库克湾落日"], "foods": []}, {"id": "chugach_state_park", "day": 2, "num": 1, "name": "楚加奇州立公园", "en": "Chugach State Park", "lat": 61.1589, "lng": -149.5747, "icon": "🌲", "color": "#5a7a4a", "search": "Chugach State Park", "price": "免费", "hours": "24h", "desc": "徒步爱好者的天堂，有多种难度的步道，夏季可观赏野花。", "tags": ["必去", "自然"], "time": "上午", "photo_spots": ["📸 高山草甸"], "foods": ["🥪 自带三明治"]}, {"id": "flat_top_mountain", "day": 2, "num": 2, "name": "平顶峰", "en": "Flat Top Mountain", "lat": 61.1817, "lng": -149.5933, "icon": "⛰️", "color": "#6b7a6e", "search": "Flat Top Mountain", "price": "免费", "hours": "24h", "desc": "登顶可俯瞰安克雷奇全景，步道较陡，需穿防滑鞋。", "tags": ["观景", "自然"], "time": "下午", "photo_spots": ["📸 城市全景"], "foods": []}, {"id": "portage_lake", "day": 3, "num": 1, "name": "波特奇湖", "en": "Portage Lake", "lat": 60.9039, "lng": -148.8347, "icon": "🏞️", "color": "#4a8db5", "search": "Portage Lake", "price": "免费", "hours": "24h", "desc": "可乘船游览，欣赏冰川和湖景，夏季有游船服务。", "tags": ["必看", "湖泊"], "time": "上午", "photo_spots": ["📸 冰川倒影"], "foods": ["🍱 湖边野餐"]}, {"id": "portage_glacier", "day": 3, "num": 2, "name": "波特奇冰川", "en": "Portage Glacier", "lat": 60.9039, "lng": -148.8347, "icon": "🧊", "color": "#5a7a4a", "search": "Portage Glacier", "price": "$30/船票", "hours": "根据游船时间", "desc": "近距离观赏冰川的好地方，建议提前预订船票。", "tags": ["震撼", "自然"], "time": "上午", "photo_spots": ["📸 冰川特写"], "foods": []}, {"id": "seward_small_boat_harbor", "day": 4, "num": 1, "name": "西沃德小船港", "en": "Seward Small Boat Harbor", "lat": 60.1268, "lng": -149.4197, "icon": "🚤", "color": "#1f7a5a", "search": "Seward Small Boat Harbor", "price": "免费", "hours": "24h", "desc": "可看到各种船只和海洋生物，是观鲸的出发地。", "tags": ["必去", "观景"], "time": "上午", "photo_spots": ["📸 港口全景"], "foods": ["🦀 港口海鲜餐厅螃蟹（$20）"]}, {"id": "kenai_fjords_national_park", "day": 4, "num": 2, "name": "基奈峡湾国家公园", "en": "Kenai Fjords National Park", "lat": 60.1268, "lng": -149.4197, "icon": "🌊", "color": "#5a7a4a", "search": "Kenai Fjords National Park", "price": "$100/船票", "hours": "根据游船时间", "desc": "乘船游览可看到冰川、鲸鱼和海豹，需提前预订。", "tags": ["必看", "自然"], "time": "上午", "photo_spots": ["📸 冰川入海"], "foods": []}, {"id": "resurrection_bay", "day": 4, "num": 3, "name": "复活湾", "en": "Resurrection Bay", "lat": 60.1268, "lng": -149.4197, "icon": "🌅", "color": "#4a8db5", "search": "Resurrection Bay", "price": "免费", "hours": "24h", "desc": "风景优美，可进行皮划艇等水上活动。", "tags": ["观景", "自然"], "time": "下午", "photo_spots": ["📸 海湾落日"], "foods": []}, {"id": "seward_historical_society_museum", "day": 4, "num": 4, "name": "西沃德历史协会博物馆", "en": "Seward Historical Society Museum", "lat": 60.1268, "lng": -149.4197, "icon": "🏛️", "color": "#6b4a7e", "search": "Seward Historical Society Museum", "price": "$5", "hours": "10:00-17:00", "desc": "了解西沃德历史的地方，门票实惠。", "tags": ["传统", "免费"], "time": "下午", "photo_spots": ["📸 博物馆外观"], "foods": []}, {"id": "alaska_zoological_park", "day": 5, "num": 1, "name": "阿拉斯加动物园", "en": "Alaska Zoo", "lat": 61.1403, "lng": -149.8171, "icon": "🐾", "color": "#5a7a4a", "search": "Alaska Zoo", "price": "$15", "hours": "9:00-17:00", "desc": "可看到棕熊、驯鹿等当地动物，适合亲子游玩。", "tags": ["亲子", "野生动物"], "time": "上午", "photo_spots": ["📸 动物合影"], "foods": []}, {"id": "muskox_farm", "day": 5, "num": 2, "name": "麝牛农场", "en": "Muskox Farm", "lat": 61.1403, "lng": -149.8171, "icon": "🐂", "color": "#5a7a4a", "search": "Muskox Farm", "price": "$10", "hours": "10:00-16:00", "desc": "近距离接触麝牛，了解其生活习性。", "tags": ["体验", "野生动物"], "time": "上午", "photo_spots": ["📸 麝牛特写"], "foods": []}, {"id": "downtown_anchorage", "day": 5, "num": 3, "name": "安克雷奇市中心", "en": "Downtown Anchorage", "lat": 61.2181, "lng": -149.9003, "icon": "🏙️", "color": "#6b7a6e", "search": "Downtown Anchorage", "price": "免费", "hours": "24h", "desc": "购物、餐饮和娱乐的好去处，可在周边逛街。", "tags": ["小镇", "美食"], "time": "下午", "photo_spots": ["📸 城市街景"], "foods": ["🍕 披萨店披萨（$15）"]}, {"id": "fourth_avenue_exchange", "day": 5, "num": 4, "name": "第四大道购物中心", "en": "Fourth Avenue Exchange", "lat": 61.2181, "lng": -149.9003, "icon": "🛍️", "color": "#6b7a6e", "search": "Fourth Avenue Exchange", "price": "免费", "hours": "10:00-20:00", "desc": "有各种商店和餐厅，可购买纪念品。", "tags": ["小镇", "购物"], "time": "下午", "photo_spots": ["📸 购物中心内部"], "foods": []}, {"id": "alaska_airport", "day": 5, "num": 5, "name": "安克雷奇国际机场", "en": "Ted Stevens Anchorage International Airport", "lat": 61.1743, "lng": -149.9965, "icon": "✈️", "color": "#4a5d52", "search": "Ted Stevens Anchorage International Airport", "price": "免费", "hours": "24h", "desc": "办理登机手续，结束旅程。", "tags": ["交通"], "time": "晚上", "photo_spots": [], "foods": []}, {"id": "anchorage_market", "day": 1, "num": 3, "name": "安克雷奇市场", "en": "Anchorage Market", "lat": 61.2181, "lng": -149.9003, "icon": "🛒", "color": "#c97b5a", "search": "Anchorage Market", "price": "免费", "hours": "9:00-18:00", "desc": "可品尝当地美食和购买特色商品，推荐三文鱼干。", "tags": ["美食", "小镇"], "time": "中午", "photo_spots": ["📸 市场摊位"], "foods": ["🍣 三文鱼寿司（$10）"]}, {"id": "alaska_railroad", "day": 3, "num": 3, "name": "阿拉斯加铁路", "en": "Alaska Railroad", "lat": 60.9039, "lng": -148.8347, "icon": "🚂", "color": "#4a5d52", "search": "Alaska Railroad", "price": "$50-100", "hours": "根据列车时间", "desc": "乘坐火车欣赏沿途风景，需提前订票。", "tags": ["交通", "观景"], "time": "下午", "photo_spots": ["📸 火车窗外风景"], "foods": []}, {"id": "seward_beach", "day": 4, "num": 5, "name": "西沃德海滩", "en": "Seward Beach", "lat": 60.1268, "lng": -149.4197, "icon": "🏖️", "color": "#1f7a5a", "search": "Seward Beach", "price": "免费", "hours": "24h", "desc": "可散步、看海，傍晚景色很美。", "tags": ["海滩", "观景"], "time": "傍晚", "photo_spots": ["📸 海滩落日"], "foods": []}, {"id": "anchorage_park", "day": 1, "num": 4, "name": "安克雷奇公园", "en": "Anchorage Park", "lat": 61.2181, "lng": -149.9003, "icon": "🌳", "color": "#5a7a4a", "search": "Anchorage Park", "price": "免费", "hours": "24h", "desc": "休闲散步的好地方，有绿地和湖泊。", "tags": ["自然", "免费"], "time": "下午", "photo_spots": ["📸 公园湖景"], "foods": []}, {"id": "chugach_glacier", "day": 2, "num": 3, "name": "楚加奇冰川", "en": "Chugach Glacier", "lat": 61.1589, "lng": -149.5747, "icon": "🧊", "color": "#5a7a4a", "search": "Chugach Glacier", "price": "免费", "hours": "24h", "desc": "可远观冰川，徒步路线可到达。", "tags": ["自然", "震撼"], "time": "下午", "photo_spots": ["📸 冰川全景"], "foods": []}];
 const DAYS = {"1": {"color": "#6b7a6e", "title": "Day 1 · 安克雷奇初体验", "where": "📍 安克雷奇市中心", "tip": "💡 到达后先休息调整时差，适应环境。", "hotel": {"name_cn": "希尔顿安克雷奇酒店", "name_en": "Hilton Anchorage", "address": "500 W 3rd Ave, Anchorage, AK 99501", "price": "$200-300/晚", "parking": "$25/晚", "highlights": "步行可至餐厅和购物中心", "url": "https://www.hilton.com/en/hotels/ancahlh-hilton-anchorage/"}, "plan_b": "💧 雨天/旺季备选：改去安克雷奇博物馆 + 当地商场"}, "2": {"color": "#5a7a4a", "title": "Day 2 · 楚加奇州立公园探险", "where": "📍 安克雷奇市中心", "tip": "💡 提前准备好徒步装备和食物。", "hotel": {"name_cn": "希尔顿安克雷奇酒店", "name_en": "Hilton Anchorage", "address": "500 W 3rd Ave, Anchorage, AK 99501", "price": "$200-300/晚", "parking": "$25/晚", "highlights": "步行可至餐厅和购物中心", "url": "https://www.hilton.com/en/hotels/ancahlh-hilton-anchorage/"}, "plan_b": "💧 雨天/旺季备选：改去室内攀岩馆 + 电影院"}, "3": {"color": "#4a8db5", "title": "Day 3 · 波特奇湖之旅", "where": "📍 安克雷奇市中心", "tip": "💡 乘船游览时注意保暖。", "hotel": {"name_cn": "希尔顿安克雷奇酒店", "name_en": "Hilton Anchorage", "address": "500 W 3rd Ave, Anchorage, AK 99501", "price": "$200-300/晚", "parking": "$25/晚", "highlights": "步行可至餐厅和购物中心", "url": "https://www.hilton.com/en/hotels/ancahlh-hilton-anchorage/"}, "plan_b": "💧 雨天/旺季备选：改去安克雷奇室内水上乐园"}, "4": {"color": "#1f7a5a", "title": "Day 4 · 西沃德海滨小镇", "where": "📍 西沃德镇", "tip": "💡 提前预订观鲸船票。", "hotel": {"name_cn": "西沃德酒店", "name_en": "Hotel Seward", "address": "238 4th Ave, Seward, AK 99664", "price": "$150-250/晚", "parking": "免费", "highlights": "步行可至海边和餐厅", "url": "https://www.hotelseward.com/"}, "plan_b": "💧 雨天/旺季备选：改去西沃德海洋中心 + 当地咖啡馆"}, "5": {"color": "#6b7a6e", "title": "Day 5 · 返程准备", "where": "📍 安克雷奇市中心", "tip": "💡 提前办理退房和行李托运。", "hotel": {"name_cn": "希尔顿安克雷奇酒店", "name_en": "Hilton Anchorage", "address": "500 W 3rd Ave, Anchorage, AK 99501", "price": "$200-300/晚", "parking": "$25/晚", "highlights": "步行可至餐厅和购物中心", "url": "https://www.hilton.com/en/hotels/ancahlh-hilton-anchorage/"}, "plan_b": "💧 雨天/旺季备选：在酒店休息或去附近商场购物"}};
-const META = {"title": "❄️ 阿拉斯加 5 天经典之旅", "title_short": "阿拉斯加经典环游", "subtitle": "Alaska Classic Tour", "eyebrow": "ALASKA · LIVEMAP · 2026", "header_emoji": "❄️", "color_scheme": "snow", "currency": "USD", "map_center": [61.2181, -149.9003], "map_zoom": 9, "where_summary": "安克雷奇国际机场进/出", "all_tip": "🎯 主题定调：这是一趟深入阿拉斯加自然与人文魅力的经典之旅，带你领略冰川、野生动物与小镇风情。\n\n🎬 节奏递进：行程采用浅入深的节奏，前两日适应环境，中间两日深入自然体验，最后一日休闲返程。Day1 适应环境，Day2-3 是高潮，Day4 慢节奏过渡，Day5 准备返程。\n\n🗺️ 路线设计：以安克雷奇为基地，前三天不换酒店，减少奔波。第四天前往西沃德，欣赏沿途风景。这样安排符合预算和体能曲线。\n\n💡 实用建议：建议提前预订机票和酒店，夏季前往需携带保暖衣物。租车自驾是不错的选择，方便自由出行。", "stats": [{"num": "5", "label": "天数", "hint": "DAYS"}, {"num": "20", "label": "景点", "hint": "POI"}, {"num": "$1500-2000", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票当地交通"}, {"num": "租车", "label": "交通方式", "hint": "TRANSPORT", "tooltip": "推荐主要交通方式"}], "highlight_title": "🔥 阿拉斯加独门绝技", "highlight_items": ["<b>冰川徒步</b>（近距离感受冰川的壮美）", "<b>观鲸之旅</b>（邂逅海洋巨兽）", "<b>野生动物观赏</b>（与棕熊、驯鹿等亲密接触）", "<b>极光追逐</b>（在夜空中欣赏绚丽极光）"], "warning_title": "⚠️ 安全/礼仪/避坑", "warning_text": "注意保暖，避免靠近野生动物，遵守当地环保规定。", "footer": "ALASKA · 探索极地之美 · 2026", "pretrip": {"visa": "需提前办签证（$160，约 10 个工作日）", "voltage": "110V · A型插头", "sim": "eSIM 推荐 Airalo（$20/5GB）· 当地买卡 $30", "currency": "$1 USD ≈ ¥7 RMB · 推荐使用信用卡", "tipping": "餐厅 15-20%", "emergency": "911 报警/中国驻美国大使馆 +1-202-495-2266"}, "total_days": 5, "accent": "#3a6f9a", "accent_bg": "rgba(122, 176, 212, 0.18)", "text_dark": "#1a2838", "text_mid": "#4a5a6a"};
+const META = {"title": "❄️ 阿拉斯加 5 天经典之旅", "title_short": "阿拉斯加经典环游", "subtitle": "Alaska Classic Tour", "eyebrow": "ALASKA · ITINERA · 2026", "header_emoji": "❄️", "color_scheme": "snow", "currency": "USD", "map_center": [61.2181, -149.9003], "map_zoom": 9, "where_summary": "安克雷奇国际机场进/出", "all_tip": "🎯 主题定调：这是一趟深入阿拉斯加自然与人文魅力的经典之旅，带你领略冰川、野生动物与小镇风情。\n\n🎬 节奏递进：行程采用浅入深的节奏，前两日适应环境，中间两日深入自然体验，最后一日休闲返程。Day1 适应环境，Day2-3 是高潮，Day4 慢节奏过渡，Day5 准备返程。\n\n🗺️ 路线设计：以安克雷奇为基地，前三天不换酒店，减少奔波。第四天前往西沃德，欣赏沿途风景。这样安排符合预算和体能曲线。\n\n💡 实用建议：建议提前预订机票和酒店，夏季前往需携带保暖衣物。租车自驾是不错的选择，方便自由出行。", "stats": [{"num": "5", "label": "天数", "hint": "DAYS"}, {"num": "20", "label": "景点", "hint": "POI"}, {"num": "$1500-2000", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票当地交通"}, {"num": "租车", "label": "交通方式", "hint": "TRANSPORT", "tooltip": "推荐主要交通方式"}], "highlight_title": "🔥 阿拉斯加独门绝技", "highlight_items": ["<b>冰川徒步</b>（近距离感受冰川的壮美）", "<b>观鲸之旅</b>（邂逅海洋巨兽）", "<b>野生动物观赏</b>（与棕熊、驯鹿等亲密接触）", "<b>极光追逐</b>（在夜空中欣赏绚丽极光）"], "warning_title": "⚠️ 安全/礼仪/避坑", "warning_text": "注意保暖，避免靠近野生动物，遵守当地环保规定。", "footer": "ALASKA · 探索极地之美 · 2026", "pretrip": {"visa": "需提前办签证（$160，约 10 个工作日）", "voltage": "110V · A型插头", "sim": "eSIM 推荐 Airalo（$20/5GB）· 当地买卡 $30", "currency": "$1 USD ≈ ¥7 RMB · 推荐使用信用卡", "tipping": "餐厅 15-20%", "emergency": "911 报警/中国驻美国大使馆 +1-202-495-2266"}, "total_days": 5, "accent": "#3a6f9a", "accent_bg": "rgba(122, 176, 212, 0.18)", "text_dark": "#1a2838", "text_mid": "#4a5a6a"};
 const ALL_TIP = META.all_tip;
 const TOTAL_DAYS = META.total_days;
 const ORIG_CURRENCY = META.currency || 'USD';
@@ -1042,8 +1042,8 @@ function renderPretrip(p) {
 // GPX 导出：生成所有 POI + 每天路线
 window.exportGPX = function() {
   const sorted = [...POIs].sort((a, b) => a.day === b.day ? a.num - b.num : a.day - b.day);
-  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="LiveMap" xmlns="http://www.topografix.com/GPX/1/1">\n`;
-  gpx += `  <metadata>\n    <name>${META.title_short || 'LiveMap Trip'}</name>\n    <desc>Generated by LiveMap</desc>\n  </metadata>\n`;
+  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Itinera" xmlns="http://www.topografix.com/GPX/1/1">\n`;
+  gpx += `  <metadata>\n    <name>${META.title_short || 'Itinera Trip'}</name>\n    <desc>Generated by Itinera</desc>\n  </metadata>\n`;
   // 每个 POI 一个 waypoint
   sorted.forEach(p => {
     gpx += `  <wpt lat="${p.lat}" lon="${p.lng}">\n    <name>Day${p.day}.${p.num} ${p.icon} ${p.name}</name>\n    <desc>${(p.desc||'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'})[c])}</desc>\n    <type>${p.tags?.[0]||'POI'}</type>\n  </wpt>\n`;
@@ -1061,7 +1061,7 @@ window.exportGPX = function() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${(META.title_short || 'livemap').replace(/[^\w]/g, '_')}.gpx`;
+  a.download = `${(META.title_short || 'itinera').replace(/[^\w]/g, '_')}.gpx`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1361,7 +1361,7 @@ if (typeof showDetail === 'function') {
     const np = POIs.find(p => /national park/i.test(p.en || '') || /国家公园/.test(p.name || ''));
     if (np) queries.push((np.en || np.search) + ' landscape');
     const place = String((typeof META !== 'undefined' && META.eyebrow) || '').split(/[·•・|]/)[0].trim();
-    if (/^[\x20-\x7e]+$/.test(place) && !/livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
+    if (/^[\x20-\x7e]+$/.test(place) && !/itinera|livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
     POIs.slice(0, 3).forEach(p => { const n = p.search || p.en; if (n) queries.push(n + ' landscape'); });
     (async () => {
       // 先用这张图自己的 AI 明信片当页头底图：一定切题，不看搜索脸色。
@@ -1533,7 +1533,7 @@ if (typeof renderDayOverview === 'function') {
       <button class="pm-btn pm-dl" onclick="downloadPoster(this)">⬇️ 下载海报</button>
       <button class="pm-btn pm-close" onclick="document.getElementById('posterModal').classList.remove('show')">关闭</button>
     </div>
-    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张活地图</div>
+    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张旅行地图</div>
   </div>
 </div>
 <script>
@@ -1584,7 +1584,7 @@ function _posterBgStyle(cb){
 function _posterShareURL(){
   var u=location.href.split('#')[0];
   if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==='file:'){
-    u='https://zxz19951104.github.io/livemap/maps/'+location.pathname.split('/').pop();
+    u='https://shixiann25.github.io/itinera/maps/'+location.pathname.split('/').pop();
   }
   return u;
 }
@@ -1594,12 +1594,12 @@ window.generatePoster=function(){
   _posterBgStyle(bg=>{
     stage.innerHTML=`<div class="ps-root"><div class="ps-bg" style="${bg}"></div><div class="ps-scrim"></div>
       <div class="ps-wrap">
-        <div class="ps-top"><div class="ps-kick"><span>LiveMap</span>活地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
+        <div class="ps-top"><div class="ps-kick"><span>Itinera</span>旅行地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
         <h1>${title}</h1>
         <div class="ps-chips"><div class="ps-chip">📅 <b>${Object.keys(DAYS).map(Number).filter(n=>!isNaN(n)).length}</b> 天</div><div class="ps-chip">📍 <b>${POIs.length}</b> 个精选点</div>${(window._lmVisitedCount&&window._lmVisitedCount()>0)?'<div class="ps-chip">✅ 已打卡 <b>'+window._lmVisitedCount()+'</b></div>':'<div class="ps-chip">🚗 自驾路线</div>'}${(window._lmCustom&&window._lmCustom.length)?'<div class="ps-chip">📍 我的点 <b>'+window._lmCustom.length+'</b></div>':''}</div>
         <div class="ps-map">${_posterSVG()}</div>
         <div class="ps-days">${_posterDays()}</div>
-        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互活地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
+        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互旅行地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
       </div></div>`;
     const qd=document.getElementById('posterQR'); qd.innerHTML='';
     try{ new QRCode(qd,{text:_posterShareURL(),width:170,height:170,colorDark:'#0e1a14',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
@@ -1615,7 +1615,7 @@ window.downloadPoster=function(btn){
     canvas.toBlob(b=>{
       const a=document.createElement('a');
       a.href=URL.createObjectURL(b);
-      a.download=((typeof META!=='undefined'&&META.title_short)||'livemap').replace(/[^一-龥\w]/g,'_')+'_海报.png';
+      a.download=((typeof META!=='undefined'&&META.title_short)||'itinera').replace(/[^一-龥\w]/g,'_')+'_海报.png';
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href);
       btn.textContent=old; btn.disabled=false;
     },'image/png');

@@ -1,4 +1,4 @@
-# LiveMap · 项目状态快照
+# Itinera · 项目状态快照
 
 > 给 Claude Code `/clear` 之后快速恢复上下文用。每次重大改动后更新本文件。
 > 上次更新：2026-08-23
@@ -8,14 +8,14 @@
 ## 一句话
 
 「目的地 + 天数 + 偏好」→ 一个可交互的**单文件 HTML 旅行地图**（~110 KB，离线可看，微信能发）。
-产品动机和指标见 [PRD_LiveMap.md](PRD_LiveMap.md)，对外介绍见 [README.md](README.md)。
+产品动机和指标见 [PRD_Itinera.md](PRD_Itinera.md)，对外介绍见 [README.md](README.md)。
 
 ## 当前规模
 
 - **32 张成品地图 / 560+ POI**，覆盖美国国家公园、日本、韩国、泰国、西班牙、九寨沟
 - 四种出行模式：标准 / J 人精算 / P 人随性 / 中产舒适 / 穷游省钱
 - 线上两个入口：
-  - **只读镜像**（秒开）https://shixiann25.github.io/livemap/ —— GitHub Pages，CI 自动发布
+  - **只读镜像**（秒开）https://shixiann25.github.io/itinera/ —— GitHub Pages，CI 自动发布
   - **完整版**（可在线生成）https://livemap-b1im.onrender.com/ —— Render 免费档，闲置会休眠，
     冷启动首次访问要等 50 秒以上
 - 模型：`doubao-seed-2-1-pro-260628`（火山方舟）。**实测约每个景点 15 秒**：
@@ -95,22 +95,22 @@ node tools/test_poster.mjs
 
 | | |
 |---|---|
-| `shixiann25/livemap`（本仓库） | **源**。模板、数据契约（`CLAUDE_PROMPT`）、构建脚本 |
-| `shixiann25/livemap-skill` | **构建产物**。别人从这里装，SKILL.md 在仓库根 + 自带插件/市场清单 |
+| `shixiann25/itinera`（本仓库） | **源**。模板、数据契约（`CLAUDE_PROMPT`）、构建脚本 |
+| `shixiann25/itinera-skill` | **构建产物**。别人从这里装，SKILL.md 在仓库根 + 自带插件/市场清单 |
 
 安装（别人）：
 
 ```
-/plugin marketplace add shixiann25/livemap-skill
+/plugin marketplace add shixiann25/itinera-skill
 /plugin install livemap@livemap
 ```
 
 **改完模板要走这一串**，否则别人装到的还是旧版：
 
 ```bash
-python3 skill/build_skill.py            # 重建 skill/livemap/
-python3 skill/build_skill.py --publish  # 同步进 ~/livemap-skill（只写不提交）
-cd ~/livemap-skill && git diff --stat   # 自己过一眼
+python3 skill/build_skill.py            # 重建 skill/itinera/
+python3 skill/build_skill.py --publish  # 同步进 ~/itinera-skill（只写不提交）
+cd ~/itinera-skill && git diff --stat   # 自己过一眼
 git add -A && git commit && git push
 claude plugin validate .                # 在独立仓库里校验（清单归它维护）
 ```
@@ -122,7 +122,7 @@ claude plugin validate .                # 在独立仓库里校验（清单归�
 （marketplace）都会被 `claude plugin validate` 拒掉；marketplace 描述要放
 `metadata.description`，根级插件的 `source` 要写 `"./"`（写 `"."` 不通过）。
 
-⚠️ Iris 自己机器上**只装开发副本** `~/.claude/skills/livemap/`（`--install` 装的），
+⚠️ Iris 自己机器上**只装开发副本** `~/.claude/skills/itinera/`（`--install` 装的），
 不要再装插件——同名会打架。
 
 ## 待办

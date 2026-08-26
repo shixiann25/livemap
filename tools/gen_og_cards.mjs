@@ -39,7 +39,7 @@ function readMeta(file) {
   if (m) { try { meta = JSON.parse(m[1]); } catch { /* 老地图格式不同，走下面的兜底 */ } }
 
   // 老地图（big_island / kyoto_6d / yellowstone_5d）没有 META 常量，从 <title> 兜底
-  const titleTag = (html.match(/<title>(.*?)<\/title>/s) || [, ''])[1].replace(/\s*·\s*LiveMap\s*$/, '').trim();
+  const titleTag = (html.match(/<title>(.*?)<\/title>/s) || [, ''])[1].replace(/\s*·\s*Itinera\s*$/, '').trim();
   // 老地图标题形如「夏威夷大岛 7 天精准攻略地图 · Big Island Interactive Map」，
   // 对 OG 卡太长，只留分隔符前那段并去掉「精准攻略地图」这类赘词。
   const rawTitle = (meta.title || titleTag).split(/\s*[·|]\s*/)[0]
@@ -102,7 +102,7 @@ function cardHTML(meta, postcardDataUri) {
 </style></head><body>
   <div class="left">
     <div>
-      <div class="brand">◆ LiveMap 活地图</div>
+      <div class="brand">◆ Itinera 旅行地图</div>
       ${meta.eyebrow ? `<div class="eyebrow">${esc(meta.eyebrow)}</div>` : ''}
       <div class="title"><span class="emoji">${meta.emoji}</span>${esc(meta.title)}</div>
       <div class="chips">${chips.map((c) => `<span class="chip">${esc(c)}</span>`).join('')}</div>
@@ -138,9 +138,9 @@ function siteHTML(collage, mapCount, poiCount) {
   <div class="strip">${collage.map((d) => `<img src="${d}">`).join('')}</div>
   <div class="scrim"></div>
   <div class="wrap">
-    <div class="brand">◆ LiveMap 活地图</div>
+    <div class="brand">◆ Itinera 旅行地图</div>
     <h1>把旅行攻略<br>变成一张能<em>「看」</em>的地图</h1>
-    <p>输入目的地 → 10 秒生成可交互活地图 → 发给同伴一眼秒懂</p>
+    <p>输入目的地 → 10 秒生成可交互旅行地图 → 发给同伴一眼秒懂</p>
     <div class="chips">
       <span class="chip">🗺️ ${mapCount} 条现成行程</span>
       <span class="chip">📍 ${poiCount}+ 个景点</span>

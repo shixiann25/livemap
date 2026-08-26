@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>冰川国家公园 4 天自驾 · LiveMap</title>
+<title>冰川国家公园 4 天自驾 · Itinera</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
@@ -384,13 +384,13 @@
 <style id="gesture-hint-style">.map-gesture-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:1200;background:rgba(0,0,0,0.62);color:#fff;font-size:11px;font-weight:600;padding:6px 13px;border-radius:16px;pointer-events:none;white-space:nowrap;transition:opacity 0.6s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);}</style>
 </head>
 <body>
-<!-- LIVEMAP-BACK-BTN -->
-<a href="../index.html" id="livemapBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ LiveMap 首页</a>
-<!-- /LIVEMAP-BACK-BTN -->
+<!-- ITINERA-BACK-BTN -->
+<a href="../index.html" id="itineraBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ Itinera 首页</a>
+<!-- /ITINERA-BACK-BTN -->
 
 <div class="app">
   <header>
-    <div class="eyebrow">GLACIER · LIVEMAP · 2026</div>
+    <div class="eyebrow">GLACIER · ITINERA · 2026</div>
     <h1>🏔️ 冰川国家公园 4 天自驾</h1>
     <div class="sub">Glacier National Park · Montana</div>
   </header>
@@ -490,7 +490,7 @@
 <script>
 const POIs = [{"id": "kalispell_airport", "day": 1, "num": 1, "name": "卡利斯佩尔机场", "en": "Glacier Park International Airport (FCA)", "lat": 48.3105, "lng": -114.256, "icon": "✈️", "color": "#4a5d52", "search": "Glacier Park International Airport Kalispell", "price": "免费", "hours": "24h", "desc": "冰川国家公园门户机场，取车后向东约 50 分钟即达西入口。", "tags": ["交通", "门户"], "time": "上午", "photo_spots": [], "foods": []}, {"id": "apgar_village", "day": 1, "num": 2, "name": "阿普加村", "en": "Apgar Village", "lat": 48.526, "lng": -113.993, "icon": "🏘️", "color": "#6b7a6e", "search": "Apgar Village Glacier National Park", "price": "免费", "hours": "全年", "desc": "西入口村落，游客中心、商店与租船码头集中，Lake McDonald 西南岸第一站。", "tags": ["小镇", "服务"], "time": "中午", "photo_spots": ["📸 Apgar 湖滩远眺雪峰"], "foods": ["🍦 村内冰淇淋小铺"]}, {"id": "lake_mcdonald", "day": 1, "num": 3, "name": "麦克唐纳湖（彩石湖滩）", "en": "Lake McDonald", "lat": 48.5996, "lng": -113.873, "icon": "🏞️", "color": "#4a8db5", "search": "Lake McDonald Glacier National Park", "price": "免费", "hours": "全年", "desc": "公园最大的湖，湖底铺满红绿相间的五彩鹅卵石，清澈见底。傍晚湖面如镜倒映雪峰。", "tags": ["必看", "湖泊"], "time": "傍晚", "photo_spots": ["📸 彩石湖滩特写", "📸 黄昏雪峰倒影"], "foods": ["🥪 湖畔野餐"]}, {"id": "trail_of_cedars", "day": 1, "num": 4, "name": "雪松步道", "en": "Trail of the Cedars", "lat": 48.679, "lng": -113.819, "icon": "🌲", "color": "#2e6a4a", "search": "Trail of the Cedars Glacier National Park", "price": "免费", "hours": "全年", "desc": "平缓的木栈道穿越古老雪松红柏雨林，全程无障碍，可衔接 Avalanche Lake 步道。", "tags": ["徒步", "雨林"], "time": "下午", "photo_spots": ["📸 千年雪松栈道"], "foods": []}, {"id": "going_to_the_sun_road", "day": 2, "num": 1, "name": "向阳大道", "en": "Going-to-the-Sun Road", "lat": 48.696, "lng": -113.718, "icon": "🛣️", "color": "#4a5d8a", "search": "Going-to-the-Sun Road Glacier National Park", "price": "需 timed-entry 预约", "hours": "夏季限定（约6月-10月）", "desc": "横贯公园东西的传奇山道，单程约 80km 凿在悬崖上，全美最美自驾路之一。沿途瀑布、雪峰、垭口一路不断。", "tags": ["必去", "自驾"], "time": "全天", "photo_spots": ["📸 The Loop 回头弯", "📸 Weeping Wall 流泪墙"], "foods": ["🥪 路边观景台野餐"]}, {"id": "logan_pass", "day": 2, "num": 2, "name": "洛根垭口", "en": "Logan Pass", "lat": 48.696, "lng": -113.718, "icon": "⛰️", "color": "#4a5d8a", "search": "Logan Pass Glacier National Park", "price": "免费（含园票）", "hours": "夏季限定", "desc": "向阳大道最高点（海拔 2025m），跨越大陆分水岭。高山苔原野花遍地，山羊与大角羊常现身，是 Hidden Lake 步道起点。", "tags": ["必去", "高山"], "time": "上午", "photo_spots": ["📸 垭口野花草甸", "📸 山羊近景"], "foods": ["🥪 游客中心自带补给"]}, {"id": "hidden_lake", "day": 2, "num": 3, "name": "隐湖", "en": "Hidden Lake Overlook", "lat": 48.687, "lng": -113.751, "icon": "🏞️", "color": "#4a8db5", "search": "Hidden Lake Overlook Glacier National Park", "price": "免费", "hours": "夏季限定", "desc": "从 Logan Pass 出发约 4.5km 往返的木栈道徒步，终点俯瞰被雪峰环抱的镜面隐湖，常遇山羊。", "tags": ["必看", "徒步"], "time": "上午", "photo_spots": ["📸 隐湖与 Bearhat 山", "📸 栈道残雪"], "foods": []}, {"id": "jackson_glacier_overlook", "day": 2, "num": 4, "name": "杰克逊冰川观景台", "en": "Jackson Glacier Overlook", "lat": 48.668, "lng": -113.649, "icon": "🧊", "color": "#5a7a8a", "search": "Jackson Glacier Overlook", "price": "免费", "hours": "夏季限定", "desc": "向阳大道东段路边观景台，是少数无需徒步即可远眺真正冰川的地点。", "tags": ["观景", "冰川"], "time": "下午", "photo_spots": ["📸 杰克逊冰川远摄"], "foods": []}, {"id": "many_glacier", "day": 3, "num": 1, "name": "多冰川区", "en": "Many Glacier", "lat": 48.797, "lng": -113.658, "icon": "🏔️", "color": "#2e6a4a", "search": "Many Glacier Glacier National Park", "price": "需 timed-entry 预约", "hours": "夏季限定", "desc": "被誉为公园「心脏」，冰川、湖泊、野花与灰熊在此同框。是 Grinnell Glacier、Iceberg Lake 等顶级步道的起点。", "tags": ["必去", "冰川群"], "time": "上午", "photo_spots": ["📸 Swiftcurrent Lake 倒影", "📸 多冰川酒店湖景"], "foods": ["🍲 Many Glacier Hotel 餐厅"]}, {"id": "grinnell_lake", "day": 3, "num": 2, "name": "格林内尔湖", "en": "Grinnell Lake", "lat": 48.756, "lng": -113.722, "icon": "🏞️", "color": "#4a8db5", "search": "Grinnell Lake Glacier National Park", "price": "免费", "hours": "夏季限定", "desc": "冰川融水汇成的湖，水色呈梦幻的薄荷绿松石色。可坐摆渡船缩短徒步，或全程 Grinnell Glacier 步道登高俯瞰。", "tags": ["必看", "冰川湖"], "time": "下午", "photo_spots": ["📸 松石绿湖水", "📸 冰川悬挂瀑布"], "foods": ["🥪 湖边补给"]}, {"id": "swiftcurrent_lake", "day": 3, "num": 3, "name": "斯威夫特卡伦特湖", "en": "Swiftcurrent Lake", "lat": 48.796, "lng": -113.658, "icon": "🚤", "color": "#1f7a8a", "search": "Swiftcurrent Lake Glacier", "price": "免费（游船另付）", "hours": "夏季限定", "desc": "Many Glacier 酒店前的平静湖泊，环湖步道平缓，可乘历史木质游船看雪峰倒影。", "tags": ["观景", "湖泊"], "time": "下午", "photo_spots": ["📸 环湖步道雪峰"], "foods": []}, {"id": "st_mary_lake", "day": 4, "num": 1, "name": "圣玛丽湖", "en": "St. Mary Lake", "lat": 48.675, "lng": -113.44, "icon": "🏞️", "color": "#4a8db5", "search": "St Mary Lake Glacier National Park", "price": "免费", "hours": "全年", "desc": "公园东侧第二大湖，狭长深蓝。湖中 Wild Goose Island 小岛是冰川公园最经典的明信片机位。", "tags": ["必看", "湖泊"], "time": "上午", "photo_spots": ["📸 Wild Goose Island 小岛", "📸 清晨湖面平静"], "foods": []}, {"id": "st_mary_visitor_center", "day": 4, "num": 2, "name": "圣玛丽游客中心", "en": "St. Mary Visitor Center", "lat": 48.747, "lng": -113.438, "icon": "🏛️", "color": "#6b4a7e", "search": "St Mary Visitor Center Glacier", "price": "免费", "hours": "夏季 8:00-17:00", "desc": "东入口游客中心，介绍黑脚族原住民文化与冰川地质，返程前补给与盖章打卡的好地方。", "tags": ["传统", "服务"], "time": "中午", "photo_spots": ["📸 游客中心远眺东坡"], "foods": ["🥞 St. Mary 镇早午餐"]}];
 const DAYS = {"1": {"color": "#4a8db5", "title": "Day 1 · 卡利斯佩尔取车·麦克唐纳湖西侧", "where": "📍 Kalispell FCA → 西入口 Apgar / Lake McDonald", "tip": "💡 落地取车后开向西入口，先在彩石湖滩适应，傍晚看湖光山色。", "hotel": {"name_cn": "湖畔小屋酒店", "name_en": "Lake McDonald Lodge", "address": "288 Lake McDonald Lodge Loop, West Glacier, MT 59936", "price": "$220-280/晚", "parking": "免费", "highlights": "园内历史木屋，步行可达彩石湖滩", "url": "https://www.glaciernationalparklodges.com/lodging/lake-mcdonald-lodge/"}, "plan_b": "💧 园内房满备选：西格莱舍镇 West Glacier 汽车旅馆"}, "2": {"color": "#4a5d8a", "title": "Day 2 · 向阳大道翻洛根山口", "where": "📍 Going-to-the-Sun Road 全线 · Logan Pass · Hidden Lake", "tip": "💡 起早赶在 timed-entry 前入园，整条向阳大道边开边停，Logan Pass 走 Hidden Lake 步道。", "hotel": {"name_cn": "湖畔小屋酒店", "name_en": "Lake McDonald Lodge", "address": "288 Lake McDonald Lodge Loop, West Glacier, MT 59936", "price": "$220-280/晚", "parking": "免费", "highlights": "园内历史木屋，步行可达彩石湖滩", "url": "https://www.glaciernationalparklodges.com/lodging/lake-mcdonald-lodge/"}, "plan_b": "💧 高山段未通车备选：改走西侧 Avalanche Lake 步道"}, "3": {"color": "#2e6a4a", "title": "Day 3 · 多冰川群", "where": "📍 东北区 Many Glacier", "tip": "💡 转往东北的 Many Glacier，看冰川湖与野生动物，可走 Grinnell Glacier 部分步道。", "hotel": {"name_cn": "多冰川酒店", "name_en": "Many Glacier Hotel", "address": "Many Glacier Rd, Babb, MT 59411", "price": "$240-320/晚", "parking": "免费", "highlights": "瑞士风情湖畔酒店，窗外即冰川群", "url": "https://www.glaciernationalparklodges.com/lodging/many-glacier-hotel/"}, "plan_b": "💧 预约抢不到备选：改住 St. Mary 镇，白天再进 Many Glacier"}, "4": {"color": "#5a7a8a", "title": "Day 4 · 圣玛丽东侧·返程", "where": "📍 St. Mary 东入口 → Kalispell FCA", "tip": "💡 上午看 St. Mary Lake 与 Wild Goose Island，下午沿向阳大道折返机场。", "hotel": {"name_cn": "圣玛丽小屋", "name_en": "St. Mary Village", "address": "Hwy 89 & Going-to-the-Sun Rd, St Mary, MT 59417", "price": "$180-240/晚", "parking": "免费", "highlights": "东入口门户，餐厅与加油站齐全", "url": "https://www.glacierparkcollection.com/lodging/st-mary-village/"}, "plan_b": "💧 时间紧备选：直接东侧出园，绕外环 US-2 回 Kalispell"}};
-const META = {"title": "🏔️ 冰川国家公园 4 天自驾", "title_short": "冰川国家公园 4 天", "subtitle": "Glacier National Park · Montana", "eyebrow": "GLACIER · LIVEMAP · 2026", "header_emoji": "🏔️", "color_scheme": "snow", "currency": "USD", "map_center": [48.76, -113.79], "map_zoom": 10, "where_summary": "蒙大拿 · 门户机场 Kalispell FCA", "all_tip": "🎯 主题定调：冰川国家公园是蒙大拿州「皇冠上的明珠」，一条 Going-to-the-Sun Road 向阳大道把雪峰、冰川湖与高山垭口串成一线。这趟 4 天行程以 Going-to-the-Sun Road 为主轴，西进东出体验冰川全貌。\n\n🎬 节奏递进：Day1 从 Kalispell FCA 取车，先在西侧 Lake McDonald 适应；Day2 是高潮，整条向阳大道从西向东翻越 Logan Pass，沿途下车徒步 Hidden Lake；Day3 转战东北的 Many Glacier 看冰川群与野生动物；Day4 收尾东侧景点后返程。\n\n🗺️ 路线设计：向阳大道横贯东西，单程约 80km、需 2 小时纯车程（含停车观景半天起）。西侧 Apgar/Lake McDonald 与东侧 St. Mary、东北 Many Glacier 三大片区分头扎营，减少折返。\n\n💡 实用建议：① 向阳大道与 Many Glacier 旺季（5 月底-9 月初）需提前抢 timed-entry 车辆预约；② 全程多熊，徒步备防熊喷雾、结伴出声；③ 高山段 6 月才完全通车，9 月可能初雪封路，出发前查 NPS 路况；④ 园内信号差，提前离线下载地图。", "stats": [{"num": "4", "label": "天数", "hint": "DAYS"}, {"num": "13", "label": "景点", "hint": "POI"}, {"num": "$1200-1600", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票当地交通"}, {"num": "自驾", "label": "交通方式", "hint": "TRANSPORT", "tooltip": "Kalispell FCA 取车，全程自驾"}], "highlight_title": "🔥 冰川独门绝技", "highlight_items": ["<b>Going-to-the-Sun Road 向阳大道</b>（全美最美山道之一，悬崖凿出的工程奇迹）", "<b>Logan Pass 洛根垭口</b>（向阳大道最高点 2025m，高山苔原起点）", "<b>Lake McDonald 彩石湖滩</b>（湖底五彩鹅卵石清澈见底）", "<b>Many Glacier 冰川群</b>（公园「心脏」，冰川、野花与灰熊同框）", "<b>Hidden Lake 隐湖徒步</b>（Logan Pass 出发，山羊与雪峰镜湖）"], "warning_title": "⚠️ 安全/礼仪/避坑", "warning_text": "① 向阳大道与 Many Glacier 旺季强制 timed-entry 预约，未抢到只能清晨 6 点前或傍晚 3 点后入园；② 灰熊出没，单独徒步危险，备防熊喷雾并随时出声；③ 高山段道路狭窄无护栏，注意慢行、礼让；④ 山顶天气骤变，备保暖防风层。", "footer": "GLACIER NATIONAL PARK · 皇冠上的明珠 · 2026", "pretrip": {"visa": "美签 B1/B2 或 ESTA（视国籍），建议提前 1-2 月办理", "voltage": "110V · A/B 型插头", "sim": "eSIM 推荐 Airalo / T-Mobile 预付卡；园内多无信号，提前离线下载地图", "currency": "$1 USD ≈ ¥7 RMB · 园区内多可刷卡，偏远营地备现金", "tipping": "餐厅 15-20%", "emergency": "911 报警急救 · 中国驻美使馆 +1-202-495-2266"}, "total_days": 4, "accent": "#3a6f9a", "accent_bg": "rgba(122, 176, 212, 0.18)", "text_dark": "#1a2838", "text_mid": "#4a5a6a"};
+const META = {"title": "🏔️ 冰川国家公园 4 天自驾", "title_short": "冰川国家公园 4 天", "subtitle": "Glacier National Park · Montana", "eyebrow": "GLACIER · ITINERA · 2026", "header_emoji": "🏔️", "color_scheme": "snow", "currency": "USD", "map_center": [48.76, -113.79], "map_zoom": 10, "where_summary": "蒙大拿 · 门户机场 Kalispell FCA", "all_tip": "🎯 主题定调：冰川国家公园是蒙大拿州「皇冠上的明珠」，一条 Going-to-the-Sun Road 向阳大道把雪峰、冰川湖与高山垭口串成一线。这趟 4 天行程以 Going-to-the-Sun Road 为主轴，西进东出体验冰川全貌。\n\n🎬 节奏递进：Day1 从 Kalispell FCA 取车，先在西侧 Lake McDonald 适应；Day2 是高潮，整条向阳大道从西向东翻越 Logan Pass，沿途下车徒步 Hidden Lake；Day3 转战东北的 Many Glacier 看冰川群与野生动物；Day4 收尾东侧景点后返程。\n\n🗺️ 路线设计：向阳大道横贯东西，单程约 80km、需 2 小时纯车程（含停车观景半天起）。西侧 Apgar/Lake McDonald 与东侧 St. Mary、东北 Many Glacier 三大片区分头扎营，减少折返。\n\n💡 实用建议：① 向阳大道与 Many Glacier 旺季（5 月底-9 月初）需提前抢 timed-entry 车辆预约；② 全程多熊，徒步备防熊喷雾、结伴出声；③ 高山段 6 月才完全通车，9 月可能初雪封路，出发前查 NPS 路况；④ 园内信号差，提前离线下载地图。", "stats": [{"num": "4", "label": "天数", "hint": "DAYS"}, {"num": "13", "label": "景点", "hint": "POI"}, {"num": "$1200-1600", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票当地交通"}, {"num": "自驾", "label": "交通方式", "hint": "TRANSPORT", "tooltip": "Kalispell FCA 取车，全程自驾"}], "highlight_title": "🔥 冰川独门绝技", "highlight_items": ["<b>Going-to-the-Sun Road 向阳大道</b>（全美最美山道之一，悬崖凿出的工程奇迹）", "<b>Logan Pass 洛根垭口</b>（向阳大道最高点 2025m，高山苔原起点）", "<b>Lake McDonald 彩石湖滩</b>（湖底五彩鹅卵石清澈见底）", "<b>Many Glacier 冰川群</b>（公园「心脏」，冰川、野花与灰熊同框）", "<b>Hidden Lake 隐湖徒步</b>（Logan Pass 出发，山羊与雪峰镜湖）"], "warning_title": "⚠️ 安全/礼仪/避坑", "warning_text": "① 向阳大道与 Many Glacier 旺季强制 timed-entry 预约，未抢到只能清晨 6 点前或傍晚 3 点后入园；② 灰熊出没，单独徒步危险，备防熊喷雾并随时出声；③ 高山段道路狭窄无护栏，注意慢行、礼让；④ 山顶天气骤变，备保暖防风层。", "footer": "GLACIER NATIONAL PARK · 皇冠上的明珠 · 2026", "pretrip": {"visa": "美签 B1/B2 或 ESTA（视国籍），建议提前 1-2 月办理", "voltage": "110V · A/B 型插头", "sim": "eSIM 推荐 Airalo / T-Mobile 预付卡；园内多无信号，提前离线下载地图", "currency": "$1 USD ≈ ¥7 RMB · 园区内多可刷卡，偏远营地备现金", "tipping": "餐厅 15-20%", "emergency": "911 报警急救 · 中国驻美使馆 +1-202-495-2266"}, "total_days": 4, "accent": "#3a6f9a", "accent_bg": "rgba(122, 176, 212, 0.18)", "text_dark": "#1a2838", "text_mid": "#4a5a6a"};
 const ALL_TIP = META.all_tip;
 const TOTAL_DAYS = META.total_days;
 const ORIG_CURRENCY = META.currency || 'USD';
@@ -1047,8 +1047,8 @@ function renderPretrip(p) {
 // GPX 导出：生成所有 POI + 每天路线
 window.exportGPX = function() {
   const sorted = [...POIs].sort((a, b) => a.day === b.day ? a.num - b.num : a.day - b.day);
-  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="LiveMap" xmlns="http://www.topografix.com/GPX/1/1">\n`;
-  gpx += `  <metadata>\n    <name>${META.title_short || 'LiveMap Trip'}</name>\n    <desc>Generated by LiveMap</desc>\n  </metadata>\n`;
+  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Itinera" xmlns="http://www.topografix.com/GPX/1/1">\n`;
+  gpx += `  <metadata>\n    <name>${META.title_short || 'Itinera Trip'}</name>\n    <desc>Generated by Itinera</desc>\n  </metadata>\n`;
   // 每个 POI 一个 waypoint
   sorted.forEach(p => {
     gpx += `  <wpt lat="${p.lat}" lon="${p.lng}">\n    <name>Day${p.day}.${p.num} ${p.icon} ${p.name}</name>\n    <desc>${(p.desc||'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'})[c])}</desc>\n    <type>${p.tags?.[0]||'POI'}</type>\n  </wpt>\n`;
@@ -1066,7 +1066,7 @@ window.exportGPX = function() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${(META.title_short || 'livemap').replace(/[^\w]/g, '_')}.gpx`;
+  a.download = `${(META.title_short || 'itinera').replace(/[^\w]/g, '_')}.gpx`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1253,7 +1253,7 @@ filterPOIs(); renderDayOverview();
     const np = POIs.find(p => /national park/i.test(p.en || '') || /国家公园/.test(p.name || ''));
     if (np) queries.push((np.en || np.search) + ' landscape');
     const place = String((typeof META !== 'undefined' && META.eyebrow) || '').split(/[·•・|]/)[0].trim();
-    if (/^[\x20-\x7e]+$/.test(place) && !/livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
+    if (/^[\x20-\x7e]+$/.test(place) && !/itinera|livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
     POIs.slice(0, 3).forEach(p => { const n = p.search || p.en; if (n) queries.push(n + ' landscape'); });
     (async () => {
       // 先用这张图自己的 AI 明信片当页头底图：一定切题，不看搜索脸色。
@@ -1425,7 +1425,7 @@ if (typeof renderDayOverview === 'function') {
       <button class="pm-btn pm-dl" onclick="downloadPoster(this)">⬇️ 下载海报</button>
       <button class="pm-btn pm-close" onclick="document.getElementById('posterModal').classList.remove('show')">关闭</button>
     </div>
-    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张活地图</div>
+    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张旅行地图</div>
   </div>
 </div>
 <script>
@@ -1476,7 +1476,7 @@ function _posterBgStyle(cb){
 function _posterShareURL(){
   var u=location.href.split('#')[0];
   if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==='file:'){
-    u='https://zxz19951104.github.io/livemap/maps/'+location.pathname.split('/').pop();
+    u='https://shixiann25.github.io/itinera/maps/'+location.pathname.split('/').pop();
   }
   return u;
 }
@@ -1486,12 +1486,12 @@ window.generatePoster=function(){
   _posterBgStyle(bg=>{
     stage.innerHTML=`<div class="ps-root"><div class="ps-bg" style="${bg}"></div><div class="ps-scrim"></div>
       <div class="ps-wrap">
-        <div class="ps-top"><div class="ps-kick"><span>LiveMap</span>活地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
+        <div class="ps-top"><div class="ps-kick"><span>Itinera</span>旅行地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
         <h1>${title}</h1>
         <div class="ps-chips"><div class="ps-chip">📅 <b>${Object.keys(DAYS).map(Number).filter(n=>!isNaN(n)).length}</b> 天</div><div class="ps-chip">📍 <b>${POIs.length}</b> 个精选点</div>${(window._lmVisitedCount&&window._lmVisitedCount()>0)?'<div class="ps-chip">✅ 已打卡 <b>'+window._lmVisitedCount()+'</b></div>':'<div class="ps-chip">🚗 自驾路线</div>'}${(window._lmCustom&&window._lmCustom.length)?'<div class="ps-chip">📍 我的点 <b>'+window._lmCustom.length+'</b></div>':''}</div>
         <div class="ps-map">${_posterSVG()}</div>
         <div class="ps-days">${_posterDays()}</div>
-        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互活地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
+        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互旅行地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
       </div></div>`;
     const qd=document.getElementById('posterQR'); qd.innerHTML='';
     try{ new QRCode(qd,{text:_posterShareURL(),width:170,height:170,colorDark:'#0e1a14',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
@@ -1507,7 +1507,7 @@ window.downloadPoster=function(btn){
     canvas.toBlob(b=>{
       const a=document.createElement('a');
       a.href=URL.createObjectURL(b);
-      a.download=((typeof META!=='undefined'&&META.title_short)||'livemap').replace(/[^一-龥\w]/g,'_')+'_海报.png';
+      a.download=((typeof META!=='undefined'&&META.title_short)||'itinera').replace(/[^一-龥\w]/g,'_')+'_海报.png';
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href);
       btn.textContent=old; btn.disabled=false;
     },'image/png');

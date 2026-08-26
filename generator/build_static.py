@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-LiveMap 静态分享版构建器
+Itinera 静态分享版构建器
 ========================
 把 livemap/ 打包成纯静态 dist/，可直接部署到 GitHub Pages / Netlify / Vercel。
 任何人都能浏览 Hub 画廊 + 所有已生成地图；AI 实时生成会优雅降级为「请本地运行」提示
@@ -28,10 +28,10 @@ MAPS_DIR = ROOT / "maps"
 from mapmeta import card_meta, title_fallback
 
 # 站点公网地址：og:image / og:url 必须是绝对地址，平台不会解析相对路径。
-# 换域名时用环境变量覆盖，不用改代码：LIVEMAP_SITE_URL=https://xxx python3 build_static.py
-SITE_URL = os.environ.get("LIVEMAP_SITE_URL", "https://shixiann25.github.io/livemap").rstrip("/")
-SITE_NAME = "LiveMap 活地图"
-SITE_DESC = ("输入目的地和天数，10 秒生成一张可交互的旅行活地图："
+# 换域名时用环境变量覆盖，不用改代码：ITINERA_SITE_URL=https://xxx python3 build_static.py
+SITE_URL = os.environ.get("ITINERA_SITE_URL", "https://shixiann25.github.io/itinera").rstrip("/")
+SITE_NAME = "Itinera 旅行地图"
+SITE_DESC = ("输入目的地和天数，10 秒生成一张可交互的旅行地图："
              "真实底图 + 每日路线 + 门票价格 + 拍照点 + 美食。单文件 HTML，发微信就能看。")
 
 
@@ -78,7 +78,7 @@ def inject_head(html, block):
 
 
 def map_desc(m):
-    """「N 天 · N 个景点 · 标签1/标签2 —— 可交互活地图…」"""
+    """「N 天 · N 个景点 · 标签1/标签2 —— 可交互旅行地图…」"""
     bits = []
     if m.get("days"):
         bits.append(f'{m["days"]} 天行程')
@@ -88,7 +88,7 @@ def map_desc(m):
     if tags:
         bits.append(" / ".join(t for t in tags if t))
     head = " · ".join(bits)
-    return f"{head} —— 可交互活地图：真实底图、每日路线、门票价格、拍照点与美食推荐，单文件 HTML 可直接分享。"
+    return f"{head} —— 可交互旅行地图：真实底图、每日路线、门票价格、拍照点与美食推荐，单文件 HTML 可直接分享。"
 
 
 
@@ -115,7 +115,7 @@ def build(out_dir: Path):
     shutil.copytree(MAPS_DIR, out_dir / "maps")
 
     # 2. 拷贝 PRD（Hub 底部有链接）
-    for extra in ["PRD_LiveMap.md", "README.md"]:
+    for extra in ["PRD_Itinera.md", "README.md"]:
         src = ROOT / extra
         if src.exists():
             shutil.copy(src, out_dir / extra)
@@ -139,8 +139,8 @@ def build(out_dir: Path):
         image = (f'{SITE_URL}/assets/og/{m["name"]}.jpg' if card.exists()
                  else f"{SITE_URL}/assets/og/_site.jpg")
         # 告诉页内脚本「这是静态站」：lm_editor.js 据此跳过 /api/list 探测
-        head = '<script>window.LIVEMAP_STATIC=true;</script>\n' + og_block(
-            title=f'{emoji} {title} · LiveMap 活地图'.strip(),
+        head = '<script>window.ITINERA_STATIC=true;</script>\n' + og_block(
+            title=f'{emoji} {title} · Itinera 旅行地图'.strip(),
             desc=map_desc(m),
             url=f'{SITE_URL}/{m["url"]}',
             image=image,
@@ -150,7 +150,7 @@ def build(out_dir: Path):
         f.write_text(inject_head(f.read_text(encoding="utf-8"), head), encoding="utf-8")
         og_count += 1
     inject = og_block(
-        title="LiveMap 活地图 · 把旅行攻略变成一张能「看」的地图",
+        title="Itinera 旅行地图 · 把旅行攻略变成一张能「看」的地图",
         desc=SITE_DESC,
         url=f"{SITE_URL}/",
         image=f"{SITE_URL}/assets/og/_site.jpg",
@@ -179,7 +179,7 @@ def build(out_dir: Path):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="LiveMap 静态分享版构建器")
+    ap = argparse.ArgumentParser(description="Itinera 静态分享版构建器")
     ap.add_argument("--out", default=str(ROOT / "dist"), help="输出目录（默认 ../dist）")
     args = ap.parse_args()
     build(Path(args.out))

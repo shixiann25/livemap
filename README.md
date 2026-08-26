@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🗺️ LiveMap · 活地图
+# 🗺️ Itinera · 旅行地图
 
 ### 跟着这本地图，打开你的旅行。
 
@@ -10,7 +10,7 @@
 出发前它是期待，路上它是不用信号也能翻开的一页，
 回来以后，它是你走过哪里的记号。
 
-[**▶ 浏览 32 条行程**](https://shixiann25.github.io/livemap/) · [**✨ 自己生成一张**](https://livemap-b1im.onrender.com/) · [**🗺️ 装成 Claude Skill**](https://github.com/shixiann25/livemap-skill) · [PRD](PRD_LiveMap.md) · [部署](DEPLOY.md)
+[**▶ 浏览 32 条行程**](https://shixiann25.github.io/itinera/) · [**✨ 自己生成一张**](https://livemap-b1im.onrender.com/) · [**🗺️ 装成 Claude Skill**](https://github.com/shixiann25/itinera-skill) · [PRD](PRD_Itinera.md) · [部署](DEPLOY.md)
 
 <sub>*Follow this map, and let the trip unfold. A whole journey, folded into a single file you can
 carry anywhere — a real map, a colour for each day, and beside every stop, the reason it's worth
@@ -19,7 +19,7 @@ signal; when you're home it's a record of where you've been.*</sub>
 
 <sub>~110 KB · one HTML file · works offline · vanilla JS + Leaflet + an LLM that writes the POI data · UI in Chinese or English</sub>
 
-![LiveMap Hub](docs/img/hub.jpg)
+![Itinera Hub](docs/img/hub.jpg)
 
 </div>
 
@@ -29,7 +29,7 @@ signal; when you're home it's a record of where you've been.*</sub>
 
 旅行攻略的通病是**信息量足够，结构为零**：小红书散、马蜂窝长、ChatGPT 给你一堵文字墙、Google My Maps 长得像工程师的调试界面。而真正要用攻略的人——被你拉着一起去的爸妈、对象、朋友——**根本不看字**。
 
-LiveMap 换了个思路：**不做更全的攻略，做一眼就懂的攻略**。
+Itinera 换了个思路：**不做更全的攻略，做一眼就懂的攻略**。
 
 一个目的地 + 天数 + 偏好，输出一个 **单文件 HTML**：真实地理底图上标好每天的路线、每个点的门票和营业时间、去哪拍照、吃什么。文件只有 ~110 KB，微信能发、AirDrop 能传、断网也能看。
 
@@ -127,7 +127,7 @@ Wikimedia 给缩略图 URL 挂上了 `?utm_source=…&utm_campaign=parser`，而
 ## 跑起来
 
 ```bash
-git clone https://github.com/shixiann25/livemap.git && cd livemap
+git clone https://github.com/shixiann25/itinera.git && cd livemap
 python3 generator/build_static.py --out dist
 cd dist && python3 -m http.server 8000     # 打开 http://localhost:8000
 ```
@@ -154,24 +154,24 @@ node tools/gen_og_cards.mjs                 # 补分享卡（幂等，只补缺�
 
 ### 安装
 
-skill 单独发在 **[shixiann25/livemap-skill](https://github.com/shixiann25/livemap-skill)**，
+skill 单独发在 **[shixiann25/itinera-skill](https://github.com/shixiann25/itinera-skill)**，
 在 Claude Code 里两条命令：
 
 ```
-/plugin marketplace add shixiann25/livemap-skill
+/plugin marketplace add shixiann25/itinera-skill
 /plugin install livemap@livemap
 ```
 
 不需要 API key、不需要 pip 装包——只要有 `python3`。
-装完对 Claude 说「帮我做个京都 6 天的活地图」就行。
+装完对 Claude 说「帮我做个京都 6 天的旅行地图」就行。
 
 ### 在本仓库开发
 
 skill 的**源**在这里（模板、数据契约都在主仓库），独立仓库只是构建产物：
 
 ```bash
-python3 skill/build_skill.py --install    # 装到 ~/.claude/skills/livemap/，改完即时生效
-python3 skill/build_skill.py --publish    # 同步进 ~/livemap-skill，再自己 commit/push
+python3 skill/build_skill.py --install    # 装到 ~/.claude/skills/itinera/，改完即时生效
+python3 skill/build_skill.py --publish    # 同步进 ~/itinera-skill，再自己 commit/push
 ```
 
 ```

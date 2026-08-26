@@ -3,7 +3,7 @@
 # 部署后在 Render 控制台 Environment 里填入真实 VOLC_API_KEY（不要写进仓库）。
 services:
   - type: web
-    name: livemap
+    name: itinera
     runtime: python
     plan: free
     buildCommand: pip install -r generator/requirements.txt

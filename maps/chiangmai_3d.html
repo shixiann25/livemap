@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>清迈 3 天小众寺庙之旅 · LiveMap</title>
+<title>清迈 3 天小众寺庙之旅 · Itinera</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
@@ -421,13 +421,13 @@
 <style id="gesture-hint-style">.map-gesture-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:1200;background:rgba(0,0,0,0.62);color:#fff;font-size:11px;font-weight:600;padding:6px 13px;border-radius:16px;pointer-events:none;white-space:nowrap;transition:opacity 0.6s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);}</style>
 </head>
 <body>
-<!-- LIVEMAP-BACK-BTN -->
-<a href="../index.html" id="livemapBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ LiveMap 首页</a>
-<!-- /LIVEMAP-BACK-BTN -->
+<!-- ITINERA-BACK-BTN -->
+<a href="../index.html" id="itineraBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ Itinera 首页</a>
+<!-- /ITINERA-BACK-BTN -->
 
 <div class="app">
   <header>
-    <div class="eyebrow">清迈 · LIVEMAP · 2026</div>
+    <div class="eyebrow">清迈 · ITINERA · 2026</div>
     <h1>⛩️ 清迈 3 天小众寺庙之旅</h1>
     <div class="sub">Chiang Mai Temple Exploration</div>
   </header>
@@ -512,7 +512,7 @@
 <script>
 const POIs = [{"id": "wat-chedi-luang", "day": 1, "num": 1, "name": "契迪龙寺", "en": "Wat Chedi Luang", "lat": 18.7873, "lng": 98.9839, "icon": "⛩️", "color": "#6b4a7e", "search": "Wat Chedi Luang", "price": "฿50", "hours": "6:00-18:00", "desc": "清迈古城地标，残缺佛塔壮观。最佳上午前往，人少光线好。", "tags": ["必看", "寺庙", "地标"], "time": "上午", "photo_spots": ["📸 佛塔正面拍摄全景", "📸 塔基处仰拍"], "foods": []}, {"id": "wat-phra-singh", "day": 1, "num": 2, "name": "帕辛寺", "en": "Wat Phra Singh", "lat": 18.789, "lng": 98.9814, "icon": "⛩️", "color": "#6b4a7e", "search": "Wat Phra Singh", "price": "฿20", "hours": "6:00-18:00", "desc": "供奉珍贵佛像，建筑精美。下午阳光斜射，拍照超美。", "tags": ["必看", "寺庙"], "time": "下午", "photo_spots": ["📸 主殿侧面光影处", "📸 佛像前"], "foods": []}, {"id": "warorot-market", "day": 1, "num": 3, "name": "瓦洛洛市场", "en": "Warorot Market", "lat": 18.7928, "lng": 98.9914, "icon": "🛍️", "color": "#c97b5a", "search": "Warorot Market", "price": "免费", "hours": "8:00-20:00", "desc": "当地特色市场，美食众多。傍晚来品尝小吃，记得砍价。", "tags": ["美食", "小镇"], "time": "傍晚", "photo_spots": ["📸 五彩斑斓的摊位前"], "foods": ["🍜 泰式炒河粉（฿50）", "🍡 芒果糯米饭（฿60）"]}, {"id": "night-bazaar", "day": 1, "num": 4, "name": "清迈夜市", "en": "Chiang Mai Night Bazaar", "lat": 18.7888, "lng": 98.9854, "icon": "🛍️", "color": "#c97b5a", "search": "Chiang Mai Night Bazaar", "price": "免费", "hours": "17:00-24:00", "desc": "热闹夜市，购物好去处。晚上来淘特色纪念品。", "tags": ["必去", "小镇"], "time": "晚上", "photo_spots": ["📸 夜市入口处", "📸 特色摊位前"], "foods": ["🍢 烤肉串（฿20）", "🥤 鲜榨果汁（฿30）"]}, {"id": "wat-baan-den", "day": 2, "num": 1, "name": "班顿寺", "en": "Wat Baan Den", "lat": 18.778, "lng": 98.979, "icon": "⛩️", "color": "#6b4a7e", "search": "Wat Baan Den", "price": "免费", "hours": "8:00-17:00", "desc": "小众寺庙，宁静清幽。上午来感受禅意，拍照无人打扰。", "tags": ["必看", "寺庙"], "time": "上午", "photo_spots": ["📸 独特佛塔前", "📸 院内花丛边"], "foods": []}, {"id": "wat-sri-suphan", "day": 2, "num": 2, "name": "银庙", "en": "Wat Sri Suphan", "lat": 18.7803, "lng": 98.9834, "icon": "⛩️", "color": "#6b4a7e", "search": "Wat Sri Suphan", "price": "免费", "hours": "8:00-17:00", "desc": "全银打造的寺庙，精美绝伦。下午光线好，拍照超亮眼。", "tags": ["必看", "寺庙"], "time": "下午", "photo_spots": ["📸 银质佛像前", "📸 寺庙外观"], "foods": []}, {"id": "mae-jo-village", "day": 2, "num": 3, "name": "湄乔村", "en": "Mae Jo Village", "lat": 18.765, "lng": 98.96, "icon": "🌳", "color": "#5a7a4a", "search": "Mae Jo Village", "price": "免费", "hours": "全天", "desc": "宁静乡村，体验田园生活。下午来漫步，感受自然。", "tags": ["自然", "小镇"], "time": "下午", "photo_spots": ["📸 稻田边", "📸 乡村小屋前"], "foods": ["🍚 农家饭（฿100）"]}, {"id": "local-restaurant", "day": 2, "num": 4, "name": "当地餐厅", "en": "Local Restaurant", "lat": 18.77, "lng": 98.965, "icon": "🍽️", "color": "#c97b5a", "search": "Local Restaurant in Chiang Mai", "price": "฿200-500", "hours": "11:00-22:00", "desc": "品尝地道泰餐，冬阴功汤和绿咖喱鸡必点。晚上来就餐。", "tags": ["美食"], "time": "晚上", "photo_spots": [], "foods": ["🍜 冬阴功汤（฿150）", "🍛 绿咖喱鸡（฿200）"]}, {"id": "wat-pa-daeng", "day": 3, "num": 1, "name": "红庙", "en": "Wat Pa Daeng", "lat": 18.795, "lng": 98.975, "icon": "⛩️", "color": "#6b4a7e", "search": "Wat Pa Daeng", "price": "免费", "hours": "8:00-17:00", "desc": "小众红庙，色彩鲜艳。上午光线好，拍照绝美。", "tags": ["必看", "寺庙"], "time": "上午", "photo_spots": ["📸 红墙前", "📸 佛像旁"], "foods": []}, {"id": "wat-umong", "day": 3, "num": 2, "name": "幽梦寺", "en": "Wat Umong", "lat": 18.798, "lng": 98.97, "icon": "⛩️", "color": "#6b4a7e", "search": "Wat Umong", "price": "免费", "hours": "8:00-17:00", "desc": "藏在森林中的寺庙，宁静神秘。中午人少，适合静心。", "tags": ["必看", "寺庙"], "time": "中午", "photo_spots": ["📸 树洞佛龛处", "📸 森林小径边"], "foods": []}, {"id": "doi-suthep", "day": 3, "num": 3, "name": "素贴山", "en": "Doi Suthep", "lat": 18.802, "lng": 98.935, "icon": "⛰️", "color": "#5a7a4a", "search": "Doi Suthep", "price": "฿30", "hours": "6:00-18:00", "desc": "俯瞰清迈全景，风景绝美。下午前往，看日落。", "tags": ["必看", "观景"], "time": "下午", "photo_spots": ["📸 观景台", "📸 寺庙全景"], "foods": []}, {"id": "airport", "day": 3, "num": 4, "name": "清迈机场", "en": "Chiang Mai International Airport", "lat": 18.7668, "lng": 98.9694, "icon": "✈️", "color": "#4a5d52", "search": "Chiang Mai International Airport", "price": "免费", "hours": "全天", "desc": "办理登机手续，结束旅程。提前到达，避免误机。", "tags": ["交通"], "time": "晚上", "photo_spots": [], "foods": []}];
 const DAYS = {"1": {"color": "#6b4a7e", "title": "Day 1 · 初入清迈", "where": "📍 清迈古城", "tip": "💡 到达后先休息，适应当地环境，晚上可去古城夜市逛逛。", "hotel": {"name_cn": "清迈古城酒店", "name_en": "Chiang Mai Old City Hotel", "address": "123 Moo 1, Chang Moi, Muang Chiang Mai, Chiang Mai 50100, Thailand", "price": "฿1000-1500/晚", "parking": "不提供", "highlights": "步行 10 分钟到古城中心", "url": "https://www.booking.com/hotel/th/chiang-mai-old-city-hotel.zh-cn.html"}}, "2": {"color": "#6b4a7e", "title": "Day 2 · 寺庙探寻", "where": "📍 清迈古城周边", "tip": "💡 提前准备好防晒和饮用水，寺庙内避免大声喧哗。", "hotel": {"name_cn": "清迈古城酒店", "name_en": "Chiang Mai Old City Hotel", "address": "123 Moo 1, Chang Moi, Muang Chiang Mai, Chiang Mai 50100, Thailand", "price": "฿1000-1500/晚", "parking": "不提供", "highlights": "步行 10 分钟到古城中心", "url": "https://www.booking.com/hotel/th/chiang-mai-old-city-hotel.zh-cn.html"}}, "3": {"color": "#6b4a7e", "title": "Day 3 · 告别清迈", "where": "📍 清迈古城", "tip": "💡 上午游玩后，预留足够时间前往机场。", "hotel": {"name_cn": "清迈古城酒店", "name_en": "Chiang Mai Old City Hotel", "address": "123 Moo 1, Chang Moi, Muang Chiang Mai, Chiang Mai 50100, Thailand", "price": "฿1000-1500/晚", "parking": "不提供", "highlights": "步行 10 分钟到古城中心", "url": "https://www.booking.com/hotel/th/chiang-mai-old-city-hotel.zh-cn.html"}}};
-const META = {"title": "⛩️ 清迈 3 天小众寺庙之旅", "title_short": "清迈寺庙深度游", "subtitle": "Chiang Mai Temple Exploration", "eyebrow": "清迈 · LIVEMAP · 2026", "header_emoji": "⛩️", "color_scheme": "warm", "currency": "THB", "map_center": [18.7887, 98.9854], "map_zoom": 11, "where_summary": "清迈国际机场进/出", "all_tip": "此行程聚焦清迈小众寺庙，按地理顺序安排，避免折返。第一天从机场到古城附近住宿，方便后续出行；第二、三天深入探索周边寺庙。建议提前了解寺庙开放时间，尊重当地宗教习俗。", "stats": [{"num": "3", "label": "天数", "hint": "DAYS"}, {"num": "12", "label": "景点", "hint": "POI"}, {"num": "฿3000-5000", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票当地交通"}, {"num": "双条车|步行", "label": "交通方式", "hint": "TRANSPORT", "tooltip": "推荐主要交通方式"}], "highlight_title": "🔥 清迈独门绝技", "highlight_items": ["<b>小众寺庙</b>（避开人流，感受宁静）", "<b>传统建筑</b>（欣赏独特的泰式建筑风格）", "<b>当地文化</b>（深入体验清迈宗教文化）", "<b>宁静氛围</b>（享受寺庙带来的心灵慰藉）"], "warning_title": "⚠️ 安全/礼仪/避坑", "warning_text": "进入寺庙要穿着得体，脱鞋入内，尊重宗教习俗。注意双条车价格，避免被宰。", "footer": "清迈 · 探寻宁静寺庙之美 · 2026", "total_days": 3, "accent": "#c2542e", "accent_bg": "rgba(232, 168, 94, 0.18)", "text_dark": "#3a2818", "text_mid": "#7a5a3a"};
+const META = {"title": "⛩️ 清迈 3 天小众寺庙之旅", "title_short": "清迈寺庙深度游", "subtitle": "Chiang Mai Temple Exploration", "eyebrow": "清迈 · ITINERA · 2026", "header_emoji": "⛩️", "color_scheme": "warm", "currency": "THB", "map_center": [18.7887, 98.9854], "map_zoom": 11, "where_summary": "清迈国际机场进/出", "all_tip": "此行程聚焦清迈小众寺庙，按地理顺序安排，避免折返。第一天从机场到古城附近住宿，方便后续出行；第二、三天深入探索周边寺庙。建议提前了解寺庙开放时间，尊重当地宗教习俗。", "stats": [{"num": "3", "label": "天数", "hint": "DAYS"}, {"num": "12", "label": "景点", "hint": "POI"}, {"num": "฿3000-5000", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票当地交通"}, {"num": "双条车|步行", "label": "交通方式", "hint": "TRANSPORT", "tooltip": "推荐主要交通方式"}], "highlight_title": "🔥 清迈独门绝技", "highlight_items": ["<b>小众寺庙</b>（避开人流，感受宁静）", "<b>传统建筑</b>（欣赏独特的泰式建筑风格）", "<b>当地文化</b>（深入体验清迈宗教文化）", "<b>宁静氛围</b>（享受寺庙带来的心灵慰藉）"], "warning_title": "⚠️ 安全/礼仪/避坑", "warning_text": "进入寺庙要穿着得体，脱鞋入内，尊重宗教习俗。注意双条车价格，避免被宰。", "footer": "清迈 · 探寻宁静寺庙之美 · 2026", "total_days": 3, "accent": "#c2542e", "accent_bg": "rgba(232, 168, 94, 0.18)", "text_dark": "#3a2818", "text_mid": "#7a5a3a"};
 const ALL_TIP = META.all_tip;
 const TOTAL_DAYS = META.total_days;
 const ORIG_CURRENCY = META.currency || 'USD';
@@ -1244,7 +1244,7 @@ if (typeof showDetail === 'function') {
     const np = POIs.find(p => /national park/i.test(p.en || '') || /国家公园/.test(p.name || ''));
     if (np) queries.push((np.en || np.search) + ' landscape');
     const place = String((typeof META !== 'undefined' && META.eyebrow) || '').split(/[·•・|]/)[0].trim();
-    if (/^[\x20-\x7e]+$/.test(place) && !/livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
+    if (/^[\x20-\x7e]+$/.test(place) && !/itinera|livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
     POIs.slice(0, 3).forEach(p => { const n = p.search || p.en; if (n) queries.push(n + ' landscape'); });
     (async () => {
       // 先用这张图自己的 AI 明信片当页头底图：一定切题，不看搜索脸色。
@@ -1416,7 +1416,7 @@ if (typeof renderDayOverview === 'function') {
       <button class="pm-btn pm-dl" onclick="downloadPoster(this)">⬇️ 下载海报</button>
       <button class="pm-btn pm-close" onclick="document.getElementById('posterModal').classList.remove('show')">关闭</button>
     </div>
-    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张活地图</div>
+    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张旅行地图</div>
   </div>
 </div>
 <script>
@@ -1467,7 +1467,7 @@ function _posterBgStyle(cb){
 function _posterShareURL(){
   var u=location.href.split('#')[0];
   if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==='file:'){
-    u='https://zxz19951104.github.io/livemap/maps/'+location.pathname.split('/').pop();
+    u='https://shixiann25.github.io/itinera/maps/'+location.pathname.split('/').pop();
   }
   return u;
 }
@@ -1477,12 +1477,12 @@ window.generatePoster=function(){
   _posterBgStyle(bg=>{
     stage.innerHTML=`<div class="ps-root"><div class="ps-bg" style="${bg}"></div><div class="ps-scrim"></div>
       <div class="ps-wrap">
-        <div class="ps-top"><div class="ps-kick"><span>LiveMap</span>活地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
+        <div class="ps-top"><div class="ps-kick"><span>Itinera</span>旅行地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
         <h1>${title}</h1>
         <div class="ps-chips"><div class="ps-chip">📅 <b>${Object.keys(DAYS).map(Number).filter(n=>!isNaN(n)).length}</b> 天</div><div class="ps-chip">📍 <b>${POIs.length}</b> 个精选点</div>${(window._lmVisitedCount&&window._lmVisitedCount()>0)?'<div class="ps-chip">✅ 已打卡 <b>'+window._lmVisitedCount()+'</b></div>':'<div class="ps-chip">🚗 自驾路线</div>'}${(window._lmCustom&&window._lmCustom.length)?'<div class="ps-chip">📍 我的点 <b>'+window._lmCustom.length+'</b></div>':''}</div>
         <div class="ps-map">${_posterSVG()}</div>
         <div class="ps-days">${_posterDays()}</div>
-        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互活地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
+        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互旅行地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
       </div></div>`;
     const qd=document.getElementById('posterQR'); qd.innerHTML='';
     try{ new QRCode(qd,{text:_posterShareURL(),width:170,height:170,colorDark:'#0e1a14',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
@@ -1498,7 +1498,7 @@ window.downloadPoster=function(btn){
     canvas.toBlob(b=>{
       const a=document.createElement('a');
       a.href=URL.createObjectURL(b);
-      a.download=((typeof META!=='undefined'&&META.title_short)||'livemap').replace(/[^一-龥\w]/g,'_')+'_海报.png';
+      a.download=((typeof META!=='undefined'&&META.title_short)||'itinera').replace(/[^一-龥\w]/g,'_')+'_海报.png';
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href);
       btn.textContent=old; btn.disabled=false;
     },'image/png');

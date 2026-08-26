@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>九寨沟 4 天藏羌风情自驾之旅 · LiveMap</title>
+<title>九寨沟 4 天藏羌风情自驾之旅 · Itinera</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
@@ -385,14 +385,14 @@
 </style>
 </head>
 <body>
-<!-- LIVEMAP-BACK-BTN -->
-<a href="../index.html" id="livemapBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ LiveMap 首页</a>
-<!-- /LIVEMAP-BACK-BTN -->
+<!-- ITINERA-BACK-BTN -->
+<a href="../index.html" id="itineraBackBtn" style="position:fixed; top:14px; left:14px; z-index:9999; display:inline-flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,255,255,0.92); color:#3a2a1a; font-size:13px; font-weight:600; text-decoration:none; border-radius:20px; box-shadow:0 2px 10px rgba(0,0,0,0.18); backdrop-filter:blur(6px); transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 10px rgba(0,0,0,0.18)'">🗺️ Itinera 首页</a>
+<!-- /ITINERA-BACK-BTN -->
 
 <div class="app">
   <header>
     <div class="hero-bg"></div>
-    <div class="eyebrow">JIuzhaigou · LIVEMAP · 2026</div>
+    <div class="eyebrow">JIuzhaigou · ITINERA · 2026</div>
     <h1>🏞️ 九寨沟 4 天藏羌风情自驾之旅</h1>
     <div class="sub">A 4 - day self - driving tour in Jiuzhaigou</div>
   </header>
@@ -493,7 +493,7 @@
 <script>
 const POIs = [{"id": "wenchuan_earthquake_site", "day": 1, "num": 1, "name": "汶川地震遗址", "name_cn": "汶川地震遗址", "en": "Wenchuan Earthquake Site", "lat": 31.39, "lng": 103.48, "icon": "⚡", "color": "#c2542e", "search": "Wenchuan Earthquake Site", "price": "免费", "hours": "全天", "duration": "1 - 1.5 小时", "desc": "见证历史的震撼之地，免费参观。最佳游览时间为白天，可了解地震相关知识。", "tags": ["必看", "震撼"], "time": "上午", "photo_spots": ["📸 遗址标志性建筑前拍照留念"], "foods": []}, {"id": "maoxian_qiangzhai", "day": 1, "num": 2, "name": "茂县羌寨", "name_cn": "茂县羌寨", "en": "Qiang Village in Maoxian", "lat": 31.7, "lng": 103.87, "icon": "🏘️", "color": "#6b4a7e", "search": "Qiang Village in Maoxian", "price": "免费", "hours": "全天", "duration": "1 - 1.5 小时", "desc": "体验藏羌文化的好去处，免费进入。可品尝当地特色美食，下午游览最佳。", "tags": ["必去", "传统"], "time": "下午", "photo_spots": ["📸 羌寨碉楼前拍照"], "foods": ["🍜 羌家腊排（50 - 100 元）", "🍜 洋芋糍粑（20 - 30 元）"]}, {"id": "diexi_lake", "day": 1, "num": 3, "name": "叠溪海子", "name_cn": "叠溪海子", "en": "Diexi Lake", "lat": 32.0, "lng": 103.67, "icon": "💧", "color": "#4a8db5", "search": "Diexi Lake", "price": "免费", "hours": "全天", "duration": "1 - 1.5 小时", "desc": "宁静美丽的湖泊，免费观赏。傍晚时分景色更佳，可欣赏湖光山色。", "tags": ["必看", "湖泊"], "time": "傍晚", "photo_spots": ["📸 湖边观景台拍照"], "foods": []}, {"id": "jiuzhaigou_scenic_area", "day": 2, "num": 1, "name": "九寨沟景区", "name_cn": "九寨沟景区", "en": "Jiuzhaigou Scenic Area", "lat": 33.17, "lng": 103.85, "icon": "🏞️", "color": "#5a7a4a", "search": "Jiuzhaigou Scenic Area", "price": "¥169", "hours": "7:30 - 17:00", "duration": "全天", "desc": "世界级自然景观，门票需提前预订。最佳游览时间为秋季，可欣赏五彩斑斓的景色。", "tags": ["必去", "自然"], "time": "上午", "photo_spots": ["📸 五花海旁拍照", "📸 诺日朗瀑布前留念"], "foods": ["🍜 酥油茶（10 - 20 元）", "🍜 牦牛肉干（50 - 100 元）"]}, {"id": "wuhua_hai", "day": 2, "num": 2, "name": "五花海", "name_cn": "五花海", "en": "Wuhua Sea", "lat": 33.15, "lng": 103.83, "icon": "💧", "color": "#4a8db5", "search": "Wuhua Sea", "price": "包含在九寨沟门票内", "hours": "7:30 - 17:00", "duration": "1 - 1.5 小时", "desc": "九寨沟的精华景点，湖水色彩斑斓。上午光线好，拍照效果佳。", "tags": ["必看", "湖泊"], "time": "上午", "photo_spots": ["📸 从观景台俯瞰五花海"], "foods": []}, {"id": "nuorilang_waterfall", "day": 2, "num": 3, "name": "诺日朗瀑布", "name_cn": "诺日朗瀑布", "en": "Nuorilang Waterfall", "lat": 33.16, "lng": 103.84, "icon": "🌊", "color": "#c2542e", "search": "Nuorilang Waterfall", "price": "包含在九寨沟门票内", "hours": "7:30 - 17:00", "duration": "0.5 - 1 小时", "desc": "中国大型钙化瀑布之一，气势磅礴。夏季水量大，观赏效果好。", "tags": ["必看", "瀑布"], "time": "中午", "photo_spots": ["📸 瀑布前近距离拍照"], "foods": []}, {"id": "changhai", "day": 2, "num": 4, "name": "长海", "name_cn": "长海", "en": "Changhai", "lat": 33.18, "lng": 103.86, "icon": "💧", "color": "#4a8db5", "search": "Changhai", "price": "包含在九寨沟门票内", "hours": "7:30 - 17:00", "duration": "1 - 1.5 小时", "desc": "九寨沟最大的海子，景色壮美。下午阳光照射下，湖水更显湛蓝。", "tags": ["必看", "湖泊"], "time": "下午", "photo_spots": ["📸 长海尽头拍照"], "foods": []}, {"id": "wucai_chi", "day": 2, "num": 5, "name": "五彩池", "name_cn": "五彩池", "en": "Wucai Pool", "lat": 33.17, "lng": 103.85, "icon": "💧", "color": "#4a8db5", "search": "Wucai Pool", "price": "包含在九寨沟门票内", "hours": "7:30 - 17:00", "duration": "0.5 - 1 小时", "desc": "小巧玲珑，色彩艳丽。光线充足时，五彩斑斓的颜色更明显。", "tags": ["必看", "湖泊"], "time": "下午", "photo_spots": ["📸 池边多角度拍照"], "foods": []}, {"id": "huanglong_scenic_area", "day": 3, "num": 1, "name": "黄龙风景区", "name_cn": "黄龙风景区", "en": "Huanglong Scenic Area", "lat": 32.72, "lng": 103.89, "icon": "🏞️", "color": "#5a7a4a", "search": "Huanglong Scenic Area", "price": "¥170", "hours": "8:00 - 17:00", "duration": "全天", "desc": "以钙华景观闻名，门票需提前预订。注意预防高反，最佳游览时间为夏季。", "tags": ["必去", "自然"], "time": "上午", "photo_spots": ["📸 五彩池前拍照", "📸 钙华滩流处留念"], "foods": ["🍜 青稞饼（10 - 20 元）", "🍜 野生菌汤（50 - 100 元）"]}, {"id": "huanglong_wucai_chi", "day": 3, "num": 2, "name": "黄龙五彩池", "name_cn": "黄龙五彩池", "en": "Huanglong Wucai Pool", "lat": 32.73, "lng": 103.9, "icon": "💧", "color": "#4a8db5", "search": "Huanglong Wucai Pool", "price": "包含在黄龙门票内", "hours": "8:00 - 17:00", "duration": "1 - 1.5 小时", "desc": "黄龙的精华景点，色彩绚丽。上午阳光斜射时，拍照效果最佳。", "tags": ["必看", "湖泊"], "time": "上午", "photo_spots": ["📸 从高处俯瞰五彩池"], "foods": []}, {"id": "zhengyan_color_pool", "day": 3, "num": 3, "name": "争艳彩池", "name_cn": "争艳彩池", "en": "Zhengyan Color Pool", "lat": 32.72, "lng": 103.89, "icon": "💧", "color": "#4a8db5", "search": "Zhengyan Color Pool", "price": "包含在黄龙门票内", "hours": "8:00 - 17:00", "duration": "1 - 1.5 小时", "desc": "池群形态各异，色彩丰富。中午光线充足，能更好地欣赏池群色彩。", "tags": ["必看", "湖泊"], "time": "中午", "photo_spots": ["📸 池边漫步拍照"], "foods": []}, {"id": "travertine_flow", "day": 3, "num": 4, "name": "钙华滩流", "name_cn": "钙华滩流", "en": "Travertine Flow", "lat": 32.72, "lng": 103.89, "icon": "💧", "color": "#4a8db5", "search": "Travertine Flow", "price": "包含在黄龙门票内", "hours": "8:00 - 17:00", "duration": "1 - 1.5 小时", "desc": "独特的钙华景观，水流清澈。下午阳光照耀下，更显金黄。", "tags": ["必看", "自然"], "time": "下午", "photo_spots": ["📸 滩流边拍照"], "foods": []}, {"id": "songpan_ancient_city", "day": 3, "num": 5, "name": "松潘古城", "name_cn": "松潘古城", "en": "Songpan Ancient City", "lat": 32.62, "lng": 103.68, "icon": "🏰", "color": "#6b4a7e", "search": "Songpan Ancient City", "price": "免费", "hours": "全天", "duration": "1 - 1.5 小时", "desc": "历史悠久的古城，免费游览。晚上可欣赏古城夜景。", "tags": ["必去", "传统"], "time": "晚上", "photo_spots": ["📸 古城城门拍照", "📸 古街夜景留念"], "foods": ["🍜 松潘牛肉面（20 - 30 元）", "🍜 手抓羊肉（50 - 100 元）"]}, {"id": "return_stop1", "day": 4, "num": 1, "name": "返程休息点1", "name_cn": "返程休息点1", "en": "Return Rest Stop 1", "lat": 32.3, "lng": 103.5, "icon": "🚗", "color": "#4a5d52", "search": "Return Rest Stop 1", "price": "免费", "hours": "全天", "duration": "0.5 - 1 小时", "desc": "自驾返程途中的休息点，可稍作停留，缓解疲劳。", "tags": ["交通"], "time": "上午", "photo_spots": [], "foods": []}, {"id": "return_stop2", "day": 4, "num": 2, "name": "返程休息点2", "name_cn": "返程休息点2", "en": "Return Rest Stop 2", "lat": 31.9, "lng": 103.3, "icon": "🚗", "color": "#4a5d52", "search": "Return Rest Stop 2", "price": "免费", "hours": "全天", "duration": "0.5 - 1 小时", "desc": "继续返程途中的休息点，补充能量。", "tags": ["交通"], "time": "中午", "photo_spots": [], "foods": []}, {"id": "return_stop3", "day": 4, "num": 3, "name": "返程休息点3", "name_cn": "返程休息点3", "en": "Return Rest Stop 3", "lat": 31.5, "lng": 103.1, "icon": "🚗", "color": "#4a5d52", "search": "Return Rest Stop 3", "price": "免费", "hours": "全天", "duration": "0.5 - 1 小时", "desc": "接近成都的休息点，调整状态准备到家。", "tags": ["交通"], "time": "下午", "photo_spots": [], "foods": []}];
 const DAYS = {"1": {"color": "#4a5d52", "title": "Day 1 · 成都到九寨沟", "where": "📍 九寨沟漳扎镇", "tip": "💡 提前检查车辆状况，准备好路途所需物品。", "hotel": {"name_cn": "九寨沟天源豪生度假酒店", "name_en": "Howard Johnson Resort Jiuzhaigou", "address": "九寨沟漳扎镇彭丰村", "price": "¥500 - 800/晚", "parking": "免费", "highlights": "距离九寨沟景区较近，出行方便", "url": "https://www.booking.com/hotel/cn/howard-johnson-resort-jiuzhaigou.zh-cn.html"}, "plan_b": "💧 雨天/旺季备选：如果路况不佳，可选择在汶川或茂县停留，参观当地博物馆。"}, "2": {"color": "#5a7a4a", "title": "Day 2 · 九寨沟景区游", "where": "📍 九寨沟漳扎镇", "tip": "💡 提前在官网预订门票，景区内可乘坐观光车游览。", "hotel": {"name_cn": "九寨沟天源豪生度假酒店", "name_en": "Howard Johnson Resort Jiuzhaigou", "address": "九寨沟漳扎镇彭丰村", "price": "¥500 - 800/晚", "parking": "免费", "highlights": "距离九寨沟景区较近，出行方便", "url": "https://www.booking.com/hotel/cn/howard-johnson-resort-jiuzhaigou.zh-cn.html"}, "plan_b": "💧 雨天/旺季备选：如景区人多，可先游览树正沟，避开热门景点。"}, "3": {"color": "#5a7a4a", "title": "Day 3 · 黄龙与松潘古城", "where": "📍 松潘县", "tip": "💡 黄龙景区海拔较高，注意预防高反。", "hotel": {"name_cn": "松潘古城假日酒店", "name_en": "Songpan Ancient City Holiday Hotel", "address": "松潘县顺城北路", "price": "¥300 - 500/晚", "parking": "免费", "highlights": "位于松潘古城内，可感受古城氛围", "url": "https://www.booking.com/hotel/cn/songpan-ancient-city-holiday-hotel.zh-cn.html"}, "plan_b": "💧 雨天/旺季备选：若黄龙景区关闭，可在松潘古城多停留，参观古城内的寺庙。"}, "4": {"color": "#4a5d52", "title": "Day 4 · 返程成都", "where": "📍 成都", "tip": "💡 合理安排返程时间，注意行车安全。", "hotel": "", "plan_b": "💧 雨天/旺季备选：若路况不佳，可在途中县城停留一晚。"}};
-const META = {"title": "🏞️ 九寨沟 4 天藏羌风情自驾之旅", "title_short": "九寨沟自驾深度游", "subtitle": "A 4 - day self - driving tour in Jiuzhaigou", "eyebrow": "JIuzhaigou · LIVEMAP · 2026", "header_emoji": "🏞️", "color_scheme": "forest", "currency": "CNY", "map_center": [33.17, 103.85], "map_zoom": 9, "where_summary": "成都自驾往返", "all_tip": "🎯 主题定调：这是一场融合藏羌文化与绝美自然风光的自驾之旅，沿着路线深入感受九寨沟的独特魅力，而非走马观花的打卡。\n\n🎬 节奏递进：行程遵循从城市到自然再回归的节奏。Day1 从成都出发，在沿途感受历史与文化；Day2 全身心投入九寨沟的美景；Day3 探索黄龙和松潘古城；Day4 返程，回味旅途。\n\n🗺️ 路线设计：全程自驾，避免来回折返。在九寨沟漳扎镇住宿两晚，减少换酒店的麻烦。这样的安排既符合预算，也能让体能合理分配。\n\n💡 实用建议：提前预订九寨沟和黄龙景区门票，避开节假日。带上保暖衣物，高原地区昼夜温差大。租车时选择性能良好的车辆。", "stats": [{"num": "4", "label": "天数", "hint": "DAYS"}, {"num": "15", "label": "景点", "hint": "POI"}, {"num": "¥2500 - 3500", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票当地交通。算法：住宿总和(每晚价×晚数，双人房按2人均摊)+餐饮(每天×天数)+门票总和+当地交通，再给上下浮区间"}, {"num": "自驾", "label": "交通方式", "hint": "TRANSPORT", "tooltip": "推荐主要交通方式"}], "highlight_title": "🔥 九寨沟自驾独门绝技", "highlight_items": ["<b>沿途风景</b>（自驾途中可欣赏汶川地震遗址、茂县羌寨等独特风景）", "<b>九寨沟全景</b>（一天时间深度游览九寨沟 Y 字三沟）", "<b>黄龙五彩池</b>（色彩斑斓的钙华池，美轮美奂）", "<b>松潘古城</b>（感受藏羌文化的历史韵味）"], "warning_title": "⚠️ 安全/礼仪/避坑", "warning_text": "高原地区注意预防高反，尊重当地藏羌文化习俗。", "footer": "JIuzhaigou · 开启藏羌风情之旅 · 2026", "pretrip": {"visa": "中国公民无需签证", "voltage": "220V · 通用插头", "sim": "可提前办理 eSIM 或在当地购买电话卡", "currency": "¥1 RMB = ¥1 当地币 · 推荐使用移动支付", "tipping": "不需小费", "emergency": "110 报警/120 急救"}, "total_days": 4, "accent": "#3a6a32", "accent_bg": "rgba(122, 154, 77, 0.18)", "text_dark": "#1c2818", "text_mid": "#4a5a3a"};
+const META = {"title": "🏞️ 九寨沟 4 天藏羌风情自驾之旅", "title_short": "九寨沟自驾深度游", "subtitle": "A 4 - day self - driving tour in Jiuzhaigou", "eyebrow": "JIuzhaigou · ITINERA · 2026", "header_emoji": "🏞️", "color_scheme": "forest", "currency": "CNY", "map_center": [33.17, 103.85], "map_zoom": 9, "where_summary": "成都自驾往返", "all_tip": "🎯 主题定调：这是一场融合藏羌文化与绝美自然风光的自驾之旅，沿着路线深入感受九寨沟的独特魅力，而非走马观花的打卡。\n\n🎬 节奏递进：行程遵循从城市到自然再回归的节奏。Day1 从成都出发，在沿途感受历史与文化；Day2 全身心投入九寨沟的美景；Day3 探索黄龙和松潘古城；Day4 返程，回味旅途。\n\n🗺️ 路线设计：全程自驾，避免来回折返。在九寨沟漳扎镇住宿两晚，减少换酒店的麻烦。这样的安排既符合预算，也能让体能合理分配。\n\n💡 实用建议：提前预订九寨沟和黄龙景区门票，避开节假日。带上保暖衣物，高原地区昼夜温差大。租车时选择性能良好的车辆。", "stats": [{"num": "4", "label": "天数", "hint": "DAYS"}, {"num": "15", "label": "景点", "hint": "POI"}, {"num": "¥2500 - 3500", "label": "预计花费/人", "hint": "BUDGET / PERSON", "tooltip": "不含国际机票，含食宿门票当地交通。算法：住宿总和(每晚价×晚数，双人房按2人均摊)+餐饮(每天×天数)+门票总和+当地交通，再给上下浮区间"}, {"num": "自驾", "label": "交通方式", "hint": "TRANSPORT", "tooltip": "推荐主要交通方式"}], "highlight_title": "🔥 九寨沟自驾独门绝技", "highlight_items": ["<b>沿途风景</b>（自驾途中可欣赏汶川地震遗址、茂县羌寨等独特风景）", "<b>九寨沟全景</b>（一天时间深度游览九寨沟 Y 字三沟）", "<b>黄龙五彩池</b>（色彩斑斓的钙华池，美轮美奂）", "<b>松潘古城</b>（感受藏羌文化的历史韵味）"], "warning_title": "⚠️ 安全/礼仪/避坑", "warning_text": "高原地区注意预防高反，尊重当地藏羌文化习俗。", "footer": "JIuzhaigou · 开启藏羌风情之旅 · 2026", "pretrip": {"visa": "中国公民无需签证", "voltage": "220V · 通用插头", "sim": "可提前办理 eSIM 或在当地购买电话卡", "currency": "¥1 RMB = ¥1 当地币 · 推荐使用移动支付", "tipping": "不需小费", "emergency": "110 报警/120 急救"}, "total_days": 4, "accent": "#3a6a32", "accent_bg": "rgba(122, 154, 77, 0.18)", "text_dark": "#1c2818", "text_mid": "#4a5a3a"};
 const ALL_TIP = META.all_tip;
 const TOTAL_DAYS = META.total_days;
 const ORIG_CURRENCY = META.currency || 'USD';
@@ -1052,8 +1052,8 @@ function renderPretrip(p) {
 // GPX 导出：生成所有 POI + 每天路线
 window.exportGPX = function() {
   const sorted = [...POIs].sort((a, b) => a.day === b.day ? a.num - b.num : a.day - b.day);
-  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="LiveMap" xmlns="http://www.topografix.com/GPX/1/1">\n`;
-  gpx += `  <metadata>\n    <name>${META.title_short || 'LiveMap Trip'}</name>\n    <desc>Generated by LiveMap</desc>\n  </metadata>\n`;
+  let gpx = `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Itinera" xmlns="http://www.topografix.com/GPX/1/1">\n`;
+  gpx += `  <metadata>\n    <name>${META.title_short || 'Itinera Trip'}</name>\n    <desc>Generated by Itinera</desc>\n  </metadata>\n`;
   // 每个 POI 一个 waypoint
   sorted.forEach(p => {
     gpx += `  <wpt lat="${p.lat}" lon="${p.lng}">\n    <name>Day${p.day}.${p.num} ${p.icon} ${p.name}</name>\n    <desc>${(p.desc||'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'})[c])}</desc>\n    <type>${p.tags?.[0]||'POI'}</type>\n  </wpt>\n`;
@@ -1071,7 +1071,7 @@ window.exportGPX = function() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${(META.title_short || 'livemap').replace(/[^\w]/g, '_')}.gpx`;
+  a.download = `${(META.title_short || 'itinera').replace(/[^\w]/g, '_')}.gpx`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1256,7 +1256,7 @@ filterPOIs(); renderDayOverview();
     const np = POIs.find(p => /national park/i.test(p.en || '') || /国家公园/.test(p.name || ''));
     if (np) queries.push((np.en || np.search) + ' landscape');
     const place = String((typeof META !== 'undefined' && META.eyebrow) || '').split(/[·•・|]/)[0].trim();
-    if (/^[\x20-\x7e]+$/.test(place) && !/livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
+    if (/^[\x20-\x7e]+$/.test(place) && !/itinera|livemap|\d{4}/i.test(place)) queries.push(place + ' landscape');
     POIs.slice(0, 3).forEach(p => { const n = p.search || p.en; if (n) queries.push(n + ' landscape'); });
     (async () => {
       // 先用这张图自己的 AI 明信片当页头底图：一定切题，不看搜索脸色。
@@ -1428,7 +1428,7 @@ if (typeof renderDayOverview === 'function') {
       <button class="pm-btn pm-dl" onclick="downloadPoster(this)">⬇️ 下载海报</button>
       <button class="pm-btn pm-close" onclick="document.getElementById('posterModal').classList.remove('show')">关闭</button>
     </div>
-    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张活地图</div>
+    <div class="pm-hint">保存后发小红书/朋友圈 · 扫码可回到这张旅行地图</div>
   </div>
 </div>
 <script>
@@ -1479,7 +1479,7 @@ function _posterBgStyle(cb){
 function _posterShareURL(){
   var u=location.href.split('#')[0];
   if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==='file:'){
-    u='https://zxz19951104.github.io/livemap/maps/'+location.pathname.split('/').pop();
+    u='https://shixiann25.github.io/itinera/maps/'+location.pathname.split('/').pop();
   }
   return u;
 }
@@ -1489,12 +1489,12 @@ window.generatePoster=function(){
   _posterBgStyle(bg=>{
     stage.innerHTML=`<div class="ps-root"><div class="ps-bg" style="${bg}"></div><div class="ps-scrim"></div>
       <div class="ps-wrap">
-        <div class="ps-top"><div class="ps-kick"><span>LiveMap</span>活地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
+        <div class="ps-top"><div class="ps-kick"><span>Itinera</span>旅行地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
         <h1>${title}</h1>
         <div class="ps-chips"><div class="ps-chip">📅 <b>${Object.keys(DAYS).map(Number).filter(n=>!isNaN(n)).length}</b> 天</div><div class="ps-chip">📍 <b>${POIs.length}</b> 个精选点</div>${(window._lmVisitedCount&&window._lmVisitedCount()>0)?'<div class="ps-chip">✅ 已打卡 <b>'+window._lmVisitedCount()+'</b></div>':'<div class="ps-chip">🚗 自驾路线</div>'}${(window._lmCustom&&window._lmCustom.length)?'<div class="ps-chip">📍 我的点 <b>'+window._lmCustom.length+'</b></div>':''}</div>
         <div class="ps-map">${_posterSVG()}</div>
         <div class="ps-days">${_posterDays()}</div>
-        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互活地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
+        <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互旅行地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
       </div></div>`;
     const qd=document.getElementById('posterQR'); qd.innerHTML='';
     try{ new QRCode(qd,{text:_posterShareURL(),width:170,height:170,colorDark:'#0e1a14',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
@@ -1510,7 +1510,7 @@ window.downloadPoster=function(btn){
     canvas.toBlob(b=>{
       const a=document.createElement('a');
       a.href=URL.createObjectURL(b);
-      a.download=((typeof META!=='undefined'&&META.title_short)||'livemap').replace(/[^一-龥\w]/g,'_')+'_海报.png';
+      a.download=((typeof META!=='undefined'&&META.title_short)||'itinera').replace(/[^一-龥\w]/g,'_')+'_海报.png';
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href);
       btn.textContent=old; btn.disabled=false;
     },'image/png');
