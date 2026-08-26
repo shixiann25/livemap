@@ -152,15 +152,66 @@ def build(check_only=False) -> bool:
     return True
 
 
+DEFAULT_PUBLISH_DIR = Path.home() / "livemap-skill"
+
+# 这些文件只属于独立仓库（面向人的 README、插件/市场清单），构建时不要覆盖它们。
+PUBLISH_KEEP = {"README.md", ".git", ".gitignore", ".claude-plugin"}
+
+
+def sync_to_repo(repo: Path) -> bool:
+    """把 skill/livemap/ 的内容同步进独立的 skill 仓库。
+
+    为什么要有这一步：独立仓库 shixiann25/livemap-skill 是**构建产物**，
+    真正的源在主仓库（template.html / generate.py / CLAUDE_PROMPT）。
+    手工拷来拷去必然某次忘记，别人装到的就是旧版。
+
+    只同步 SKILL.md / scripts / reference；README 和清单归独立仓库自己维护。
+    """
+    if not (repo / ".git").exists():
+        print(f"❌ {repo} 不像是个 git 仓库。先 clone：\n"
+              f"   git clone https://github.com/shixiann25/livemap-skill.git {repo}")
+        return False
+
+    changed = []
+    for item in sorted(SKILL_DIR.iterdir()):
+        if item.name in PUBLISH_KEEP:
+            continue
+        dest = repo / item.name
+        if item.is_dir():
+            if dest.exists():
+                shutil.rmtree(dest)
+            shutil.copytree(item, dest)
+            changed.append(item.name + "/")
+        else:
+            same = dest.exists() and dest.read_bytes() == item.read_bytes()
+            shutil.copy2(item, dest)
+            if not same:
+                changed.append(item.name)
+
+    print(f"📤 已同步到 {repo}")
+    for c in changed:
+        print(f"   · {c}")
+    print("   接下来（本脚本不替你提交，改动值得你自己过一眼）：")
+    print(f"     cd {repo} && git diff --stat && git add -A && git commit && git push")
+    print("   ⚠️ 版本号变了记得同步改 .claude-plugin/plugin.json 和 marketplace.json 两处")
+    return True
+
+
 def main():
     ap = argparse.ArgumentParser(description="构建 livemap skill 包")
     ap.add_argument("--check", action="store_true", help="只校验是否跟上主仓库；不同步则退出码 1")
     ap.add_argument("--install", action="store_true", help="构建后安装到 ~/.claude/skills/livemap/")
+    ap.add_argument("--publish", metavar="REPO_DIR", nargs="?", const=str(DEFAULT_PUBLISH_DIR),
+                    help="把构建产物同步进独立的 skill 仓库（默认 ../livemap-skill），只写不提交")
     args = ap.parse_args()
 
     ok = build(check_only=args.check)
     if not ok:
         return 1
+
+    if args.publish:
+        if not sync_to_repo(Path(args.publish).expanduser()):
+            return 1
 
     if args.install:
         dest = Path.home() / ".claude" / "skills" / "livemap"

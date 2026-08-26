@@ -145,35 +145,30 @@ node tools/gen_og_cards.mjs                 # 补分享卡（幂等，只补缺�
 
 ### 安装
 
-**推荐**——在 Claude Code 里两条命令，不用碰文件系统：
+skill 单独发在 **[shixiann25/livemap-skill](https://github.com/shixiann25/livemap-skill)**，
+在 Claude Code 里两条命令：
 
 ```
-/plugin marketplace add shixiann25/livemap
+/plugin marketplace add shixiann25/livemap-skill
 /plugin install livemap@livemap
 ```
 
-**或者**——[下载 livemap-skill.zip](https://github.com/shixiann25/livemap/releases/latest)，解压到 `~/.claude/skills/`：
-
-```bash
-unzip ~/Downloads/livemap-skill.zip -d ~/.claude/skills/
-```
-
-两种都不需要 API key、不需要 pip 装包——只要有 `python3`。
+不需要 API key、不需要 pip 装包——只要有 `python3`。
 装完对 Claude 说「帮我做个京都 6 天的活地图」就行。
 
-**自己开发**——从主仓库构建，改了模板能立刻同步：
+### 在本仓库开发
+
+skill 的**源**在这里（模板、数据契约都在主仓库），独立仓库只是构建产物：
 
 ```bash
-python3 skill/build_skill.py --install     # 构建并装到 ~/.claude/skills/livemap/
+python3 skill/build_skill.py --install    # 装到 ~/.claude/skills/livemap/，改完即时生效
+python3 skill/build_skill.py --publish    # 同步进 ~/livemap-skill，再自己 commit/push
 ```
 
 ```
-.claude-plugin/
-└── marketplace.json      让别人能 /plugin marketplace add shixiann25/livemap
 skill/
 ├── build_skill.py        从主仓库派生 skill 包（模板内联依赖 / 规格从 CLAUDE_PROMPT 提取）
-└── livemap/              ← 同时是 skill 目录和 plugin 目录
-    ├── .claude-plugin/plugin.json
+└── livemap/              构建产物，--publish 同步到独立仓库
     ├── SKILL.md          工作流
     ├── reference/        数据契约 + 真实样例
     └── scripts/          render.py（JSON→HTML，带校验）· extract.py（HTML→JSON，用于改图）
