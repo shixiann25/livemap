@@ -2,18 +2,22 @@
 
 # 🗺️ LiveMap · 活地图
 
-### 没人会看你写的 5000 字攻略，但他们会看这张图。
+### 跟着这本地图，打开你的旅行。
 
-说一句「北海道 5 天」，拿回一个自包含的 HTML 文件：真实地图、每天一色的路线、
-每个景点的门票多少钱、几点开门、该待多久。发给同伴——不用注册、不用装 App、
-断网也能看。
+一次旅行，收进一个可以随身带走的文件。真实的地图上，每天一种颜色；
+每一处停留，都写着它值得停的理由。
+
+出发前它是期待，路上它是不用信号也能翻开的一页，
+回来以后，它是你走过哪里的记号。
 
 [**▶ 浏览 32 条行程**](https://shixiann25.github.io/livemap/) · [**✨ 自己生成一张**](https://livemap-b1im.onrender.com/) · [**🗺️ 装成 Claude Skill**](https://github.com/shixiann25/livemap-skill) · [PRD](PRD_LiveMap.md) · [部署](DEPLOY.md)
 
-<sub>*Nobody reads your 5,000-word itinerary — they'll look at this. Say where you're going and how
-many days; get back one self-contained HTML file with a real basemap, colour-coded daily routes,
-ticket prices, opening hours, photo spots and food picks. ~110 KB, opens with a double-click,
-works offline. Vanilla JS + Leaflet + an LLM that writes the POI data. UI in Chinese or English.*</sub>
+<sub>*Follow this map, and let the trip unfold. A whole journey, folded into a single file you can
+carry anywhere — a real map, a colour for each day, and beside every stop, the reason it's worth
+stopping. Before you leave it's anticipation; on the road it's the page that opens without a
+signal; when you're home it's a record of where you've been.*</sub>
+
+<sub>~110 KB · one HTML file · works offline · vanilla JS + Leaflet + an LLM that writes the POI data · UI in Chinese or English</sub>
 
 ![LiveMap Hub](docs/img/hub.jpg)
 
