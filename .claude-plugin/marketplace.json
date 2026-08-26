@@ -1,0 +1,30 @@
+{
+  "name": "livemap",
+  "owner": {
+    "name": "shixiann25",
+    "url": "https://github.com/shixiann25"
+  },
+  "plugins": [
+    {
+      "name": "livemap",
+      "source": "./skill/livemap",
+      "description": "把「目的地 + 天数 + 偏好」变成一张可交互的旅行活地图，输出单文件 HTML。零 API key、零依赖。",
+      "version": "1.0.0",
+      "author": {
+        "name": "shixiann25"
+      },
+      "homepage": "https://github.com/shixiann25/livemap",
+      "license": "MIT",
+      "keywords": [
+        "travel",
+        "itinerary",
+        "map",
+        "旅行",
+        "行程"
+      ]
+    }
+  ],
+  "metadata": {
+    "description": "LiveMap · 把旅行行程变成一张能「看」的交互式地图，输出单文件 HTML，零 API key"
+  }
+}

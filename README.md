@@ -143,15 +143,22 @@ node tools/gen_og_cards.mjs                 # 补分享卡（幂等，只补缺�
 同一套模板，另一种用法：装成 skill 之后，**行程数据由 Claude 直接写**，不需要任何 API key、
 不需要后端、不花钱——而且可以对话式改（「第 3 天太赶了，拆成两天」）。
 
-### 安装（两种）
+### 安装
 
-**给别人用**——[下载 livemap-skill.zip](https://github.com/shixiann25/livemap/releases/latest)，解压到 `~/.claude/skills/`：
+**推荐**——在 Claude Code 里两条命令，不用碰文件系统：
+
+```
+/plugin marketplace add shixiann25/livemap
+/plugin install livemap@livemap
+```
+
+**或者**——[下载 livemap-skill.zip](https://github.com/shixiann25/livemap/releases/latest)，解压到 `~/.claude/skills/`：
 
 ```bash
 unzip ~/Downloads/livemap-skill.zip -d ~/.claude/skills/
 ```
 
-不需要 clone 仓库、不需要 API key、不需要 pip 装任何东西——只要有 `python3`。
+两种都不需要 API key、不需要 pip 装包——只要有 `python3`。
 装完对 Claude 说「帮我做个京都 6 天的活地图」就行。
 
 **自己开发**——从主仓库构建，改了模板能立刻同步：
@@ -161,9 +168,12 @@ python3 skill/build_skill.py --install     # 构建并装到 ~/.claude/skills/li
 ```
 
 ```
+.claude-plugin/
+└── marketplace.json      让别人能 /plugin marketplace add shixiann25/livemap
 skill/
 ├── build_skill.py        从主仓库派生 skill 包（模板内联依赖 / 规格从 CLAUDE_PROMPT 提取）
-└── livemap/
+└── livemap/              ← 同时是 skill 目录和 plugin 目录
+    ├── .claude-plugin/plugin.json
     ├── SKILL.md          工作流
     ├── reference/        数据契约 + 真实样例
     └── scripts/          render.py（JSON→HTML，带校验）· extract.py（HTML→JSON，用于改图）

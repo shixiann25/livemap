@@ -89,6 +89,29 @@ node tools/test_poster.mjs
 
 **❌ 顶层 `const` 别被更早执行的函数引用**——`loadCardScenery()` 在 `const _tryImg` 声明之前就被 `renderGallery()` 调到，撞 TDZ。用 `function` 声明。
 
+## 发布 skill / plugin
+
+同一个 `skill/livemap/` 目录同时是 **skill 目录**和 **plugin 目录**（SKILL.md 在根，
+按官方规则会作为单个 skill 加载），所以只维护一份。
+
+- 仓库根 `.claude-plugin/marketplace.json` 让别人能 `/plugin marketplace add shixiann25/livemap`
+- `skill/livemap/.claude-plugin/plugin.json` 是插件清单
+
+**改完模板要做三件事**，否则别人装到的还是旧版：
+
+```bash
+python3 skill/build_skill.py            # 重建 skill 包
+claude plugin validate skill/livemap    # 校验插件清单
+claude plugin validate .                # 校验 marketplace
+# 版本号变了就同步改 plugin.json 和 marketplace.json 里的 version（claude plugin tag 会校验两者一致）
+cd skill && zip -rq /tmp/livemap-skill.zip livemap
+gh release create skill-vX.Y /tmp/livemap-skill.zip --repo shixiann25/livemap --notes "..."
+```
+
+⚠️ **别信文档信校验器**：官方文档里写的 `displayName`（plugin）和根级 `description`
+（marketplace）实际会被 `claude plugin validate` 拒掉；marketplace 的描述要放在
+`metadata.description` 下。
+
 ## 待办
 
 **上线可用**
