@@ -71,7 +71,7 @@ GPX 导出、打卡 checklist、一键出行程海报。双击能打开，断网
 
 ### 3. 写 JSON
 
-写进一个临时文件，比如 `/tmp/livemap/kyoto.json`。
+写进一个临时文件，比如 `/tmp/itinera/kyoto.json`。
 
 几条最容易翻车的，先记住：
 
@@ -90,7 +90,7 @@ GPX 导出、打卡 checklist、一键出行程海报。双击能打开，断网
 ### 4. 渲染
 
 ```bash
-python3 scripts/render.py /tmp/livemap/kyoto.json ~/Desktop/京都6天.html
+python3 scripts/render.py /tmp/itinera/kyoto.json ~/Desktop/京都6天.html
 ```
 
 渲染前会校验结构，缺字段会明确告诉你缺哪个。**报错就回去补 JSON 再渲染**，
@@ -110,7 +110,7 @@ python3 scripts/render.py /tmp/livemap/kyoto.json ~/Desktop/京都6天.html
 改它既容易改坏又留不下可复用的东西。正确做法是把数据抠回来：
 
 ```bash
-python3 scripts/extract.py 旧地图.html > /tmp/livemap/trip.json
+python3 scripts/extract.py 旧地图.html > /tmp/itinera/trip.json
 ```
 
 改这份 JSON，然后重新渲染（第 4 步）。
