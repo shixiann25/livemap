@@ -86,6 +86,38 @@ def quota_commit(ip):
         _quota["by_ip"][ip] = _quota["by_ip"].get(ip, 0) + 1
 
 
+
+def auto_postcard(meta, slug, days):
+    """生成完地图后，后台补一张 AI 明信片。
+
+    为什么要补：页头底图、Hub 卡片配图、海报底都用它。没有的话页头会退回
+    维基搜图——质量看运气（搜出过黑白雕像和人像照）。结果就是访客自己生成的图
+    明显比画廊里那 32 张难看，第一次用就掉档。
+
+    为什么放后台：地图已经生成好了，不该为了一张插画再让人多等几十秒。
+    画好了下次打开就有；画不出来也只是少张图，不影响任何功能。
+    """
+    if os.getenv("AUTO_POSTCARD", "1").lower() in ("0", "false", "no"):
+        return
+    # 图像模型对具体地名效果最好。eyebrow 首段通常是英文地名（KYOTO / ALASKA）；
+    # 别用 subtitle——那是市场话术，和页头搜图踩过的是同一个坑。
+    eb = (meta.get("eyebrow") or "").split("·")[0].strip()
+    place = eb if eb.isascii() and eb else (meta.get("title_short") or slug)
+
+    def work():
+        try:
+            from gen_postcard import make_postcard
+            out = ROOT / "assets" / "postcards" / f"{slug}_{days}d.png"
+            if out.exists():
+                return
+            ok = make_postcard(place, out, verbose=False)
+            print(f"{'🖼  明信片已补' if ok else '⚠️  明信片没画出来'}：{out.name}（{place}）")
+        except Exception as e:
+            print(f"⚠️  明信片线程异常：{type(e).__name__}: {e}")
+
+    threading.Thread(target=work, daemon=True).start()
+
+
 class ItineraHandler(http.server.SimpleHTTPRequestHandler):
     """同时提供静态文件 + API 端点。"""
 
@@ -228,6 +260,7 @@ class ItineraHandler(http.server.SimpleHTTPRequestHandler):
             html_path.write_text(html, encoding="utf-8")
 
             print(f"✅ 完成：{html_path} ({html_path.stat().st_size // 1024} KB)")
+            auto_postcard(ai_data.get("meta", {}), slug, days)
 
             return self._json(200, {
                 "success": True,

@@ -152,6 +152,8 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(244, 192, 101, 0.4);
   }
+  @keyframes nudge { 0%,100%{transform:none} 50%{transform:translateY(-3px)} }
+  .gen-btn.nudge { animation: nudge 1.1s ease-in-out 3; }
   .gen-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -454,9 +456,10 @@
   <!-- ===== HERO ===== -->
   <section class="hero">
     <div class="brand-badge">⚡ ITINERA · v0.5</div>
-    <h1>把旅行攻略<br>变成一张能"看"的地图</h1>
+    <h1>跟着这本地图<br>打开你的旅行</h1>
     <p class="tagline">
-      告别 5000 字文档。输入目的地 → <b>10 秒生成可交互旅行地图</b> → 发给同伴一眼秒懂。
+      一次旅行，收进一个<b>可以随身带走的文件</b>。真实的地图上，每天一种颜色；<br>
+      每一处停留，都写着它值得停的理由。
     </p>
     <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;font-size:11px;">
       <span style="padding:4px 10px;background:rgba(244,192,101,0.15);color:#f4c065;border-radius:12px;border:1px solid rgba(244,192,101,0.3);">🎨 复古水彩地图</span>
@@ -712,6 +715,9 @@
   document.querySelector('#modeChips .mode-chip[data-mode=""]')?.classList.add('active');
 
   // 静态分享版标志（build_static.py 部署时注入 window.STATIC_DEPLOY=true）
+  // 能真生成的完整版（Render）。静态镜像点「生成」时把人送过去，
+  // 否则辛苦部署的后端从主入口根本走不到。
+  const LIVE_APP = 'https://livemap-b1im.onrender.com/';
   const STATIC_DEPLOY = !!window.STATIC_DEPLOY;
   // 检测是否通过 server.py 启动（有后端可真生成）；静态分享版没有后端
   const IS_SERVER_MODE = !STATIC_DEPLOY && (location.protocol === 'http:' || location.protocol === 'https:');
@@ -721,8 +727,9 @@
     const hint = document.getElementById('genHint');
     if (!hint) return;
     hint.innerHTML = IS_SERVER_MODE
-      ? '💡 约 10 秒出图 · 热门目的地命中存量直接返回，不花 token'
-      : '💡 这是<b>只读静态镜像</b>：画廊里 32 条行程随便看；在线生成需要跑后端（见 <a href="README.md" style="color:#f4c065;">README</a>）';
+      ? '💡 大约每个景点 15 秒 · 热门目的地命中存量直接返回，秒开且不花 token'
+      : '💡 这是<b>只读镜像</b>，下面 32 条行程随便看 · 想自己生成一张 → '
+        + '<a href="' + LIVE_APP + '" target="_blank" style="color:#f4c065;">去完整版</a>';
   })();
 
   function showModal(html) {
@@ -749,17 +756,19 @@
     // 静态分享版：没有后端，AI 生成不可用，引导浏览存量 / 本地运行
     if (STATIC_DEPLOY) {
       showModal(`
-        <h2>✨ 这是 Itinera 分享版</h2>
-        <p style="text-align:left;">你正在浏览的是<b>静态分享站点</b>，可以自由查看下方<b>所有已生成的旅行地图</b> 🗺️</p>
-        <p style="text-align:left;font-size:13px;color:#8a9aaa;">实时 AI 生成（输入任意目的地秒出新图）需要后端和 API key，请在本地运行完整版：</p>
-        <div class="code-snippet" style="text-align:left;">
-<span style="color:#8a9aaa;"># 下载项目后</span><br>
-$ cd livemap/generator<br>
-$ python3 server.py<br>
-$ open http://localhost:5005
-        </div>
-        <p style="font-size:12px;text-align:left;color:#8a9aaa;">你这次想要的（<b>${dest} · ${days} 天</b>${modeLabel ? ' · ' + modeLabel : ''}）在本地版即可一键生成。</p>
-        <button class="gen-modal-close" onclick="closeModal()">好的，先逛逛现成的</button>
+        <h2>✨ 去这边可以真的生成</h2>
+        <p style="text-align:left;">你现在看的是<b>只读镜像</b>——打开快，但没有后端。
+        想真的生成「<b style="color:#f4c065;">${dest} · ${days} 天</b>${modeLabel ? ' · ' + modeLabel : ''}」，
+        换到完整版就行，同一套东西，多一个能生成的后端。</p>
+        <a class="gen-btn" style="display:block;text-decoration:none;text-align:center;margin:18px 0 10px;"
+           href="${LIVE_APP}?d=${encodeURIComponent(dest)}&n=${days}${mode ? '&m=' + mode : ''}" target="_blank" rel="noopener">
+          ✨ 去完整版生成这一张 →
+        </a>
+        <p style="font-size:12px;text-align:left;color:#8a9aaa;">
+          ⏳ 免费主机闲置会休眠，<b>第一次打开要等 50 秒左右</b>，之后就快了。<br>
+          🔒 也可以 <a href="https://github.com/shixiann25/itinera" target="_blank" style="color:#8a9aaa;">clone 到本地</a> 自己跑，不限量。
+        </p>
+        <button class="gen-modal-close" onclick="closeModal()">先逛逛现成的</button>
       `);
       return;
     }
@@ -858,6 +867,30 @@ $ open http://localhost:5005
       `);
     }
   }
+
+  // 从只读镜像跳过来时带着 ?d=目的地&n=天数&m=模式，把表单填好。
+  // 不自动开跑：冷启动本来就等了 50 秒，再突然花掉别人一次额度不合适——
+  // 填好让他自己按，意图是他的。
+  (function prefillFromQuery() {
+    const q = new URLSearchParams(location.search);
+    const dest = q.get('d');
+    if (!dest) return;
+    const input = document.querySelector('.input-main');
+    if (input) input.value = dest;
+    const days = q.get('n');
+    const dEl = document.querySelector('.input-days');
+    if (days && dEl) dEl.value = days;
+    const mode = q.get('m');
+    if (mode) {
+      const chip = document.querySelector(`#modeChips .mode-chip[data-mode="${CSS.escape(mode)}"]`);
+      if (chip) {
+        document.querySelectorAll('#modeChips .mode-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+      }
+    }
+    document.querySelector('.input-box')?.scrollIntoView({ block: 'center' });
+    document.querySelector('.gen-btn')?.classList.add('nudge');
+  })();
 
   // 启动时：服务模式 or 静态分享版都加载画廊
   if (IS_SERVER_MODE) {
