@@ -502,9 +502,14 @@ const ORIG_CURRENCY = META.currency || 'USD';
 // ============ INIT LEAFLET ============
 const map = L.map('map', { center: META.map_center, zoom: META.map_zoom || 10, scrollWheelZoom: true });
 const TILES = {
-  voyager: L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '© <a href="https://openstreetmap.org/">OSM</a> · © <a href="https://carto.com/">CARTO</a>',
-    subdomains: 'abcd', maxZoom: 19,
+  // CARTO 从 2026 起给免密钥的瓦片盖上了「API KEY REQUIRED」水印——
+  // 请求照样 200，图也照样返回，只是每一块上都爬着那行字。
+  // 表现是「地图还在，但脏了」，没有任何报错，很容易一直没人发现。
+  // 换成 Esri World Topo：免密钥、无水印、暖色带标注，最接近原来的观感。
+  // 注意 Esri 的路径顺序是 {z}/{y}/{x}，和多数瓦片服务相反；也没有 {s} 子域和 {r} 高清后缀。
+  voyager: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles © <a href="https://www.esri.com/">Esri</a> · © <a href="https://openstreetmap.org/">OSM</a> contributors',
+    maxZoom: 19,
   }),
   topo: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
     attribution: '© <a href="https://opentopomap.org/">OpenTopoMap</a> (CC-BY-SA) · © OSM',

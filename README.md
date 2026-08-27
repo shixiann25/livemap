@@ -19,7 +19,9 @@ signal; when you're home it's a record of where you've been.*</sub>
 
 <sub>~110 KB · one HTML file · works offline · vanilla JS + Leaflet + an LLM that writes the POI data · UI in Chinese or English</sub>
 
-![Itinera Hub](docs/img/hub.jpg)
+![Itinera 演示](docs/img/demo.gif)
+
+<sub>切换每一天，路线跟着换色；点开景点有实拍图、门票和营业时间</sub>
 
 </div>
 
@@ -187,6 +189,21 @@ skill 包是**从主仓库自动派生的**，不是手抄的副本：`template.
 `lm_checkin.js` 内联进去、去掉需要后端的编辑器，保证产物是真单文件；
 `reference/schema.md` 直接从 `generator/generate.py` 的 `CLAUDE_PROMPT` 提取。
 CI 会跑 `--check` 拦住「主仓库改了但 skill 包没重建」。
+
+## 推广素材
+
+`docs/social/` 里有 32 条行程 × 2 张 **1080×1440**（小红书竖图比例）的现成素材：
+
+- `<slug>_poster.jpg` —— 行程海报，AI 明信片底 + 每日主题 + 玩点清单 + 二维码，一张就是一条完整笔记
+- `<slug>_map.jpg` —— 移动端竖版整屏，标题 + 分色路线 + 图例
+
+重新生成（改了模板或新增地图之后）：
+
+```bash
+node tools/gen_social_cards.mjs                 # 全部 32 条
+node tools/gen_social_cards.mjs kyoto_6d        # 只出指定几条
+node tools/gen_demo_gif.mjs southwest_8d        # README 用的演示 GIF
+```
 
 ## 改完必须跑的 QA
 

@@ -190,6 +190,11 @@ QUERY_NEW = """    const gImg = `https://www.google.com/search?tbm=isch&q=${enco
 FOODQ_OLDS = ["""    const query = `${name} ${cityHint}`.trim();"""]
 FOODQ_NEW = """    const query = safeQuery(`${name} ${cityHint}`.trim());"""
 
+# ---------------------------------------------------------------- 补丁 10
+# CARTO 免密钥瓦片开始带水印，默认底图（「简洁」）全站变脏。
+TILE_OLDS = ["  voyager: L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {\n    attribution: '© <a href=\"https://openstreetmap.org/\">OSM</a> · © <a href=\"https://carto.com/\">CARTO</a>',\n    subdomains: 'abcd', maxZoom: 19,\n  }),"]
+TILE_NEW = "  // CARTO 从 2026 起给免密钥的瓦片盖上了「API KEY REQUIRED」水印——\n  // 请求照样 200，图也照样返回，只是每一块上都爬着那行字。\n  // 表现是「地图还在，但脏了」，没有任何报错，很容易一直没人发现。\n  // 换成 Esri World Topo：免密钥、无水印、暖色带标注，最接近原来的观感。\n  // 注意 Esri 的路径顺序是 {z}/{y}/{x}，和多数瓦片服务相反；也没有 {s} 子域和 {r} 高清后缀。\n  voyager: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {\n    attribution: 'Tiles © <a href=\"https://www.esri.com/\">Esri</a> · © <a href=\"https://openstreetmap.org/\">OSM</a> contributors',\n    maxZoom: 19,\n  }),"
+
 PATCHES = [
     {
         "name": "wikimedia-thumb-query",
@@ -225,6 +230,13 @@ PATCHES = [
         "olds": [POSTCARD_OLD],
         "new": POSTCARD_NEW,
         "marker": "const local = '../assets/postcards/' + slug + '.png';",
+    },
+    {
+        "name": "basemap-carto-to-esri",
+        "why": "CARTO 免密钥瓦片开始盖「API KEY REQUIRED」水印，默认底图全站变脏",
+        "olds": TILE_OLDS,
+        "new": TILE_NEW,
+        "marker": "World_Topo_Map/MapServer/tile",
     },
     {
         "name": "safe-query-helper",
