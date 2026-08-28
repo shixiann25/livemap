@@ -195,6 +195,16 @@ FOODQ_NEW = """    const query = safeQuery(`${name} ${cityHint}`.trim());"""
 TILE_OLDS = ["  voyager: L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {\n    attribution: '© <a href=\"https://openstreetmap.org/\">OSM</a> · © <a href=\"https://carto.com/\">CARTO</a>',\n    subdomains: 'abcd', maxZoom: 19,\n  }),"]
 TILE_NEW = "  // CARTO 从 2026 起给免密钥的瓦片盖上了「API KEY REQUIRED」水印——\n  // 请求照样 200，图也照样返回，只是每一块上都爬着那行字。\n  // 表现是「地图还在，但脏了」，没有任何报错，很容易一直没人发现。\n  // 换成 Esri World Topo：免密钥、无水印、暖色带标注，最接近原来的观感。\n  // 注意 Esri 的路径顺序是 {z}/{y}/{x}，和多数瓦片服务相反；也没有 {s} 子域和 {r} 高清后缀。\n  voyager: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {\n    attribution: 'Tiles © <a href=\"https://www.esri.com/\">Esri</a> · © <a href=\"https://openstreetmap.org/\">OSM</a> contributors',\n    maxZoom: 19,\n  }),"
 
+# ---------------------------------------------------------------- 补丁 11
+# 海报中间那块 SVG 折线图占了 32% 的高度，却没有底图、看不出是哪，纯占位。
+# 换成数据里现成的「独门绝技」。
+POSTER_CSS_OLDS = [" #posterStage .ps-map{margin:18px 0;border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.22);background:rgba(10,16,13,.40)}"]
+POSTER_CSS_NEW = " /* 原来这里是 .ps-map：一块 460px 高的纯 SVG 折线图，没有底图。\n    占了整张海报最中间约 32% 的高度，却看不出是哪座城市、也传达不了任何信息，\n    还把下面那张 AI 插画挡住了。换成「独门绝技」——数据里现成有，而且是真能勾人的内容。 */\n #posterStage .ps-hl{margin:16px 0 4px;background:rgba(10,16,13,.46);border:1px solid rgba(255,255,255,.20);border-radius:22px;padding:18px 24px 20px}\n #posterStage .ps-hl-t{font-size:24px;font-weight:900;letter-spacing:.5px;margin-bottom:12px;text-shadow:0 1px 6px rgba(0,0,0,.45)}\n #posterStage .ps-hl-i{display:flex;gap:12px;align-items:baseline;padding:7px 0;border-top:1px dashed rgba(255,255,255,.16)}\n #posterStage .ps-hl-i:first-of-type{border-top:0}\n #posterStage .ps-hl-n{flex:0 0 auto;font-size:22px;font-weight:900;color:#fff;text-shadow:0 1px 5px rgba(0,0,0,.45)}\n #posterStage .ps-hl-d{flex:1 1 auto;font-size:17px;line-height:1.35;color:#dfe6d6;font-weight:600}\n #posterStage .ps-map{display:none}"
+POSTER_HTML_OLDS = ["        <div class=\"ps-map\">${_posterSVG()}</div>"]
+POSTER_HTML_NEW = "        ${_posterHighlights()}"
+POSTER_FN_OLDS = ["function _posterSVG(){"]
+POSTER_FN_NEW = "function _posterHighlights(){\n  // 用「独门绝技」填海报中间：这块数据每张图都有（老三张没有 META 就整块不出），\n  // 比抽象折线有用得多——读者真正想知道的是「这趟凭什么值得去」。\n  const M = (typeof META !== 'undefined' && META) || {};\n  let items = (M.highlight_items || []).slice(0, 3).map(raw => {\n    const plain = String(raw).replace(/<[^>]+>/g, '').trim();\n    const m = plain.match(/^(.+?)[（(](.+)[）)]\\s*$/);   // 「名字（说明）」拆成两段\n    return m ? { n: m[1].trim(), d: m[2].trim() } : { n: plain, d: '' };\n  });\n  if (!items.length) {\n    const t = String(M.all_tip || '').split('\\n\\n')[0].replace(/^🎯\\s*主题定调[：:]\\s*/, '').trim();\n    if (!t) return '';                                  // 什么都没有就整块不出，别留个空框\n    items = [{ n: '', d: t.slice(0, 90) }];\n  }\n  const esc = t => String(t).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));\n  const rows = items.map(i =>\n    `<div class=\"ps-hl-i\">${i.n ? `<div class=\"ps-hl-n\">${esc(i.n)}</div>` : ''}` +\n    `<div class=\"ps-hl-d\">${esc(i.d)}</div></div>`).join('');\n  const title = esc(M.highlight_title || '🔥 亮点');\n  return `<div class=\"ps-hl\"><div class=\"ps-hl-t\">${title}</div>${rows}</div>`;\n}\n\nfunction _posterSVG(){"
+
 PATCHES = [
     {
         "name": "wikimedia-thumb-query",
@@ -237,6 +247,27 @@ PATCHES = [
         "olds": TILE_OLDS,
         "new": TILE_NEW,
         "marker": "World_Topo_Map/MapServer/tile",
+    },
+    {
+        "name": "poster-highlights-block",
+        "why": "海报中间是无底图的抽象折线，占 32% 高度却不传达信息，换成「独门绝技」",
+        "olds": POSTER_FN_OLDS,
+        "new": POSTER_FN_NEW,
+        "marker": "function _posterHighlights(){",
+    },
+    {
+        "name": "poster-highlights-css",
+        "why": "亮点块样式，并隐藏原来的 .ps-map",
+        "olds": POSTER_CSS_OLDS,
+        "new": POSTER_CSS_NEW,
+        "marker": "#posterStage .ps-hl{",
+    },
+    {
+        "name": "poster-highlights-html",
+        "why": "海报结构里把地图块换成亮点块",
+        "olds": POSTER_HTML_OLDS,
+        "new": POSTER_HTML_NEW,
+        "marker": "${_posterHighlights()}",
     },
     {
         "name": "safe-query-helper",

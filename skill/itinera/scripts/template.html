@@ -1399,7 +1399,16 @@ if (typeof renderDayOverview === 'function') {
  #posterStage .ps-chips{display:flex;gap:12px}
  #posterStage .ps-chip{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);border-radius:30px;padding:8px 18px;font-size:21px;font-weight:800}
  #posterStage .ps-chip b{color:#ffd47a}
- #posterStage .ps-map{margin:18px 0;border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.22);background:rgba(10,16,13,.40)}
+ /* 原来这里是 .ps-map：一块 460px 高的纯 SVG 折线图，没有底图。
+    占了整张海报最中间约 32% 的高度，却看不出是哪座城市、也传达不了任何信息，
+    还把下面那张 AI 插画挡住了。换成「独门绝技」——数据里现成有，而且是真能勾人的内容。 */
+ #posterStage .ps-hl{margin:16px 0 4px;background:rgba(10,16,13,.46);border:1px solid rgba(255,255,255,.20);border-radius:22px;padding:18px 24px 20px}
+ #posterStage .ps-hl-t{font-size:24px;font-weight:900;letter-spacing:.5px;margin-bottom:12px;text-shadow:0 1px 6px rgba(0,0,0,.45)}
+ #posterStage .ps-hl-i{display:flex;gap:12px;align-items:baseline;padding:7px 0;border-top:1px dashed rgba(255,255,255,.16)}
+ #posterStage .ps-hl-i:first-of-type{border-top:0}
+ #posterStage .ps-hl-n{flex:0 0 auto;font-size:22px;font-weight:900;color:#fff;text-shadow:0 1px 5px rgba(0,0,0,.45)}
+ #posterStage .ps-hl-d{flex:1 1 auto;font-size:17px;line-height:1.35;color:#dfe6d6;font-weight:600}
+ #posterStage .ps-map{display:none}
  #posterStage .ps-map svg{display:block;width:100%;height:auto}
  #posterStage .ps-days{display:flex;flex-direction:column;gap:10px;flex:1 1 auto;justify-content:center}
  #posterStage .ps-row{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.22);border-radius:16px;padding:11px 18px}
@@ -1439,6 +1448,28 @@ function _posterProject(W,H,PAD){
   const X=l=>+(oX+(l-mnLn)*sc).toFixed(1),Y=l=>+(oY+(mxLa-l)*sc).toFixed(1);
   return {pts:flat.map(p=>({...p,x:X(p.lng),y:Y(p.lat)})),X,Y};
 }
+function _posterHighlights(){
+  // 用「独门绝技」填海报中间：这块数据每张图都有（老三张没有 META 就整块不出），
+  // 比抽象折线有用得多——读者真正想知道的是「这趟凭什么值得去」。
+  const M = (typeof META !== 'undefined' && META) || {};
+  let items = (M.highlight_items || []).slice(0, 3).map(raw => {
+    const plain = String(raw).replace(/<[^>]+>/g, '').trim();
+    const m = plain.match(/^(.+?)[（(](.+)[）)]\s*$/);   // 「名字（说明）」拆成两段
+    return m ? { n: m[1].trim(), d: m[2].trim() } : { n: plain, d: '' };
+  });
+  if (!items.length) {
+    const t = String(M.all_tip || '').split('\n\n')[0].replace(/^🎯\s*主题定调[：:]\s*/, '').trim();
+    if (!t) return '';                                  // 什么都没有就整块不出，别留个空框
+    items = [{ n: '', d: t.slice(0, 90) }];
+  }
+  const esc = t => String(t).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  const rows = items.map(i =>
+    `<div class="ps-hl-i">${i.n ? `<div class="ps-hl-n">${esc(i.n)}</div>` : ''}` +
+    `<div class="ps-hl-d">${esc(i.d)}</div></div>`).join('');
+  const title = esc(M.highlight_title || '🔥 亮点');
+  return `<div class="ps-hl"><div class="ps-hl-t">${title}</div>${rows}</div>`;
+}
+
 function _posterSVG(){
   const W=1000,H=460,PAD=64,P=_posterProject(W,H,PAD),pts=P.pts;
   const glow=pts.slice(1).map((p,i)=>`<line x1="${pts[i].x}" y1="${pts[i].y}" x2="${p.x}" y2="${p.y}" stroke="${p.color}" stroke-width="16" stroke-linecap="round" opacity="0.45" filter="url(#pbl)"/>`).join('');
@@ -1488,7 +1519,7 @@ window.generatePoster=function(){
         <div class="ps-top"><div class="ps-kick"><span>Itinera</span>旅行地图 · 精准行程</div><div class="ps-seal">甄选<small>CURATED</small></div></div>
         <h1>${title}</h1>
         <div class="ps-chips"><div class="ps-chip">📅 <b>${Object.keys(DAYS).map(Number).filter(n=>!isNaN(n)).length}</b> 天</div><div class="ps-chip">📍 <b>${POIs.length}</b> 个精选点</div>${(window._lmVisitedCount&&window._lmVisitedCount()>0)?'<div class="ps-chip">✅ 已打卡 <b>'+window._lmVisitedCount()+'</b></div>':'<div class="ps-chip">🚗 自驾路线</div>'}${(window._lmCustom&&window._lmCustom.length)?'<div class="ps-chip">📍 我的点 <b>'+window._lmCustom.length+'</b></div>':''}</div>
-        <div class="ps-map">${_posterSVG()}</div>
+        ${_posterHighlights()}
         <div class="ps-days">${_posterDays()}</div>
         <div class="ps-foot"><div class="ps-qr" id="posterQR"></div><div class="ps-fcta"><b>扫码查看可交互旅行地图</b><p>每个点位有图片 · 攻略 · 营业时间 · 路线 — 还能一键生成你自己的行程海报</p></div></div>
       </div></div>`;
